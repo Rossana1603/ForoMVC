@@ -15,10 +15,18 @@ namespace WebApi
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+            name: "PostApi",
+            routeTemplate: "api/{controller}/{topicId}",
+            defaults: new { topicId = RouteParameter.Optional }
+        );
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+
+
         }
     }
 }
