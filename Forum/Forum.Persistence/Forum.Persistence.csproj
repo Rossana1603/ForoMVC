@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A7B4E6F6-9170-4264-B005-91BA6EDA7EAB}</ProjectGuid>
+    <ProjectGuid>{4AFF6794-F43D-4708-B4BC-D0F79948B39C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Forum.DataAccess</RootNamespace>
-    <AssemblyName>Forum.DataAccess</AssemblyName>
+    <RootNamespace>Forum.Persistence</RootNamespace>
+    <AssemblyName>Forum.Persistence</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,6 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\ForumContext.cs" />
+    <Compile Include="Domain\Author.cs" />
+    <Compile Include="Domain\Post.cs" />
+    <Compile Include="Domain\Topic.cs" />
+    <Compile Include="Migrations\201410311709342_Inicio.cs" />
+    <Compile Include="Migrations\201410311709342_Inicio.Designer.cs">
+      <DependentUpon>201410311709342_Inicio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,10 +62,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Forum.Persistence\Forum.Persistence.csproj">
-      <Project>{4aff6794-f43d-4708-b4bc-d0f79948b39c}</Project>
-      <Name>Forum.Persistence</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Migrations\201410311709342_Inicio.resx">
+      <DependentUpon>201410311709342_Inicio.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
