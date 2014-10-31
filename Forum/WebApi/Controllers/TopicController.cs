@@ -1,4 +1,5 @@
-﻿using Forum.WebApi.Models;
+﻿using Forum.Persistence.DataAccess;
+using Forum.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;

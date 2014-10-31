@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Forum.Persistence.Domain
 {
-    public class Author : Entidad
+    public abstract class Entidad 
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public int Id { get; set; }
     }
 }
