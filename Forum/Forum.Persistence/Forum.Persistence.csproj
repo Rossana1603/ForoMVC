@@ -46,8 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\AuthorRepository.cs" />
+    <Compile Include="Domain\AuthorRepository.cs" />
     <Compile Include="DataAccess\ForumContext.cs" />
+    <Compile Include="DataAccess\PostRepository.cs" />
+    <Compile Include="DataAccess\TopicRepository.cs" />
     <Compile Include="Domain\Author.cs" />
     <Compile Include="Domain\Entidad.cs" />
     <Compile Include="Domain\Post.cs" />

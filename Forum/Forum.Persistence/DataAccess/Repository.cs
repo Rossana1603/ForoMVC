@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Forum.Persistence.DataAccess;
 using Forum.Persistence.Domain;
+using System.Data.Entity;
 
 namespace Forum.Persistence.DataAccess
 {
@@ -12,36 +13,41 @@ namespace Forum.Persistence.DataAccess
     {
         protected ForumContext _db;
 
-        public virtual T Add(T entity)
+        public virtual int Add(T entity)
         {
-            var  ent =_db.Set<T>().Add(entity);
-            _db.SaveChanges();
-            return ent;
+            var  newEntity =_db.Set<T>().Add(entity);
+            return _db.SaveChanges();
         }
 
-        public virtual void Delete(T entity)
+        public virtual bool Delete(T entity)
         {
             // TODO borra una entidad
-            throw new NotImplementedException();
+            _db.Set<T>().Attach(entity);
+            _db.Set<T>().Remove(entity);
+            return (_db.SaveChanges() != 0);
         }
 
-        public virtual T Update(T entity)
+        public virtual bool Update(T entity)
         {
-            // TODO borra una entidad
-            throw new NotImplementedException();
+            // TODO actualiza una entidad
+            _db.Set<T>().Attach(entity);
+            _db.Entry(entity).State = EntityState.Modified;
+            return (_db.SaveChanges() != 0);
         }
 
         public virtual T Get(int id)
         {
-            // TODO borra una entidad
-            throw new NotImplementedException();
+            // TODO obtiene una entidad
+            var p = _db.Set<T>().Where(b => b.Id == id);
+           return p.SingleOrDefault();
         }
 
 
         public virtual IQueryable<T> Query()
         {
             // TODO borra una entidad
-            throw new NotImplementedException();
+            var entidades = _db.Set<T>();
+            return entidades as IQueryable<T>;
         }
 
     }
