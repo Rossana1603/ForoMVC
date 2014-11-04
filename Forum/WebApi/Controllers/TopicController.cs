@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.OData;
 using System.Linq;
 using Forum.Persistence.Domain;
 
@@ -47,6 +48,13 @@ namespace WebApi.Controllers
         {
             var response = _topicRepository.Update(topic);
             return (!response) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse(HttpStatusCode.NoContent);
-        } 
+        }
+
+        public HttpResponseMessage Patch(int id, Delta<Topic> deltaTopic)
+        {
+            var topic = new Topic(); /// traerlo del repo
+            deltaTopic.Patch(topic);
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
 	}
 }
