@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\IRepository.cs" />
     <Compile Include="Domain\AuthorRepository.cs" />
     <Compile Include="DataAccess\ForumContext.cs" />
     <Compile Include="DataAccess\PostRepository.cs" />

@@ -5,14 +5,13 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.OData;
-using System.Linq;
 using Forum.Persistence.Domain;
 
 namespace WebApi.Controllers
 {
     public class TopicController : ApiController
     {
-        private readonly TopicRepository _topicRepository = new TopicRepository(new ForumContext());
+        private readonly IRepository<Topic> _topicRepository = new TopicRepository(new ForumContext());
 
         public IEnumerable<Topic> Get()
         {

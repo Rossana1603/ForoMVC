@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Forum.Persistence.DataAccess;
+﻿using System.Linq;
 using Forum.Persistence.Domain;
 using System.Data.Entity;
 
 namespace Forum.Persistence.DataAccess
 {
-    public  abstract class Repository<T> where T:Entidad
+    public  abstract class Repository<T> : IRepository<T> where T:Entidad
     {
         protected ForumContext _db;
 
