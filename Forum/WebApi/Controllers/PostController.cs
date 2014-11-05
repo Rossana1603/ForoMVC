@@ -8,6 +8,7 @@ using Forum.Persistence.DataAccess;
 using System.Web.Http;
 using System;
 using Forum.Persistence.Domain;
+using System.Web.Http.OData;
 namespace WebApi.Controllers
 {
     public class PostController : ApiController
@@ -20,9 +21,9 @@ namespace WebApi.Controllers
             return _postRepository.Query();
         }
 
-        public HttpResponseMessage GetById(int topicId)
+        public HttpResponseMessage GetById(int id)
         {
-            var post = _postRepository.Get(topicId);
+            var post = _postRepository.Get(id);
 
             return (post == null) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<Post>(HttpStatusCode.Found, post);
         }
@@ -40,6 +41,13 @@ namespace WebApi.Controllers
         {
             var response = _postRepository.Update(post);
             return (!response) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse(HttpStatusCode.NoContent);
-        } 
+        }
+
+        public HttpResponseMessage Patch(int id, Delta<Post> deltaTopic)
+        {
+            var post = _postRepository.Get(id);
+            deltaTopic.Patch(post);
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
 	}
 }

@@ -26,15 +26,6 @@ namespace WebApi.Controllers
             return (topic == null) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<Topic>(HttpStatusCode.Found, topic);
         }
 
-        //public HttpResponseMessage GetTagsByTopicId(int id)
-        //{
-        //    var tags = lst.FirstOrDefault(x => x.Id == id);
-
-        //    if (tags == null) return Request.CreateResponse(HttpStatusCode.NotFound);
-
-        //    return Request.CreateResponse<List<String>>(HttpStatusCode.Found, tags.Tags); 
-        //}
-
         public HttpResponseMessage Post(Topic topic)
         {
             _topicRepository.Add(topic);
@@ -52,7 +43,7 @@ namespace WebApi.Controllers
 
         public HttpResponseMessage Patch(int id, Delta<Topic> deltaTopic)
         {
-            var topic = new Topic(); /// traerlo del repo
+            var topic = _topicRepository.Get(id);
             deltaTopic.Patch(topic);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
