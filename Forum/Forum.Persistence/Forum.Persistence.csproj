@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\IRepository.cs" />
-    <Compile Include="Domain\AuthorRepository.cs" />
+    <Compile Include="DataAccess\AuthorRepository.cs" />
     <Compile Include="DataAccess\ForumContext.cs" />
     <Compile Include="DataAccess\PostRepository.cs" />
     <Compile Include="DataAccess\TopicRepository.cs" />
@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
