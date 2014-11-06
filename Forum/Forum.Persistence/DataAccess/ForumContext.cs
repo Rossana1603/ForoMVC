@@ -13,5 +13,6 @@ namespace Forum.Persistence.DataAccess
 
         public DbSet<Post> Post { get; set; }
         public DbSet<Topic> Topic { get; set; }
+        public DbSet<Author> Author { get; set; }
     }
 }
