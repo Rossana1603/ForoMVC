@@ -1,10 +1,3 @@
-using System.Data.Entity;
-using System.Web.Http;
-using Forum.Persistence.DataAccess;
-using Forum.Persistence.Domain;
-using Ninject.Web.WebApi;
-using WebApi.Controllers;
-
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WebApi.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WebApi.App_Start.NinjectWebCommon), "Stop")]
 
@@ -51,7 +44,7 @@ namespace WebApi.App_Start
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
-                kernel.Bind<DbContext>().To<ForumContext>().InRequestScope();
+
                 RegisterServices(kernel);
                 return kernel;
             }
@@ -68,9 +61,6 @@ namespace WebApi.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IRepository<Topic>>().To<TopicRepository>().WhenInjectedInto<TopicController>();
-            kernel.Bind<IRepository<Post>>().To<PostRepository>().WhenInjectedInto<PostController>();
-            kernel.Bind<IRepository<Author>>().To<AuthorRepository>().WhenInjectedInto<AuthorController>();
         }        
     }
 }
