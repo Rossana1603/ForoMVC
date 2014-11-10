@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201410312048289_Author.Designer.cs">
       <DependentUpon>201410312048289_Author.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411101640261_DataAnotationsUpdate.cs" />
+    <Compile Include="Migrations\201411101640261_DataAnotationsUpdate.Designer.cs">
+      <DependentUpon>201411101640261_DataAnotationsUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\Repository.cs" />
@@ -78,6 +82,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410312048289_Author.resx">
       <DependentUpon>201410312048289_Author.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411101640261_DataAnotationsUpdate.resx">
+      <DependentUpon>201411101640261_DataAnotationsUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
