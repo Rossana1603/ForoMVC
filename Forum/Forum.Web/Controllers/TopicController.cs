@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
 using Forum.Persistence.Domain;
@@ -8,6 +9,7 @@ using RestSharp;
 
 namespace Forum.Web.Controllers
 {
+    [Authorize]
     public class TopicController : Controller
     {
         public TopicController()
@@ -19,9 +21,15 @@ namespace Forum.Web.Controllers
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("api/topic/", Method.GET);
-            var topics = client.Execute<List<Topic>>(request).Data;
-
-            return View(Mapper.Map<List<Topic>,List<TopicViewModel>>(topics));
+            var response = client.Execute<List<Topic>>(request);
+            ViewBag.Error = false;
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                //TODO mostrar un mensaje de error
+                ViewBag.Error = true;
+                return View();
+            }
+            return View(Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data));
         }
 
 

@@ -1,45 +1,63 @@
-﻿@model IEnumerable<Forum.Web.Models.TopicViewModel>
+﻿@using System.Activities.Statements
+@using System.Web.UI.WebControls
+@model IEnumerable<Forum.Web.Models.TopicViewModel>
 
 @{
     ViewBag.Title = "TopicList";
 }
 
 <h2>TopicList</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+    
+@if (ViewBag.Error)
+{
+    <h4>Los servicios estan desconectados / apagados </h4>
 }
+else
+{
 
-</table>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    foreach (var item in Model)
+    {
+        <div class="panel panel-primary" style="width: 815px">
+
+            <table style="width: 800px">
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <h3>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </h3>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td  style="width: 115px">
+                        <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
+                    </td>
+                    <td style="padding-bottom: 10px">
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        Creado en : @Html.DisplayFor(modelItem => item.CreateDate)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right">
+                        @Html.ActionLink("Comments", "Post", new {/* id=item.PrimaryKey */}) |
+                        @Html.ActionLink("Like", "like", new {/* id=item.PrimaryKey */}) |
+                    </td>
+                </tr>
+                <tr></tr>
+            </table>
+        </div>
+    }
+}

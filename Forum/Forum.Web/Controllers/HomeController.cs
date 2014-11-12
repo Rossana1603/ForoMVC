@@ -2,7 +2,6 @@
 
 namespace IdentitySample.Controllers
 {
-    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -10,7 +9,6 @@ namespace IdentitySample.Controllers
             return View();
         }
 
-        [Authorize]
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
@@ -21,7 +19,6 @@ namespace IdentitySample.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
