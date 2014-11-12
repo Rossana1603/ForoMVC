@@ -7,10 +7,12 @@ namespace Forum.Persistence.Domain
 {
     public class Post : Entidad
     {
-        public Topic Topic { get; set; }
+        public int TopicId { get; set; }
+        public virtual Topic Topic { get; set; }
         public List<String> Tags { get; set; }
         public string UserName { get; set; }
         public string Content { get; set; }
-        public Author Author { get; set; }
+        public virtual Author Author { get; set; }
+        public int AuthorId { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace WebApi.Controllers
 
         public IEnumerable<TEntity> Get()
         {
-            return _entityRepository.Query();
+            return _entityRepository.Query().ToList();
         }
 
         public HttpResponseMessage GetById(int id)

@@ -14,6 +14,7 @@ namespace Forum.Persistence.Domain
         public string UserName { get; set; }
         public DateTime CreateDate { get; set; }
         public List<String> Tags { get; set; }
-        public Author Author { get; set; }
+        public virtual Author Author { get; set; }
+        public int AuthorId { get; set; }
     }
 }
