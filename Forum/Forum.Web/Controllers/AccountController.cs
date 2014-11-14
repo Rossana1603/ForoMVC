@@ -9,6 +9,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using RestSharp;
+using Forum.Persistence.Domain;
+using Forum.Web.Properties;
 
 namespace IdentitySample.Controllers
 {
@@ -153,6 +156,17 @@ namespace IdentitySample.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var client = new RestClient(Settings.Default.ForumApiUrl + "api/author/");
+                    var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
+
+                    request.AddJsonBody(new Author()
+                    {
+                        Email = model.Email,
+                        UserName = model.Email
+                    });
+
+                    var response = client.Execute<Author>(request);
+
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");

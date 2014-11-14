@@ -38,7 +38,7 @@ namespace Forum.Web.Controllers
         {
             var model = new TopicViewModel()
             {
-                CreateDate = DateTime.Now
+              
             };
             return View(model);
         }

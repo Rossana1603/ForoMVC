@@ -10,7 +10,7 @@ namespace Forum.Persistence.Domain
     public class Author : Entidad
     {
         [Required]
-        public string Name { get; set; }
+        public string UserName { get; set; }
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }
