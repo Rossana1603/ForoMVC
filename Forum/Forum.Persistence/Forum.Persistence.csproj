@@ -55,21 +55,9 @@
     <Compile Include="Domain\Entidad.cs" />
     <Compile Include="Domain\Post.cs" />
     <Compile Include="Domain\Topic.cs" />
-    <Compile Include="Migrations\201410311709342_Inicio.cs" />
-    <Compile Include="Migrations\201410311709342_Inicio.Designer.cs">
-      <DependentUpon>201410311709342_Inicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201410312048289_Author.cs" />
-    <Compile Include="Migrations\201410312048289_Author.Designer.cs">
-      <DependentUpon>201410312048289_Author.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411101640261_DataAnotationsUpdate.cs" />
-    <Compile Include="Migrations\201411101640261_DataAnotationsUpdate.Designer.cs">
-      <DependentUpon>201411101640261_DataAnotationsUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411112012057_ForeignKeys.cs" />
-    <Compile Include="Migrations\201411112012057_ForeignKeys.Designer.cs">
-      <DependentUpon>201411112012057_ForeignKeys.cs</DependentUpon>
+    <Compile Include="Migrations\201411142048118_Initial.cs" />
+    <Compile Include="Migrations\201411142048118_Initial.Designer.cs">
+      <DependentUpon>201411142048118_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,17 +69,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201410311709342_Inicio.resx">
-      <DependentUpon>201410311709342_Inicio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201410312048289_Author.resx">
-      <DependentUpon>201410312048289_Author.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411101640261_DataAnotationsUpdate.resx">
-      <DependentUpon>201411101640261_DataAnotationsUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411112012057_ForeignKeys.resx">
-      <DependentUpon>201411112012057_ForeignKeys.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411142048118_Initial.resx">
+      <DependentUpon>201411142048118_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
