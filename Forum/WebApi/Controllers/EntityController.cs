@@ -27,30 +27,30 @@ namespace WebApi.Controllers
 
         public HttpResponseMessage GetById(int id)
         {
-            var post = _entityRepository.Get(id);
+            var entity = _entityRepository.Get(id);
 
-            return (post == null) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<TEntity>(HttpStatusCode.Found, post);
+            return (entity == null) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<TEntity>(HttpStatusCode.Found, entity);
         }
 
-        public HttpResponseMessage Post(TEntity post)
+        public HttpResponseMessage Post([FromBody]TEntity entity)
         {
-            _entityRepository.Add(post);
-            var response = Request.CreateResponse<TEntity>(HttpStatusCode.Created, post);
-            var uri = Url.Link("DefaultApi", new { id = post.Id });
+            _entityRepository.Add(entity);
+            var response = Request.CreateResponse<TEntity>(HttpStatusCode.Created, entity);
+            var uri = Url.Link("DefaultApi", new { id = entity.Id });
             response.Headers.Location = new Uri(uri);
             return response;
         }
 
-        public HttpResponseMessage Put(int id, TEntity post)
+        public HttpResponseMessage Put(int id, TEntity entity)
         {
-            var response = _entityRepository.Update(post);
+            var response = _entityRepository.Update(entity);
             return (!response) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
         public HttpResponseMessage Patch(int id, Delta<TEntity> deltaTopic)
         {
-            var post = _entityRepository.Get(id);
-            deltaTopic.Patch(post);
+            var entity = _entityRepository.Get(id);
+            deltaTopic.Patch(entity);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
     }

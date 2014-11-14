@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
@@ -33,19 +34,30 @@ namespace Forum.Web.Controllers
         }
 
 
+        public ActionResult AddTopic()
+        {
+            var model = new TopicViewModel()
+            {
+                CreateDate = DateTime.Now
+            };
+            return View(model);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddTopic(TopicViewModel topic)
         {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/topic/", Method.POST);
-            request.AddBody(new Topic
+            var client = new RestClient(Settings.Default.ForumApiUrl+"api/topic/");
+            var request = new RestRequest(Method.POST) {RequestFormat = DataFormat.Json};
+
+            request.AddJsonBody(new Topic()
             {
                 Title = topic.Title,
                 Content = topic.Content,
-                CreateDate = topic.CreateDate,
-                Tags = topic.Tags
+                CreateDate = DateTime.Now
             });
-            var queryResult = client.Execute<List<TopicViewModel>>(request).Data;
-            return RedirectToAction("Index") ;
+            var response = client.Execute<Topic>(request);
+            return RedirectToAction("TopicList");
         }
 
 
