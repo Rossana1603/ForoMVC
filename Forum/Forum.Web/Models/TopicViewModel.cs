@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Forum.Persistence.Domain;
 
 namespace Forum.Web.Models
 {
@@ -11,5 +12,6 @@ namespace Forum.Web.Models
         public string Content { get; set; }
         public DateTime CreateDate { get; set; }
         public List<String> Tags { get; set; }
+        public Author Author { get; set; }
     }
 }

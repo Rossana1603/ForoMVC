@@ -6,6 +6,7 @@ using AutoMapper;
 using Forum.Persistence.Domain;
 using Forum.Web.Models;
 using Forum.Web.Properties;
+using Microsoft.AspNet.Identity;
 using RestSharp;
 
 namespace Forum.Web.Controllers
@@ -36,10 +37,7 @@ namespace Forum.Web.Controllers
 
         public ActionResult AddTopic()
         {
-            var model = new TopicViewModel()
-            {
-              
-            };
+            var model = new TopicViewModel();
             return View(model);
         }
         
@@ -54,13 +52,24 @@ namespace Forum.Web.Controllers
             {
                 Title = topic.Title,
                 Content = topic.Content,
-                CreateDate = DateTime.Now
+                CreateDate = DateTime.Now,
+                AuthorId = GetIdByUserName(User.Identity.GetUserName())
             });
             var response = client.Execute<Topic>(request);
             return RedirectToAction("TopicList");
         }
 
+        private static int GetIdByUserName(string userName)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("api/author/?userName="+userName.Replace("@","%40"), Method.GET);
 
+            var response = client.Execute<Author>(request);
+
+            return response.Data.Id;
+        }
+
+            
         public ActionResult DeleteTopic(int id)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
