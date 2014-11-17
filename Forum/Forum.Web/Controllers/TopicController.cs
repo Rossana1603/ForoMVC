@@ -61,6 +61,7 @@ namespace Forum.Web.Controllers
 
         private static int GetIdByUserName(string userName)
         {
+            //http://localhost:51713/Api/Author/GetIdByUserName/?UserName=orlando1409%40gmail.com
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("api/author/?userName="+userName.Replace("@","%40"), Method.GET);
 

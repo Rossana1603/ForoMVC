@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Http;
 using Forum.Persistence.Domain;
 using Forum.Persistence.DataAccess;
 using System.Net.Http;
@@ -18,8 +18,8 @@ namespace WebApi.Controllers
             
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetIdByUserName(string userName)
+        [System.Web.Mvc.HttpGet]
+        public HttpResponseMessage GetIdByUserName([FromUri]string userName)
         {
             var list = base.Get();
             var entity = list.FirstOrDefault();
