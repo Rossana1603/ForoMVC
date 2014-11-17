@@ -19,10 +19,11 @@ namespace WebApi.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
+        [Route("api/Author/GetIdByUserName/{userName}")]
         public HttpResponseMessage GetIdByUserName([FromUri]string userName)
         {
-            var list = base.Get();
-            var entity = list.FirstOrDefault();
+            List<Author> list = base.Get().Cast<Author>().ToList();
+            var entity = list.FirstOrDefault(x=>x.UserName == userName.Replace("$","."));
 
             return (entity == null) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<Author>(HttpStatusCode.Found, entity);
         }

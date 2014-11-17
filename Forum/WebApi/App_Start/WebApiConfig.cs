@@ -14,11 +14,7 @@ namespace WebApi
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-            //config.Routes.MapHttpRoute(
-            //    name: "UserName",
-            //    routeTemplate: "api/{controller}/{action}/{userName}",
-            //    defaults: new { controller = "Author", action = "GetIdByUserName", userName = UrlParameter.Optional }
-            //    );
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

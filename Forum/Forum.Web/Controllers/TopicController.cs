@@ -63,7 +63,7 @@ namespace Forum.Web.Controllers
         {
             //http://localhost:51713/Api/Author/GetIdByUserName/?UserName=orlando1409%40gmail.com
             var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/author/?userName="+userName.Replace("@","%40"), Method.GET);
+            var request = new RestRequest("/api/Author/GetIdByUserName/" + userName.Replace("@", "%40").Replace(".", "$"), Method.GET);
 
             var response = client.Execute<Author>(request);
 
