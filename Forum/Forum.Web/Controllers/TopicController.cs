@@ -35,6 +35,22 @@ namespace Forum.Web.Controllers
         }
 
 
+        public ActionResult TopicDetail()
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("api/topic/", Method.GET);
+            var response = client.Execute<List<Topic>>(request);
+            ViewBag.Error = false;
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                //TODO mostrar un mensaje de error
+                ViewBag.Error = true;
+                return View();
+            }
+            return View(Mapper.Map<List<Topic>, List<TopicViewModel>>(response.Data));
+        }
+
+
         public ActionResult AddTopic()
         {
             var model = new TopicViewModel();
@@ -86,7 +102,7 @@ namespace Forum.Web.Controllers
             request.AddParameter("id", id);
             var response = client.Execute<Topic>(request);
             var result = response.Data.Id;
-            return RedirectToAction("TopicList");
+            return RedirectToAction("TopicDetail");
         }
 	}
 }
