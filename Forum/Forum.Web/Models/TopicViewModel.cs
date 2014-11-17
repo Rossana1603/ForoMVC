@@ -14,5 +14,6 @@ namespace Forum.Web.Models
         public DateTime CreateDate { get; set; }
         public List<String> Tags { get; set; }
         public Author Author { get; set; }
+        public string UserName { get; set; }
     }
 }
