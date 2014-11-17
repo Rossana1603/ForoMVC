@@ -39,7 +39,7 @@
                             <td></td>
                             <td>
                                 <h3>
-                                    @Html.DisplayFor(modelItem => item.Title)
+                                    @Html.ActionLink(item.Title, "GeTopicById", "Post", new { id = item.Id })
                                 </h3>
                             </td>
 
