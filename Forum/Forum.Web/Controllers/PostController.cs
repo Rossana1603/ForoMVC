@@ -18,16 +18,6 @@ namespace Forum.Web.Controllers
             return View();
         }
 
-        public ActionResult GeTopicById(int id)
-        {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/post/GeTopicById/{id}", Method.GET);
-            request.AddParameter("id", id);
-            var response = client.Execute<Topic>(request);
-            var result = response.Data.Id;
-            return View();
-        }
-
         public ActionResult GePostByTopicId(int id)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);

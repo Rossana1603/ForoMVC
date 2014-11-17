@@ -69,7 +69,6 @@ namespace Forum.Web.Controllers
 
             return response.Data.Id;
         }
-
             
         public ActionResult DeleteTopic(int id)
         {
@@ -78,6 +77,16 @@ namespace Forum.Web.Controllers
             request.AddParameter("id", id);
             var queryResult = client.Execute<List<TopicViewModel>>(request).Data;
             return RedirectToAction("Index");
+        }
+
+        public ActionResult GeTopicById(int id)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("/api/topic/{id}", Method.GET);
+            request.AddParameter("id", id);
+            var response = client.Execute<Topic>(request);
+            var result = response.Data.Id;
+            return RedirectToAction("TopicList");
         }
 	}
 }

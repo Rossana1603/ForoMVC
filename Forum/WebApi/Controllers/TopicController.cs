@@ -12,8 +12,7 @@ namespace WebApi.Controllers
     public class TopicController : EntityControllerBase<Topic>
     {
         public TopicController(IRepository<Topic> repository) : base(repository)
-        {
-
+        {           
         }
     }
 }
