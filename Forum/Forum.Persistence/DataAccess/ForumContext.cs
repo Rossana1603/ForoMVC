@@ -8,7 +8,7 @@ namespace Forum.Persistence.DataAccess
         public ForumContext()
             : base(nameOrConnectionString: "Forum")
         {
-
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<Post> Post { get; set; }
