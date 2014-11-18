@@ -39,7 +39,7 @@
                             <td></td>
                             <td>
                                 <h3>
-                                    @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id }, null)
+                                    @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, title = item.Title }, null)
                                 </h3>
                             </td>
 
