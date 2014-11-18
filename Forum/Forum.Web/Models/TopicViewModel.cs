@@ -15,5 +15,6 @@ namespace Forum.Web.Models
         public List<String> Tags { get; set; }
         public Author Author { get; set; }
         public string UserName { get; set; }
+        public IList<PostViewModel> Posts { get; set; }
     }
 }

@@ -41,8 +41,11 @@ namespace Forum.Web.Controllers
         public ActionResult TopicDetail(int id)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/topic/"+id, Method.GET);
+            var request = new RestRequest("/api/topic/{id}", Method.GET);
+            request.AddParameter("id", id);
             var response = client.Execute<Topic>(request);
+            var result = response.Data.Id;
+           
             ViewBag.Error = false;
             if (response.StatusCode != HttpStatusCode.Found)
             {
@@ -55,9 +58,9 @@ namespace Forum.Web.Controllers
 
 
                 ((Topic)response.Data).Posts = new List<Post>() {    
-                                                    new Post {Id=1, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}},
-                                                    new Post {Id=2, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 2, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}}, 
-                                                    new Post {Id=3, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}} 
+                                                    new Post {Id=1, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}, Topic = new Topic{Title="Some Topic Title"} },
+                                                    new Post {Id=2, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 2, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}, Topic = new Topic{Title="Some Topic Title"}}, 
+                                                    new Post {Id=3, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}, Topic = new Topic{Title="Some Topic Title"}} 
                                                 };
           
             return View(Mapper.Map<List<Post>, List<PostViewModel>>(response.Data.Posts));
@@ -108,14 +111,5 @@ namespace Forum.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult GeTopicById(int id)
-        {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/topic/{id}", Method.GET);
-            request.AddParameter("id", id);
-            var response = client.Execute<Topic>(request);
-            var result = response.Data.Id;
-            return RedirectToAction("TopicDetail", new { id = id });
-        }
 	}
 }
