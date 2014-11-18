@@ -41,29 +41,28 @@ namespace Forum.Web.Controllers
         public ActionResult TopicDetail(int id)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/topic/{id}", Method.GET);
+            var request = new RestRequest("/api/Post/GetPostByTopicId/{id}", Method.GET);
             request.AddParameter("id", id);
-            var response = client.Execute<Topic>(request);
-            var result = response.Data.Id;
+            var response = client.Execute<List<Post>>(request);            
            
             ViewBag.Error = false;
-            if (response.StatusCode != HttpStatusCode.Found)
-            {
-                //TODO mostrar un mensaje de error
-                ViewBag.Error = true;
-                return View();
-            }
-            //TODO: delete theses lines, only for testing purpose
+            //if (response.StatusCode != HttpStatusCode.Found)
+            //{
+            //    //TODO mostrar un mensaje de error
+            //    ViewBag.Error = true;
+            //    return View();
+            //}
+
+            //////TODO: delete theses lines, only for testing purpose
             var topics = response.Data;
 
-
-                ((Topic)response.Data).Posts = new List<Post>() {    
+            response.Data = new List<Post>() {    
                                                     new Post {Id=1, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}, Topic = new Topic{Title="Some Topic Title"} },
                                                     new Post {Id=2, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 2, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}, Topic = new Topic{Title="Some Topic Title"}}, 
                                                     new Post {Id=3, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}, Topic = new Topic{Title="Some Topic Title"}} 
                                                 };
-          
-            return View(Mapper.Map<List<Post>, List<PostViewModel>>(response.Data.Posts));
+            //////
+            return View(Mapper.Map<List<Post>, List<PostViewModel>>(response.Data));
         }
 
 

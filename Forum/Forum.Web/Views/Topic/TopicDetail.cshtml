@@ -25,6 +25,7 @@ else
             </button>
         </div>
     </form>
+    //show title
     <br />
     <div>
         @foreach (var item in Model)
@@ -37,23 +38,23 @@ else
                         <td>
                             <h3>
                                 @*@Html.DisplayFor(modelItem => item.Topic.Title)*@
-                                @ if (Model.Count>0) Html.DisplayFor(modelItem => item.Topic.Title)
+                                @*@if (Model.Count>0) Html.DisplayFor(modelItem => item.Topic.Title) else "" @*@
                             </h3>
-                        </td>
+        </td>
 
-                    </tr>
-                    <tr>
-                        <td style="width: 115px">
-                            <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
-                        </td>
-                        <td style="padding-bottom: 10px">
-                            @Html.DisplayFor(modelItem => item.Content)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <center>
-                                @*@Html.DisplayFor(modelItem => item.UserName)*@
+    </tr>
+    <tr>
+        <td style="width: 115px">
+            <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
+        </td>
+        <td style="padding-bottom: 10px">
+            @Html.DisplayFor(modelItem => item.Content)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <center>
+                @*@Html.DisplayFor(modelItem => item.UserName)*@
                             </center>
                         </td>
                         <td>

@@ -19,11 +19,11 @@ namespace WebApi.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        [Route("api/post/GePostByTopicId/{topicId}")]
-        public HttpResponseMessage GePostByTopicId([FromUri]int topicId)
+        [Route("api/Post/GePostByTopicId/{topicId}")]
+        public HttpResponseMessage GePostByTopicId([FromUri]string topicId)
         {
             List<Post> list = Get().ToList();
-            var entity = list.Where(x => x.TopicId == topicId).ToList();
+            var entity = list.Where(x => x.TopicId == Convert.ToInt32(topicId)).ToList();
 
             return (entity.Count() != 0) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<List<Post>>(HttpStatusCode.Found, entity);
         }
