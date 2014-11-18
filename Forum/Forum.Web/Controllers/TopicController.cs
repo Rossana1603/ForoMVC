@@ -46,7 +46,7 @@ namespace Forum.Web.Controllers
             var response = client.Execute<List<Post>>(request);            
            
             ViewBag.Error = false;
-            if (response.StatusCode != HttpStatusCode.Found)
+            if (response.StatusCode != HttpStatusCode.OK)
             {
                 //TODO mostrar un mensaje de error
                 ViewBag.Error = true;
