@@ -7,7 +7,7 @@
     ViewBag.Title = "TopicDetail";
 }
 
-<h2>Topic Details</h2>
+<h2>@ViewBag.TopicTitle</h2>
 
 @if (ViewBag.Error)
 {
@@ -15,7 +15,7 @@
 }
 else
 {
-    <form role="form">
+    @*<form role="form">
         <div>
             <div class="col-md-8">
                 <input class="form-control" id="inputSearch" placeholder="Search" style="width: 100%; max-width: 100%">
@@ -24,8 +24,7 @@ else
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
             </button>
         </div>
-    </form>
-    //show title
+    </form>*@
     <br />
     <div>
         @foreach (var item in Model)

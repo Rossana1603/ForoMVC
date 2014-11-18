@@ -38,7 +38,7 @@ namespace Forum.Web.Controllers
         }
 
 
-        public ActionResult TopicDetail(int id)
+        public ActionResult TopicDetail(int id, string title)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("/api/Post/GetPostByTopicId/{id}", Method.GET);
@@ -62,6 +62,9 @@ namespace Forum.Web.Controllers
                                                     new Post {Id=3, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}, Topic = new Topic{Title="Some Topic Title"}} 
                                                 };
             //////
+            List<Post> post = response.Data;
+
+            ViewBag.TopicTitle = title;
             return View(Mapper.Map<List<Post>, List<PostViewModel>>(response.Data));
         }
 
