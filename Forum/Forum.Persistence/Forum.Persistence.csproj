@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201411181415027_Post List.Designer.cs">
       <DependentUpon>201411181415027_Post List.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411182215140_delete post.cs" />
+    <Compile Include="Migrations\201411182215140_delete post.Designer.cs">
+      <DependentUpon>201411182215140_delete post.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\Repository.cs" />
@@ -80,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411181415027_Post List.resx">
       <DependentUpon>201411181415027_Post List.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411182215140_delete post.resx">
+      <DependentUpon>201411182215140_delete post.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

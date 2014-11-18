@@ -41,17 +41,17 @@ namespace Forum.Web.Controllers
         public ActionResult TopicDetail(int id, string title)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/Post/GetPostByTopicId/{id}", Method.GET);
-            request.AddParameter("id", id);
+            var request = new RestRequest("/api/Post/GetPostByTopicId/{topicId}", Method.GET);
+            request.AddParameter("topicId", id);
             var response = client.Execute<List<Post>>(request);            
            
             ViewBag.Error = false;
-            //if (response.StatusCode != HttpStatusCode.Found)
-            //{
-            //    //TODO mostrar un mensaje de error
-            //    ViewBag.Error = true;
-            //    return View();
-            //}
+            if (response.StatusCode != HttpStatusCode.Found)
+            {
+                //TODO mostrar un mensaje de error
+                ViewBag.Error = true;
+                return View();
+            }
 
             //////TODO: delete theses lines, only for testing purpose
             var topics = response.Data;
