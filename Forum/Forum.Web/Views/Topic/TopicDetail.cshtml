@@ -1,7 +1,7 @@
 ﻿
 @using System.Activities.Statements
 @using System.Web.UI.WebControls
-@model IEnumerable<Forum.Web.Models.TopicViewModel>
+@model IEnumerable<Forum.Web.Models.PostViewModel>
 
 @{
     ViewBag.Title = "TopicDetail";
@@ -15,10 +15,6 @@
 }
 else
 {
-
-    <p>
-        @Html.ActionLink("New", "AddTopic")
-    </p>
     <form role="form">
         <div>
             <div class="col-md-8">
@@ -40,7 +36,7 @@ else
                         <td></td>
                         <td>
                             <h3>
-                                @Html.ActionLink(item.Title, "GeTopicById", "Topic", new { id = item.Id }, null)
+                                @*@Html.ActionLink(item.Title, "GeTopicById", "Topic", new { id = item.Id }, null)*@
                             </h3>
                         </td>
 
@@ -55,10 +51,12 @@ else
                     </tr>
                     <tr>
                         <td>
-                            <center>@Html.DisplayFor(modelItem => item.UserName)</center>
+                            <center>
+                                @*@Html.DisplayFor(modelItem => item.UserName)*@
+                            </center>
                         </td>
                         <td>
-                            Creado en : @Html.DisplayFor(modelItem => item.CreateDate)
+                            @*Creado en : @Html.DisplayFor(modelItem => item.CreateDate)*@
                         </td>
                     </tr>
                     <tr>
@@ -73,5 +71,7 @@ else
             </div>
         }
     </div>
-
+    <p>
+            @Html.ActionLink("New", "AddTopic")
+    </p>
 }

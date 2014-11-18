@@ -18,6 +18,9 @@ namespace Forum.Web.Controllers
         {
             Mapper.CreateMap<Topic,TopicViewModel>()
                 .ForMember(vwm=>vwm.Tags,opt=>opt.Ignore());
+
+            Mapper.CreateMap<Post, PostViewModel>()
+                .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
         }
         public ActionResult TopicList()
         {
@@ -35,19 +38,29 @@ namespace Forum.Web.Controllers
         }
 
 
-        public ActionResult TopicDetail()
+        public ActionResult TopicDetail(int id)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/topic/", Method.GET);
-            var response = client.Execute<List<Topic>>(request);
+            var request = new RestRequest("api/topic/"+id, Method.GET);
+            var response = client.Execute<Topic>(request);
             ViewBag.Error = false;
-            if (response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode != HttpStatusCode.Found)
             {
                 //TODO mostrar un mensaje de error
                 ViewBag.Error = true;
                 return View();
             }
-            return View(Mapper.Map<List<Topic>, List<TopicViewModel>>(response.Data));
+            //TODO: delete theses lines, only for testing purpose
+            var topics = response.Data;
+
+
+                ((Topic)response.Data).Posts = new List<Post>() {    
+                                                    new Post {Id=1, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}},
+                                                    new Post {Id=2, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 2, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}}, 
+                                                    new Post {Id=3, Author=new Author{Email="SomeEMail@.com", Id=1, UserName="someUserName"}, Content ="Lorem Ipsum 1", AuthorId = 1, Tags = new List<string>{"Lorem", "ipsum","dolor","sit","amet","consectetur"}} 
+                                                };
+          
+            return View(Mapper.Map<List<Post>, List<PostViewModel>>(response.Data.Posts));
         }
 
 
@@ -102,7 +115,7 @@ namespace Forum.Web.Controllers
             request.AddParameter("id", id);
             var response = client.Execute<Topic>(request);
             var result = response.Data.Id;
-            return RedirectToAction("TopicDetail");
+            return RedirectToAction("TopicDetail", new { id = id });
         }
 	}
 }
