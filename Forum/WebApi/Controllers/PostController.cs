@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Forum.Persistence.DataAccess;
@@ -15,6 +16,16 @@ namespace WebApi.Controllers
         public PostController(IRepository<Post> repository) :base (repository)
         {
             
+        }
+
+        [System.Web.Mvc.HttpGet]
+        [Route("api/post/GePostByTopicId/{topicId}")]
+        public HttpResponseMessage GePostByTopicId([FromUri]int topicId)
+        {
+            List<Post> list = Get().ToList();
+            var entity = list.Where(x => x.TopicId == topicId).ToList();
+
+            return (entity.Count() != 0) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<List<Post>>(HttpStatusCode.Found, entity);
         }
     }
 }
