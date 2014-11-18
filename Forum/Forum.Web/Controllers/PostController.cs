@@ -20,16 +20,6 @@ namespace Forum.Web.Controllers
                 .ForMember(vwm=>vwm.Tags,opt=>opt.Ignore());
         }
 
-        public ActionResult GePostByTopicId(int topicId)
-        {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/post/GePostByTopicId/{topicId}", Method.GET);
-            request.AddParameter("topicId", topicId);
-            var response = client.Execute<List<Post>>(request);
-            var result = response.Data;
-            return View();
-        }
-
         public ActionResult AddPost()
         {
             var model = new PostViewModel();
