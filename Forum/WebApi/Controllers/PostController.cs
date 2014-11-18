@@ -17,15 +17,16 @@ namespace WebApi.Controllers
         {
             
         }
-
+        
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Mvc.HttpGet]
         [Route("api/Post/GePostByTopicId/{topicId}")]
-        public HttpResponseMessage GePostByTopicId([FromUri]string topicId)
+        public HttpResponseMessage GePostByTopicId([FromUri]int topicId)
         {
             List<Post> list = Get().ToList();
-            var entity = list.Where(x => x.TopicId == Convert.ToInt32(topicId)).ToList();
+            var entity = list.Where(x => x.TopicId == topicId).ToList();
 
-            return (entity.Count() != 0) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<List<Post>>(HttpStatusCode.Found, entity);
+            return (!entity.Any()) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse<List<Post>>(HttpStatusCode.Found, entity);
         }
     }
 }
