@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
@@ -22,8 +23,6 @@ namespace Forum.Web.Controllers
             Mapper.CreateMap<Post, PostViewModel>()
                 .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
 
-            //Mapper.CreateMap<Entidad, PostViewModel>()
-            //    .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
         }
         public ActionResult TopicList()
         {
@@ -41,23 +40,21 @@ namespace Forum.Web.Controllers
         }
 
 
-        public ActionResult TopicDetail(int id, string title)
+        public ActionResult TopicDetail(int id)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("/api/Post/GetPostByTopicId/{topicId}", Method.GET);
             request.AddParameter("topicId", id);
             var response = client.Execute<List<Post>>(request);
-            ViewBag.TopicTitle = title;
-            ViewBag.TopicId = id;
-           
-            ViewBag.NoComents = false;
-            if (response.StatusCode != HttpStatusCode.Found)
-            {
-                //TODO mostrar un mensaje de error
-                ViewBag.NoComents = true;
-                return View();
-            }
-            return View(Mapper.Map<List<Post>, List<PostViewModel>>(response.Data));
+
+            var requestTopic = new RestRequest("/api/topic/{id}", Method.GET);
+            requestTopic.AddParameter("id", id);
+            var responseTopic = client.Execute<Topic>(requestTopic);
+
+            var topicDetailModel = new TopicDetailViewModel();
+            topicDetailModel.Topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault().Topic : responseTopic.Data);
+            topicDetailModel.Posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
+            return View(topicDetailModel);
         }
 
 
