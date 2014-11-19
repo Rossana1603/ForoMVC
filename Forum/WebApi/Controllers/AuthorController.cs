@@ -18,7 +18,6 @@ namespace WebApi.Controllers
             
         }
 
-        [System.Web.Mvc.HttpGet]
         [Route("api/Author/GetIdByUserName/{userName}")]
         public HttpResponseMessage GetIdByUserName([FromUri]string userName)
         {

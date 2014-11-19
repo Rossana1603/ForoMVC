@@ -18,8 +18,6 @@ namespace WebApi.Controllers
             
         }
         
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Mvc.HttpGet]
         [Route("api/Post/GetPostByTopicId/{topicId}")]
         public HttpResponseMessage GetPostByTopicId([FromUri]int topicId)
         {
