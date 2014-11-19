@@ -1,0 +1,112 @@
+﻿@model MvcSiteMapProvider.Web.Html.Models.MenuHelperModel
+@using System.Web.Mvc.Html
+@using MvcSiteMapProvider.Web.Html.Models
+@using Microsoft.AspNet.Identity
+
+@helper  TopMenu(List<SiteMapNodeModel> nodeList)
+{
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse">
+                
+                    @foreach (SiteMapNodeModel node in nodeList)
+                    {
+                        string url = node.IsClickable ? node.Url : "#";
+
+                        if (!node.Children.Any())
+                        {
+                            <ul class="nav navbar-nav">
+                                <li><a href="@url">@node.Title</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            
+                                if (Request.IsAuthenticated)
+                                {
+                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <ul class="nav navbar-nav navbar-right">
+                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">@string.Concat("Hello ",User.Identity.GetUserName(), "!")<span class="caret"></span></a>@DropDownMenu(node.Children)</li>
+                                        </ul>
+                                    }
+                                }
+                                else
+                                {
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">@node.Title <span class="caret"></span></a>@DropDownMenu(node.Children)</li>
+                                    </ul>
+                                }
+                        }
+                        if (node != nodeList.Last())
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="divider-vertical"></li>
+                            </ul>
+                        }
+
+                    }
+</div>
+        </div>
+    </nav>
+}
+
+@helper DropDownMenu(SiteMapNodeModelList nodeList)
+{
+    <ul class="dropdown-menu" role="menu">
+        @foreach (SiteMapNodeModel node in nodeList)
+        {
+            if (node.Title == "Separator")
+            {
+                <li class="divider"></li>
+                continue;
+            }
+
+            string url = node.IsClickable ? node.Url : "#";
+
+            if (!node.Children.Any())
+            {
+                if (@node.Controller == "Account")
+                {
+                    if (@node.Title == "Register")
+                    {
+                        if (Request.IsAuthenticated)
+                        {
+                            <li>
+                                @Html.ActionLink("Update", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a href="@url">Register</a></li>
+                        }
+                    }
+                    if (@node.Title == "Log")
+                    {
+                        if (Request.IsAuthenticated)
+                        {
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Off</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@url">Log In</a></li>
+                        }
+                    }
+                }
+                else
+                {
+                    <li><a href="@url">@node.Title</a></li>
+
+                }
+            }
+            else
+            {
+                <li class="dropdown-submenu"><a href="@url">@node.Title</a>@DropDownMenu(node.Children)</li>
+            }
+        }
+    </ul>
+}
+
+@TopMenu(Model.Nodes)
+@Scripts.Render("~/bundles/forum")
