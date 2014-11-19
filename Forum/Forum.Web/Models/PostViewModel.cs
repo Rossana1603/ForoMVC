@@ -13,5 +13,6 @@ namespace Forum.Web.Models
         public List<String> Tags { get; set; }
         public string Content { get; set; }
         public virtual Author Author { get; set; }
+        public int Id { get; set; }
     }
 }

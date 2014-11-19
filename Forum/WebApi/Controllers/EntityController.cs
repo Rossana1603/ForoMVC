@@ -51,6 +51,7 @@ namespace WebApi.Controllers
         {
             var entity = _entityRepository.Get(id);
             deltaTopic.Patch(entity);
+            _entityRepository.Update(entity);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
     }

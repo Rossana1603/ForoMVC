@@ -12,7 +12,7 @@ using RestSharp;
 namespace Forum.Web.Controllers
 {
     [Authorize]
-    public class TopicController : Controller
+    public class TopicController : ControllerBase
     {
         public TopicController()
         {
@@ -21,6 +21,9 @@ namespace Forum.Web.Controllers
 
             Mapper.CreateMap<Post, PostViewModel>()
                 .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
+
+            //Mapper.CreateMap<Entidad, PostViewModel>()
+            //    .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
         }
         public ActionResult TopicList()
         {
@@ -38,18 +41,20 @@ namespace Forum.Web.Controllers
         }
 
 
-        public ActionResult TopicDetail(int id)
+        public ActionResult TopicDetail(int id, string title)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("/api/Post/GetPostByTopicId/{topicId}", Method.GET);
             request.AddParameter("topicId", id);
-            var response = client.Execute<List<Post>>(request);            
+            var response = client.Execute<List<Post>>(request);
+            ViewBag.TopicTitle = title;
+            ViewBag.TopicId = id;
            
-            ViewBag.Error = false;
-            if (response.StatusCode != HttpStatusCode.OK)
+            ViewBag.NoComents = false;
+            if (response.StatusCode != HttpStatusCode.Found)
             {
                 //TODO mostrar un mensaje de error
-                ViewBag.Error = true;
+                ViewBag.NoComents = true;
                 return View();
             }
             return View(Mapper.Map<List<Post>, List<PostViewModel>>(response.Data));
@@ -80,16 +85,6 @@ namespace Forum.Web.Controllers
             return RedirectToAction("TopicList");
         }
 
-        private static int GetIdByUserName(string userName)
-        {
-            //http://localhost:51713/Api/Author/GetIdByUserName/?UserName=orlando1409%40gmail.com
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/Author/GetIdByUserName/" + userName.Replace("@", "%40").Replace(".", "$"), Method.GET);
-
-            var response = client.Execute<Author>(request);
-
-            return response.Data.Id;
-        }
             
         public ActionResult DeleteTopic(int id)
         {

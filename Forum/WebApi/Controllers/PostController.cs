@@ -20,8 +20,8 @@ namespace WebApi.Controllers
         
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Mvc.HttpGet]
-        [Route("api/Post/GePostByTopicId/{topicId}")]
-        public HttpResponseMessage GePostByTopicId([FromUri]int topicId)
+        [Route("api/Post/GetPostByTopicId/{topicId}")]
+        public HttpResponseMessage GetPostByTopicId([FromUri]int topicId)
         {
             List<Post> list = Get().ToList();
             var entity = list.Where(x => x.TopicId == topicId).ToList();
