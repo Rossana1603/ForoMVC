@@ -1,67 +1,64 @@
 ﻿
 @using System.Activities.Statements
 @using System.Web.UI.WebControls
-@model IEnumerable<Forum.Web.Models.PostViewModel>
+@model Forum.Web.Models.TopicDetailViewModel
 
 @{
     ViewBag.Title = "TopicDetail";
 }
 
-<h2>@ViewBag.TopicTitle</h2>
 
-@if (ViewBag.NoComents)
-{
-    <h4>There are not any posts at this time yet.</h4>
-}
-else
-{    
-    <br />
-    <div>
-        @foreach (var item in Model)
-        {
-            <div class="panel panel-primary" style="width: 815px">
 
-                <table style="width: 800px">
-                    <tr>
-                        <td></td>
-                        <td>
-                            <h3>
-                            </h3>
-        </td>
+<div>
+    <br/>
+    <div class="panel panel-primary" style="width: 815px">
+        <table style="width: 800px">
+            <tr>
 
-    </tr>
-    <tr>
-        <td style="width: 115px">
-            <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
-        </td>
-        <td style="padding-bottom: 10px">
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <center>
-                @Html.DisplayFor(modelItem => item.Author.UserName)
-             </center>
-         </td>
-         <td>
-                            @*Creado en : @Html.DisplayFor(modelItem => item.CreateDate)*@
-         </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td style="text-align: right">
-                              @Html.ActionLink("Edit", "EditPost", "Post", new { id = item.TopicId, postId = item.Id }, null)
-                            | @Html.ActionLink("Delete", "delete", new { })
-                            | @Html.ActionLink("Like", "like", new { })
-                        </td>
-                    </tr>
-                    <tr></tr>
-                </table>
-            </div>
-        }
+                <td><h4>@Model.Topic.Title</h4></td>
+
+            </tr>
+            <tr>
+                <td style="padding-bottom:10px;">@Model.Topic.Content</td>
+            </tr>
+        </table>
     </div>
-}
+    <br/>
+    @foreach (var item in Model.Posts)
+    {
+        <div class="panel panel-primary" style="width: 815px">
+
+            <table style="width: 800px">
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="width: 115px">
+                        <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
+                    </td>
+                    <td style="padding-bottom: 10px">
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author.UserName)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right">
+                        @Html.ActionLink("Edit", "EditPost", "Post", new { id = item.TopicId, postId = item.Id }, null)
+                        | @Html.ActionLink("Delete", "delete", new { })
+                        | @Html.ActionLink("Like", "like", new { })
+                    </td>
+                </tr>
+                <tr></tr>
+            </table>
+        </div>
+    }
+</div>
 <p>        
     @Html.ActionLink("New post", "AddPost", "Post", new { id = ViewBag.topicId }, null)
 </p>
