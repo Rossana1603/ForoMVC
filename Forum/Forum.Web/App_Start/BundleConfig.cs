@@ -24,6 +24,7 @@ namespace IdentitySample
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/forum.css",
                       "~/Content/site.css",
                        "~/Content/css/zocial.css"));
         }
