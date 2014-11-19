@@ -4,4 +4,27 @@
 .navbar-inverse .navbar-nav > li > a:focus {
     color: #808080;
     background-color: #dcd9d9;
+    height:40px;
+}
+
+.navbar-fixed-top {
+    height:55px;
+}
+
+.navbar-default {
+    min-height: 45px;
+    height:40px;
+    margin-bottom:5px;  
+}
+
+/*.dropdown-toggle {
+    height:45px;
+}
+
+.dropdown-menu {
+    margin-bottom: 5px;
+}*/
+
+.dropdown {
+  height:45px; 
 }
