@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Forum.Web.Models
 {
-    public class PostViewModel
+    public class PostViewModel : ModelBase
     {
         public int TopicId { get; set; }
         public virtual Topic Topic { get; set; }

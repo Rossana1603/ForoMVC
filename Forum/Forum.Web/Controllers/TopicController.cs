@@ -10,11 +10,10 @@ using Forum.Web.Properties;
 using Microsoft.AspNet.Identity;
 using RestSharp;
 
-
 namespace Forum.Web.Controllers
 {
     [Authorize]
-    public class TopicController : ControllerBase
+    public class TopicController : CustomControllerBase
     {
         public TopicController()
         {
@@ -23,7 +22,6 @@ namespace Forum.Web.Controllers
 
             Mapper.CreateMap<Post, PostViewModel>()
                 .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
-
         }
         public ActionResult TopicList()
         {
@@ -37,9 +35,12 @@ namespace Forum.Web.Controllers
                 ViewBag.Error = true;
                 return View();
             }
-            return View(Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data));
-        }
 
+            var topics = Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data);
+            topics.ForEach(x => x.AvatarFileName = base.GetAvatarFileName(User.Identity.GetUserName()));
+
+            return View(topics);
+        }
 
         public ActionResult TopicDetail(int id)
         {
@@ -57,11 +58,12 @@ namespace Forum.Web.Controllers
             var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault().Topic : responseTopic.Data);
             var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
 
-            posts.ToList().ForEach(x => x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName() );
+            posts.ToList().ForEach((x) => { x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName();
+                                            x.AvatarFileName = base.GetAvatarFileName(x.Author.UserName);
+                                          });
             
             return View(new TopicDetailViewModel{Topic = topic, Posts = posts});
         }
-
 
         public ActionResult AddTopic()
         {
@@ -86,7 +88,6 @@ namespace Forum.Web.Controllers
             var response = client.Execute<Topic>(request);
             return RedirectToAction("TopicList");
         }
-
             
         public ActionResult DeleteTopic(int id)
         {
@@ -96,6 +97,5 @@ namespace Forum.Web.Controllers
             var queryResult = client.Execute<List<TopicViewModel>>(request).Data;
             return RedirectToAction("Index");
         }
-
 	}
 }

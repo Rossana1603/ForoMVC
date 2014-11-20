@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 namespace Forum.Web.Controllers
 {
     [Authorize]
-    public class PostController :  ControllerBase
+    public class PostController :  CustomControllerBase
     {
         public PostController()
         {

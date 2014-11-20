@@ -1,4 +1,5 @@
-﻿using IdentitySample.Models;
+﻿using Forum.Web.Controllers;
+using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -6,12 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace IdentitySample.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : CustomControllerBase
     {
         public ManageController()
         {
@@ -55,7 +57,7 @@ namespace IdentitySample.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
-                AvatarFileName = GetAvatarFileName()
+                AvatarFileName = base.GetAvatarFileName(User.Identity.GetUserName())
             };
             return View(model);
         }
@@ -369,30 +371,25 @@ namespace IdentitySample.Controllers
             return false;
         }
 
-        private string GetAvatarFileName()
-        {
-            var id = User.Identity.GetUserId();
-            var filePaths = Directory.GetFiles(Server.MapPath("~/Content/Images")).ToList();
-                        
-            var onePath = filePaths.FirstOrDefault(x => Path.GetFileNameWithoutExtension(x) == id);
-
-            return Path.GetFileName(onePath)??string.Empty;    
-        }
-
         //
         // POST: /Manage/UploadAvatar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadAvatar(string provider)
+        public ActionResult UploadAvatar()
         {
             string directory = Server.MapPath("~/Content/Images");
 
-            HttpPostedFileBase photo = Request.Files["photo"];
+            HttpPostedFileBase photo = Request.Files["photo"];          
 
             if (photo != null && photo.ContentLength > 0)
             {
+                WebImage img = new WebImage(photo.InputStream);
+                if (img.Width > 100 || img.Height>100)
+                {
+                    img.Resize(100, 100);
+                }
                 var fileName = Path.GetFileName(photo.FileName);
-                photo.SaveAs(Path.Combine(directory, User.Identity.GetUserId() + Path.GetExtension(fileName)));
+                img.Save(Path.Combine(directory, base.GetIdByUserName(User.Identity.GetUserName()) + Path.GetExtension(fileName)));
             }
 
             return RedirectToAction("Index", "Manage");
