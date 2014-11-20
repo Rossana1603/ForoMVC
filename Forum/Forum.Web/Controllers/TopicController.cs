@@ -10,6 +10,7 @@ using Forum.Web.Properties;
 using Microsoft.AspNet.Identity;
 using RestSharp;
 
+
 namespace Forum.Web.Controllers
 {
     [Authorize]
@@ -52,9 +53,13 @@ namespace Forum.Web.Controllers
             var responseTopic = client.Execute<Topic>(requestTopic);
 
             var topicDetailModel = new TopicDetailViewModel();
-            topicDetailModel.Topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault().Topic : responseTopic.Data);
-            topicDetailModel.Posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
-            return View(topicDetailModel);
+
+            var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault().Topic : responseTopic.Data);
+            var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
+
+            posts.ToList().ForEach(x => x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName() );
+            
+            return View(new TopicDetailViewModel{Topic = topic, Posts = posts});
         }
 
 

@@ -54,5 +54,12 @@ namespace WebApi.Controllers
             _entityRepository.Update(entity);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
+
+        public HttpResponseMessage Delete(int id)
+        {
+            var entity = _entityRepository.Get(id);
+            var response = _entityRepository.Delete(entity);
+            return (!response) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse(HttpStatusCode.NoContent);
+        }
     }
 }

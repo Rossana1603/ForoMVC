@@ -56,8 +56,12 @@
                 <tr>
                     <td></td>
                     <td style="text-align: right">
-                        @Html.ActionLink("Edit", "EditPost", "Post", new { id = item.TopicId, postId = item.Id }, null)
-                        | @Html.ActionLink("Delete", "delete", new { })
+                        @if(item.IsTopicCreator)
+                        {
+                            @Html.ActionLink("Edit", "EditPost", "Post", new { id = item.TopicId, postId = item.Id }, null)
+                            <span> | </span>
+                            @Html.ActionLink("Delete", "DeletePost", "Post", new { id = item.TopicId, postId = item.Id }, null)
+                        } 
                         | @Html.ActionLink("Like", "like", new { })
                     </td>
                 </tr>
@@ -66,5 +70,5 @@
     }
 </div>
 <p>        
-    @Html.ActionLink("New post", "AddPost", "Post", new { id = ViewBag.topicId }, null)
+    @Html.ActionLink("New post", "AddPost", "Post", new { id = Model.Topic.Id }, null)
 </p>
