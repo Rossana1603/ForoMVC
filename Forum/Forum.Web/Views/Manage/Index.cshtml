@@ -40,7 +40,7 @@
             <form method="post" action="/Manage/DisableTFA">
                 <p>
                     Two factor is currently enabled:
-                    <input type="submit" value="Disable" class="btn btn-default"/>
+                    <input type="submit" value="Disable" class="btn btn-default" />
                 </p>
             </form>
         }
@@ -49,7 +49,7 @@
             <form method="post" action="/Manage/EnableTFA">
                 <p>
                     Two factor is currently disabled:
-                    <input type="submit" value="Enable" class="btn btn-default"/>
+                    <input type="submit" value="Enable" class="btn btn-default" />
                 </p>
             </form>
         }
@@ -67,9 +67,28 @@
             <form method="post" action="/Manage/RememberBrowser">
                 <p>
                     Browser is curently not remembered for two factor:
-                    <input type="submit" value="Remember Browser" class="btn btn-default"/>
+                    <input type="submit" value="Remember Browser" class="btn btn-default" />
                 </p>
             </form>
         }
+        <form method="post" action="/Manage/UploadAvatar" enctype="multipart/form-data">  
+                @Html.AntiForgeryToken()          
+                @if (Model.AvatarFileName == string.Empty)
+                {                    
+                    <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
+                    <br />    
+                    <label for="photo">Upload your avatar:</label>
+                    <input type="file" name="photo" id="photo" />
+                    <input type="submit" value="Upload" />
+                }
+                else
+                {
+                    <img src="~/Content/Images/@(Model.AvatarFileName)" />
+                    <br />
+                    <label for="photo">Update your avatar:</label>
+                    <input type="file" name="photo" id="photo" />
+                    <input type="submit" value="Update" />
+                }
+        </form>
     </div>
 </div>

@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -53,7 +54,8 @@ namespace IdentitySample.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
+                AvatarFileName = GetAvatarFileName()
             };
             return View(model);
         }
@@ -365,6 +367,35 @@ namespace IdentitySample.Controllers
                 return user.PasswordHash != null;
             }
             return false;
+        }
+
+        private string GetAvatarFileName()
+        {
+            var id = User.Identity.GetUserId();
+            var filePaths = Directory.GetFiles(Server.MapPath("~/Content/Images")).ToList();
+                        
+            var onePath = filePaths.FirstOrDefault(x => Path.GetFileNameWithoutExtension(x) == id);
+
+            return Path.GetFileName(onePath)??string.Empty;    
+        }
+
+        //
+        // POST: /Manage/UploadAvatar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadAvatar(string provider)
+        {
+            string directory = Server.MapPath("~/Content/Images");
+
+            HttpPostedFileBase photo = Request.Files["photo"];
+
+            if (photo != null && photo.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(photo.FileName);
+                photo.SaveAs(Path.Combine(directory, User.Identity.GetUserId() + Path.GetExtension(fileName)));
+            }
+
+            return RedirectToAction("Index", "Manage");
         }
 
         private bool HasPhoneNumber()

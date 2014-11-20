@@ -97,13 +97,28 @@ namespace Forum.Web.Controllers
 
             return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }
-        public ActionResult DeletePost(int id)
+
+        public ActionResult DeletePost(int id, int postId)
         {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/post/{id}", Method.DELETE);
-            request.AddParameter("id", id);
-            var queryResult = client.Execute<List<PostViewModel>>(request).Data;
-            return RedirectToAction("TopicList");
+            var model = new PostViewModel();
+            model = GetPostsByTopicId(id).FirstOrDefault(x => x.Id == postId);
+            ViewBag.PostId = postId;
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePost(PostViewModel post)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/Post/{id}");
+            var request = new RestRequest(Method.DELETE);
+            var postId = int.Parse(Request["PostId"]);
+
+            request.AddParameter("id", postId);
+
+            var response = client.Execute<Post>(request);
+
+            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }
 	}
 }
