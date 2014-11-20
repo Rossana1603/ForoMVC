@@ -14,34 +14,41 @@
     <div class="panel panel-primary" style="width: 815px">
         <table style="width: 800px">
             <tr>
-
+                <td></td>
                 <td><h4>@Model.Topic.Title</h4></td>
 
             </tr>
             <tr>
+                <td style="width: 35px"></td>
                 <td style="padding-bottom:10px;">@Model.Topic.Content</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    Creado en : @Model.Topic.CreateDate
+                </td>
+            </tr>
+            <tr>
+                <td></td>
             </tr>
         </table>
     </div>
     <br/>
     @foreach (var item in Model.Posts)
     {
-        <div class="panel panel-primary" style="width: 815px">
-
-            <table style="width: 800px">
+        <div class="panel panel-primary" style="width: 750px">
+            <table style="width: 600px">
                 <tr>
                     <td></td>
-                    <td></td>
-                </tr>
-                <tr>
                     <td style="width: 115px">
                         <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
                     </td>
-                    <td style="padding-bottom: 10px">
+                    <td>
                         @Html.DisplayFor(modelItem => item.Content)
                     </td>
                 </tr>
                 <tr>
+                    <td></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Author.UserName)
                     </td>
@@ -54,7 +61,6 @@
                         | @Html.ActionLink("Like", "like", new { })
                     </td>
                 </tr>
-                <tr></tr>
             </table>
         </div>
     }
