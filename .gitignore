@@ -181,3 +181,10 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+/Forum/Forum.Persistence/Migrations/201411182026329_Delete Post.Designer.cs
+/Forum/Forum.Persistence/Migrations/201411182026329_Delete Post.cs
+/Forum/Forum.Persistence/Migrations/201411182026329_Delete Post.resx
+/Forum/Forum.Web/Content/Images/2.jpg
+/Forum/Forum.Web/Content/Images/3.jpg
+/Forum/Forum.Web/Content/Images/5.jpg
+/Forum/Forum.Web/Content/Images/fa7b73fb-9373-49f8-b64f-b02ea56b5b41.jpg
