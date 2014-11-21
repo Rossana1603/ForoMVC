@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Forum.Web.Resolver;
 
 namespace IdentitySample.Controllers
 {
@@ -383,13 +384,13 @@ namespace IdentitySample.Controllers
 
             if (photo != null && photo.ContentLength > 0)
             {
-                WebImage img = new WebImage(photo.InputStream);
-                if (img.Width > 100 || img.Height>100)
+                var sourceFileName = Path.GetFileName(photo.FileName);
+                var targetFileName = Path.Combine(directory, base.GetIdByUserName(User.Identity.GetUserName()) + Path.GetExtension(sourceFileName));
+                var extension = Path.GetExtension(sourceFileName);
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png" || extension == ".gif")
                 {
-                    img.Resize(100, 100);
+                    photo.SaveImageAs(targetFileName, width: 100, height: 100);
                 }
-                var fileName = Path.GetFileName(photo.FileName);
-                img.Save(Path.Combine(directory, base.GetIdByUserName(User.Identity.GetUserName()) + Path.GetExtension(fileName)));
             }
 
             return RedirectToAction("Index", "Manage");
