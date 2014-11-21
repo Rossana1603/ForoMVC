@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ForumApiUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://orlando1409-001-site1.smarterasp.net/</Value>
+      <Value Profile="(Default)">http://localhost:51713/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

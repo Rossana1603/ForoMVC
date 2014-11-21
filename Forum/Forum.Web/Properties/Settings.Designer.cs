@@ -25,7 +25,7 @@ namespace Forum.Web.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://orlando1409-001-site1.smarterasp.net/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:51713/")]
         public string ForumApiUrl {
             get {
                 return ((string)(this["ForumApiUrl"]));
