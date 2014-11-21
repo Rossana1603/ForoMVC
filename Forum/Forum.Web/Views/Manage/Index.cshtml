@@ -78,7 +78,7 @@
                     <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
                     <br />    
                     <label for="photo">Upload your avatar:</label>
-                    <input type="file" name="photo" id="photo" />
+                    <input type="file" name="photo" id="photo" accept="image/x-png, image/gif, image/jpeg" />
                     <input type="submit" value="Upload" />
                 }
                 else
@@ -86,7 +86,7 @@
                     <img src="~/Content/Images/@(Model.AvatarFileName)" />
                     <br />
                     <label for="photo">Update your avatar:</label>
-                    <input type="file" name="photo" id="photo" />
+                    <input type="file" name="photo" id="photo" accept="image/x-png, image/gif, image/jpeg" />
                     <input type="submit" value="Update" />
                 }
         </form>

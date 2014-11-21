@@ -320,6 +320,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Resolver\HttpHelperResolver.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
