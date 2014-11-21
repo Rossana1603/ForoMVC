@@ -6,7 +6,7 @@ using Forum.Persistence.Domain;
 
 namespace Forum.Web.Models
 {
-    public class TopicViewModel
+    public class TopicViewModel : ModelBase
     {
         public int Id { get; set; }
         public string Title { get; set; }

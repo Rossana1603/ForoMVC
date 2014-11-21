@@ -12,11 +12,12 @@ using System.Web.Mvc;
 using RestSharp;
 using Forum.Persistence.Domain;
 using Forum.Web.Properties;
+using Forum.Web.Controllers;
 
 namespace IdentitySample.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : CustomControllerBase
     {
         public AccountController()
         {
@@ -156,16 +157,7 @@ namespace IdentitySample.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var client = new RestClient(Settings.Default.ForumApiUrl + "api/author/");
-                    var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
-
-                    request.AddJsonBody(new Author()
-                    {
-                        Email = model.Email,
-                        UserName = model.Email
-                    });
-
-                    var response = client.Execute<Author>(request);
+                    base.RegisteredUserAuthor(model.Email);
 
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
@@ -335,6 +327,9 @@ namespace IdentitySample.Controllers
                 return RedirectToAction("Login");
             }
 
+            //Registering user as a an author
+            base.RegisteredUserAuthor(loginInfo.Email);
+
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
@@ -352,6 +347,7 @@ namespace IdentitySample.Controllers
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
+
         }
 
         //
