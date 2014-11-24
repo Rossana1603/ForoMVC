@@ -53,8 +53,11 @@
                                     }
                                 </td>
                                 <td style="padding-bottom: 10px">
-                                    @Html.DisplayFor(modelItem => item.Content)
-                                </td>
+                                    <div id="myDiv">
+                                        @Html.Raw(Html.DisplayFor(modelItem => item.Content).ToString())
+                                     </div>
+                                    <br />
+</td>
                             </tr>
                             <tr>
                                 <td></td>

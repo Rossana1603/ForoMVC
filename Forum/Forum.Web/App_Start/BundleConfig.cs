@@ -24,8 +24,14 @@ namespace IdentitySample
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/externalscripts").Include(
-                     "~/scripts/tinymce/tinymce.min.js"
+                     "~/Scripts/tinymce/tinymce.min.js"                     
             ));
+
+            bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
+                        "~/Scripts/forum.js"
+            ));
+
+            
 
             //bundles.Add(new StyleBundle("~/bundles/externalstyles").Include(
             //         "~/Content/jHtmlArea/jHtmlArea.css",

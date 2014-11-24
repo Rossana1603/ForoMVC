@@ -48,9 +48,6 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
-    <Reference Include="CKEditor.NET">
-      <HintPath>..\Libraries\ckeditor_aspnet_3.6.6.2\CKEditor.NET.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -122,6 +119,9 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.105.0.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -185,10 +185,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\zocial-regular-webfont.svg" />
     <Content Include="Content\css\zocial.css" />
-    <Content Include="Content\custom-text-editor.css" />
     <Content Include="Content\db\scriptDBForumWeb.sql" />
     <Content Include="Content\forum.css" />
-    <Content Include="Content\jHtmlArea\jHtmlArea.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\default-avatar.dmbNkD5D-u45r44go_cf0g.png" />
     <Content Include="packages.config" />
@@ -213,6 +212,7 @@
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\forum.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
@@ -369,7 +369,6 @@
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
     <Content Include="Views\Topic\TopicList.cshtml" />
-    <Content Include="Views\Topic\AddTopic2.cshtml" />
     <Content Include="Views\Topic\TopicDetail.cshtml" />
     <Content Include="Views\Post\AddPost.cshtml" />
     <Content Include="Views\Post\EditPost.cshtml" />
@@ -466,7 +465,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
-    <Compile Include="Controllers\TinyMCEController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
@@ -484,7 +482,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\PostViewModel.cs" />
-    <Compile Include="Models\TinyMCE.cs" />
     <Compile Include="Models\TopicDetailViewModel.cs" />
     <Compile Include="Models\TopicViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -510,7 +507,6 @@
   <ItemGroup>
     <Folder Include="Content\Images\" />
     <Folder Include="Mapper\" />
-    <Folder Include="Views\TinyMCE\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
