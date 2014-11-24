@@ -31,13 +31,6 @@ namespace IdentitySample
                         "~/Scripts/forum.js"
             ));
 
-            
-
-            //bundles.Add(new StyleBundle("~/bundles/externalstyles").Include(
-            //         "~/Content/jHtmlArea/jHtmlArea.css",
-            //         "~/Content/custom-text-editor.css"
-            //));
-
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/forum.css",
