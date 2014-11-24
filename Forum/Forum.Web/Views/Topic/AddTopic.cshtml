@@ -3,20 +3,20 @@
     ViewBag.Title = "NewTopic";
 }
 
-<h2>Add New Topic</h2>
+<h2>Add New Topic</h2>  
 
 @model Forum.Web.Models.TopicViewModel
 @using (Html.BeginForm("AddTopic", "Topic", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>TinyMCE Example</title>
-    @Scripts.Render("~/bundles/externalscripts")
-    @Scripts.Render("~/bundles/customscripts")
-    @Scripts.Render("~/bundles/jqueryval")
-</head>
+
+
+<meta name="viewport" content="width=device-width" />
+    
+@Scripts.Render("~/bundles/externalscripts")
+@Scripts.Render("~/bundles/customscripts")
+@Scripts.Render("~/bundles/jqueryval")
+
 <body>
     <div>
         <hr />
