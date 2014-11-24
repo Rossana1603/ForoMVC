@@ -9,6 +9,7 @@ using Forum.Web.Models;
 using Forum.Web.Properties;
 using Microsoft.AspNet.Identity;
 using RestSharp;
+using PagedList;
 
 namespace Forum.Web.Controllers
 {
@@ -23,12 +24,14 @@ namespace Forum.Web.Controllers
             Mapper.CreateMap<Post, PostViewModel>()
                 .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
         }
-        public ActionResult TopicList()
+        public ActionResult TopicList(int? page)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("api/topic/", Method.GET);
             var response = client.Execute<List<Topic>>(request);
             ViewBag.Error = false;
+            int pageNumber = page ?? 1;
+            int pageSize = 2;
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 //TODO mostrar un mensaje de error
@@ -39,7 +42,7 @@ namespace Forum.Web.Controllers
             var topics = Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data);
             topics.ForEach(x => x.AvatarFileName = base.GetAvatarFileName(User.Identity.GetUserName()));
 
-            return View(topics);
+            return View(topics.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult TopicDetail(int id)
@@ -61,8 +64,9 @@ namespace Forum.Web.Controllers
             posts.ToList().ForEach((x) => { x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName();
                                             x.AvatarFileName = base.GetAvatarFileName(x.Author.UserName);
                                           });
-            
-            return View(new TopicDetailViewModel{Topic = topic, Posts = posts});
+
+
+            return View(new TopicDetailViewModel { Topic = topic, Posts = posts});
         }
 
         public ActionResult AddTopic()

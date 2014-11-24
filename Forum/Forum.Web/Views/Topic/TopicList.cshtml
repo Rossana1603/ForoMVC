@@ -1,81 +1,109 @@
-﻿@using System.Activities.Statements
-@using System.Web.UI.WebControls
-@model IEnumerable<Forum.Web.Models.TopicViewModel>
+﻿  @model PagedList.PagedList<Forum.Web.Models.TopicViewModel>
+        @{
+            ViewBag.Title = "TopicList";
+        }
 
-    @{
-        ViewBag.Title = "TopicList";
-    }
+        <h2>TopicList</h2>
 
-    <h2>TopicList</h2>
+        @if (ViewBag.Error)
+        {
+            <h4>Los servicios estan desconectados / apagados </h4>
+        }
+        else
+        {
 
-    @if (ViewBag.Error)
-    {
-        <h4>Los servicios estan desconectados / apagados </h4>
-    }
-    else
-    {
-       
-        <p>
-            @Html.ActionLink("New", "AddTopic")
-        </p>
-        <form role="form">
+            <p>
+                @Html.ActionLink("New", "AddTopic")
+            </p>
+            <form role="form">
+                <div>
+                    <div class="col-md-8">
+                        <input class="form-control" id="inputSearch" placeholder="Search" style="width: 100%; max-width: 100%">
+                    </div>
+                    <button id="btnSearch" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </form>
+            <br />
             <div>
-                <div class="col-md-8">
-                    <input class="form-control" id="inputSearch" placeholder="Search" style="width: 100%; max-width: 100%">
-                </div>
-                <button id="btnSearch" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </button>
+                @foreach (var item in Model)
+                {
+                    <div class="panel panel-primary" style="width: 815px">
+
+                        <table style="width: 800px">
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <h3>
+                                        @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id }, null)
+                                    </h3>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="width: 115px">
+                                    @if (item.AvatarFileName == string.Empty)
+                                    {
+                                        <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/@(item.AvatarFileName)" class="img-responsive" alt="Responsive image" style="width: 100px">
+                                    }
+                                </td>
+                                <td style="padding-bottom: 10px">
+                                    @Html.DisplayFor(modelItem => item.Content)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    Creado en : @Html.DisplayFor(modelItem => item.CreateDate)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="text-align: right">
+                                    @Html.ActionLink("Comments", "Post", new {/* id=item.PrimaryKey */}) |
+                                    @Html.ActionLink("Like", "like", new {/* id=item.PrimaryKey */}) |
+                                </td>
+                            </tr>
+                            <tr></tr>
+                        </table>
+                    </div>
+                }
             </div>
-        </form>
-        <br/>
-        <div>
-            @foreach (var item in Model)
-            {
-                <div class="panel panel-primary" style="width: 815px">
+            <div>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                of @Model.PageCount
 
-                    <table style="width: 800px">
-                        <tr>
-                            <td></td>
-                            <td>
-                                <h3>
-                                    @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id}, null)
-                                </h3>
-                            </td>
+                @if (Model.HasPreviousPage)
+                {
+                    @Html.ActionLink("<<", "TopicList", new { Page = 1 })
+                    @Html.Raw(" ")
+                    @Html.ActionLink("<Prve", "TopicList", new { Page = Model.PageNumber - 1 })
+                }
+                else
+                {
+                    @:<<
+                    @Html.Raw(" ")
+                    @:< Prev
+                }
 
-                        </tr>
-                        <tr>
-                            <td style="width: 115px">
-                               @if (item.AvatarFileName == string.Empty)
-                               {
-                                <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
-                               }
-                               else
-                               {
-                                <img src="~/Content/Images/@(item.AvatarFileName)" class="img-responsive" alt="Responsive image" style="width: 100px">
-                               }
-                            </td>
-                            <td style="padding-bottom: 10px">
-                                @Html.DisplayFor(modelItem => item.Content)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                Creado en : @Html.DisplayFor(modelItem => item.CreateDate)
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style="text-align: right">
-                                @Html.ActionLink("Comments", "Post", new {/* id=item.PrimaryKey */}) |
-                                @Html.ActionLink("Like", "like", new {/* id=item.PrimaryKey */}) |
-                            </td>
-                        </tr>
-                        <tr></tr>
-                    </table>
-                </div>
-            }
-        </div>
+                @Html.Raw(" ")
+                @if (Model.HasNextPage)
+                {
+                    @Html.ActionLink("Next >", "TopicList", new { Page = Model.PageNumber + 1 })
+                    @Html.Raw(" ")
+                    @Html.ActionLink(">>", "TopicList", new { Page = Model.PageCount })
+                }
+                else
+                {
+                    @:Next>
+                    @Html.Raw(" ")
+                    @:>>
+                }
+            </div>
 
-    }
+        }
