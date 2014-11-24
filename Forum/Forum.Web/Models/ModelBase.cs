@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Forum.Web.Models
 {
-    public class ModelBase
+    public class CustomModelBase
     {
         public string AvatarFileName { get; set; }
-
     }
 }

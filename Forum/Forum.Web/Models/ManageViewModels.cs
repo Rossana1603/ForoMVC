@@ -6,7 +6,7 @@ using Forum.Web.Models;
 
 namespace IdentitySample.Models
 {
-    public class IndexViewModel : ModelBase
+    public class IndexViewModel : CustomModelBase
     {
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }

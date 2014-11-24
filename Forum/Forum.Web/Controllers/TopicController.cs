@@ -70,8 +70,15 @@ namespace Forum.Web.Controllers
             var model = new TopicViewModel();
             return View(model);
         }
+
+        public ActionResult NewTopic()
+        {
+            var model = new TopicViewModel();
+            return View(model);
+        }
+
         
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult AddTopic(TopicViewModel topic)
         {

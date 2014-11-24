@@ -20,13 +20,24 @@ namespace IdentitySample
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js"
+                      ));
+
+            bundles.Add(new ScriptBundle("~/bundles/externalscripts").Include(
+                     "~/scripts/tinymce/tinymce.min.js"
+            ));
+
+            //bundles.Add(new StyleBundle("~/bundles/externalstyles").Include(
+            //         "~/Content/jHtmlArea/jHtmlArea.css",
+            //         "~/Content/custom-text-editor.css"
+            //));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/forum.css",
                       "~/Content/site.css",
                        "~/Content/css/zocial.css"));
+
         }
     }
 }
