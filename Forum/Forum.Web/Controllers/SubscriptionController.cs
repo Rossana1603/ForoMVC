@@ -34,8 +34,6 @@ namespace Forum.Web.Controllers
             return RedirectToAction("TopicList", "Topic", new { Page = page });
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
         public ActionResult DeleteSubscription(int topicId, int page, int subscriptionId)
         {
             var model = new TopicViewModel();
