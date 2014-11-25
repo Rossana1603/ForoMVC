@@ -13,38 +13,27 @@
     @Html.HiddenFor(m => m.TopicId)
     
     @Html.AntiForgeryToken()
-    
+
+    @Scripts.Render("~/bundles/externalscripts")
+    @Scripts.Render("~/bundles/customscripts")
+    @Scripts.Render("~/bundles/jqueryval")
+
     <div class="form-horizontal">
     @{} 
     
     <hr />
     @Html.ValidationSummary(true)
 
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
-        <div>
-            @Html.TextBoxFor(model => model.Title, new { @class = "form-control col-md-10" })
-            @Html.ValidationMessageFor(model => model.Title)
-        </div>
-    </div>*@
-
     <div class="form-group">
-        @Html.LabelFor(model => model.Content, new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Content@*, new { @class = "control-label col-md-2" }*@)
         <div>
-            @Html.TextAreaFor(model => model.Content, new { @class = "form-control col-md-10" })
+            @Html.TextAreaFor(model => model.Content@*, new { @class = "form-control col-md-10" }*@)
             @Html.ValidationMessageFor(model => model.Content)
         </div>
     </div>
 
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.CreateDate, new { @class = "control-label col-md-2" })
-        <div>
-            @Html.TextBoxFor(model => model.CreateDate, new { @class = "form-control col-md-10" })
-        </div>
-    </div>*@
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+       <div class="form-group">
+            <div class="col-md-offset-2 col-md-13">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>

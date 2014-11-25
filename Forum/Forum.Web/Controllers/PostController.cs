@@ -48,7 +48,7 @@ namespace Forum.Web.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult AddPost(PostViewModel post)
         {
@@ -69,7 +69,7 @@ namespace Forum.Web.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost,ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult EditPost(PostViewModel post)
         {

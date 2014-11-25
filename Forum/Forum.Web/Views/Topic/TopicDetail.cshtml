@@ -56,7 +56,8 @@
                     }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Content)
+                        @*@Html.DisplayFor(modelItem => item.Content)*@
+                        @Html.Raw(item.Content)
                     </td>
                 </tr>
                 <tr>
