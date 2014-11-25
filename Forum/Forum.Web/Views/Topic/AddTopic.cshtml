@@ -10,9 +10,14 @@
 {
     @Html.AntiForgeryToken()
 
+    @*
+        Using a wysiwyg text editor
+        http://www.tinymce.com/
+    *@
     @Scripts.Render("~/bundles/externalscripts")
     @Scripts.Render("~/bundles/customscripts")
-    @Scripts.Render("~/bundles/jqueryval")
+    
+    @Scripts.Render("~/bundles/jqueryval")    
 <body>
     <div>
         <hr />

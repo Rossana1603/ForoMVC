@@ -36,7 +36,7 @@
                                 <td></td>
                                 <td>
                                     <h3>
-                                        @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id }, null)
+                                        @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1 }, null)
                                     </h3>
                                 </td>
 
@@ -53,8 +53,7 @@
                                     }
                                 </td>
                                 <td style="padding-bottom: 10px">
-                                    <div id="myDiv">
-                                        @*Html.DisplayFor(modelItem => item.Content)*@
+                                    <div id="myDiv">                                        
                                         @Html.Raw(item.Content)
                                      </div>
                                     <br />

@@ -1,6 +1,7 @@
 ﻿
 @using System.Activities.Statements
 @using System.Web.UI.WebControls
+
 @model Forum.Web.Models.TopicDetailViewModel
 
 @{
@@ -81,6 +82,39 @@
             </table>
         </div>
     }
+    <div>
+
+        Page @(Model.Posts.PageCount < Model.Posts.PageNumber ? 0 : Model.Posts.PageNumber)
+        of @Model.Posts.PageCount
+
+        @if (Model.Posts.HasPreviousPage)
+        {
+            @Html.ActionLink("<<", "TopicList", new { Page = 1 })
+            @Html.Raw(" ")
+            @Html.ActionLink("<Prve", "TopicList", new { Page = Model.Posts.PageNumber - 1 })
+        }
+        else
+        {
+            @:<<
+            @Html.Raw(" ")
+            @:< Prev
+                }
+
+        @Html.Raw(" ")
+        @if (Model.Posts.HasNextPage)
+        {
+            @Html.ActionLink("Next >", "TopicList", new { Page = Model.Posts.PageNumber + 1 })
+            @Html.Raw(" ")
+            @Html.ActionLink(">>", "TopicList", new { Page = Model.Posts.PageCount })
+        }
+        else
+        {
+            @:Next>
+            @Html.Raw(" ")
+            @:>>
+         }
+    </div>
+
 </div>
 <p>        
     @Html.ActionLink("New post", "AddPost", "Post", new { id = Model.Topic.Id }, null)

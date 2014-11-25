@@ -45,7 +45,7 @@ namespace Forum.Web.Controllers
             return View(topics.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult TopicDetail(int id)
+        public ActionResult TopicDetail(int id, int? page)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("/api/Post/GetPostByTopicId/{topicId}", Method.GET);
@@ -55,6 +55,9 @@ namespace Forum.Web.Controllers
             var requestTopic = new RestRequest("/api/topic/{id}", Method.GET);
             requestTopic.AddParameter("id", id);
             var responseTopic = client.Execute<Topic>(requestTopic);
+
+            int pageNumber = page ?? 1;
+            int pageSize = 2;
 
             var topicDetailModel = new TopicDetailViewModel();
 
@@ -66,7 +69,7 @@ namespace Forum.Web.Controllers
                                           });
 
 
-            return View(new TopicDetailViewModel { Topic = topic, Posts = posts});
+            return View(new TopicDetailViewModel { Topic = topic, Posts = posts.ToPagedList(pageNumber,pageSize)});
         }
 
         public ActionResult AddTopic()
