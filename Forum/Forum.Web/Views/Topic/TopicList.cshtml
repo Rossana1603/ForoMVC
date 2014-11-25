@@ -68,8 +68,17 @@
                             <tr>
                                 <td></td>
                                 <td style="text-align: right">
-                                    @Html.ActionLink("Comments", "Post", new {/* id=item.PrimaryKey */}) |
-                                    @Html.ActionLink("Like", "like", new {/* id=item.PrimaryKey */}) |
+                                    @if(!item.IsCurrentUserIsSubcribed)
+                                    {
+                                        @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Unsubscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
+                                    }
+                                    |
+                                    @Html.ActionLink("Comments", "Post", new {}) |
+                                    @Html.ActionLink("Like", "like", new {}) |
                                 </td>
                             </tr>
                             <tr></tr>

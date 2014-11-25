@@ -465,6 +465,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
@@ -507,6 +508,7 @@
   <ItemGroup>
     <Folder Include="Content\Images\" />
     <Folder Include="Mapper\" />
+    <Folder Include="Views\Subscription\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
