@@ -26,15 +26,16 @@ namespace Forum.Web.Controllers
         }
         public ActionResult TopicList(int? page)
         {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/topic/", Method.GET);
-            var response = client.Execute<List<Topic>>(request);
             ViewBag.Error = false;
             int pageNumber = page ?? 1;
             int pageSize = 2;
+
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("api/topic/", Method.GET);
+            var response = client.Execute<List<Topic>>(request);
+
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                //TODO mostrar un mensaje de error
                 ViewBag.Error = true;
                 return View();
             }
@@ -75,13 +76,6 @@ namespace Forum.Web.Controllers
             var model = new TopicViewModel();
             return View(model);
         }
-
-        public ActionResult NewTopic()
-        {
-            var model = new TopicViewModel();
-            return View(model);
-        }
-
         
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
