@@ -50,10 +50,12 @@
     <Compile Include="DataAccess\AuthorRepository.cs" />
     <Compile Include="DataAccess\ForumContext.cs" />
     <Compile Include="DataAccess\PostRepository.cs" />
+    <Compile Include="DataAccess\SubscriptionRepository.cs" />
     <Compile Include="DataAccess\TopicRepository.cs" />
     <Compile Include="Domain\Author.cs" />
     <Compile Include="Domain\Entidad.cs" />
     <Compile Include="Domain\Post.cs" />
+    <Compile Include="Domain\Subscription.cs" />
     <Compile Include="Domain\Topic.cs" />
     <Compile Include="Migrations\201411142048118_Initial.cs" />
     <Compile Include="Migrations\201411142048118_Initial.Designer.cs">
@@ -66,6 +68,10 @@
     <Compile Include="Migrations\201411182215140_delete post.cs" />
     <Compile Include="Migrations\201411182215140_delete post.Designer.cs">
       <DependentUpon>201411182215140_delete post.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411251701394_Notificate.cs" />
+    <Compile Include="Migrations\201411251701394_Notificate.Designer.cs">
+      <DependentUpon>201411251701394_Notificate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411182215140_delete post.resx">
       <DependentUpon>201411182215140_delete post.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411251701394_Notificate.resx">
+      <DependentUpon>201411251701394_Notificate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

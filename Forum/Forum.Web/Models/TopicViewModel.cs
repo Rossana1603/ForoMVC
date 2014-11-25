@@ -16,9 +16,5 @@ namespace Forum.Web.Models
         public Author Author { get; set; }
         public string UserName { get; set; }
         public IList<PostViewModel> Posts { get; set; }
-        public int PageCount { get; set; }
-        public int PageNumber { get; set; }
-        public bool HasPreviousPage { get; set; }
-        public bool HasNextPage { get; set; }
     }
 }
