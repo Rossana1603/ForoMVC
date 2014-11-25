@@ -49,29 +49,23 @@
     <Compile Include="DataAccess\IRepository.cs" />
     <Compile Include="DataAccess\AuthorRepository.cs" />
     <Compile Include="DataAccess\ForumContext.cs" />
+    <Compile Include="DataAccess\NotificationRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DataAccess\PostRepository.cs" />
     <Compile Include="DataAccess\SubscriptionRepository.cs" />
     <Compile Include="DataAccess\TopicRepository.cs" />
     <Compile Include="Domain\Author.cs" />
     <Compile Include="Domain\Entidad.cs" />
+    <Compile Include="Domain\Notification.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Domain\Post.cs" />
     <Compile Include="Domain\Subscription.cs" />
     <Compile Include="Domain\Topic.cs" />
-    <Compile Include="Migrations\201411142048118_Initial.cs" />
-    <Compile Include="Migrations\201411142048118_Initial.Designer.cs">
-      <DependentUpon>201411142048118_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411181415027_Post List.cs" />
-    <Compile Include="Migrations\201411181415027_Post List.Designer.cs">
-      <DependentUpon>201411181415027_Post List.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411182215140_delete post.cs" />
-    <Compile Include="Migrations\201411182215140_delete post.Designer.cs">
-      <DependentUpon>201411182215140_delete post.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411251701394_Notificate.cs" />
-    <Compile Include="Migrations\201411251701394_Notificate.Designer.cs">
-      <DependentUpon>201411251701394_Notificate.cs</DependentUpon>
+    <Compile Include="Migrations\201411251930484_Initial.cs" />
+    <Compile Include="Migrations\201411251930484_Initial.Designer.cs">
+      <DependentUpon>201411251930484_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,17 +79,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201411142048118_Initial.resx">
-      <DependentUpon>201411142048118_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411181415027_Post List.resx">
-      <DependentUpon>201411181415027_Post List.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411182215140_delete post.resx">
-      <DependentUpon>201411182215140_delete post.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411251701394_Notificate.resx">
-      <DependentUpon>201411251701394_Notificate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411251930484_Initial.resx">
+      <DependentUpon>201411251930484_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
