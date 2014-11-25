@@ -83,11 +83,14 @@
         </div>
     }
     <div>
+        @if (Model.Posts.PageCount>0)
+        {
+            @:Page 
+            @(Model.Posts.PageCount < Model.Posts.PageNumber ? 0 : Model.Posts.PageNumber)
+            @:of 
+            @Model.Posts.PageCount
 
-        Page @(Model.Posts.PageCount < Model.Posts.PageNumber ? 0 : Model.Posts.PageNumber)
-        of @Model.Posts.PageCount
-
-        @if (Model.Posts.HasPreviousPage)
+        if (Model.Posts.HasPreviousPage)
         {
             @Html.ActionLink("<<", "TopicList", new { Page = 1 })
             @Html.Raw(" ")
@@ -101,7 +104,8 @@
                 }
 
         @Html.Raw(" ")
-        @if (Model.Posts.HasNextPage)
+        
+        if (Model.Posts.HasNextPage)
         {
             @Html.ActionLink("Next >", "TopicList", new { Page = Model.Posts.PageNumber + 1 })
             @Html.Raw(" ")
@@ -113,6 +117,7 @@
             @Html.Raw(" ")
             @:>>
          }
+        }
     </div>
 
 </div>

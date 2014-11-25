@@ -78,34 +78,40 @@
                 }
             </div>
             <div>
-                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-                of @Model.PageCount
+                @if (Model.PageCount>0)
+                {
+                    @:Page
+                    @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                    @:of
+                    @Model.PageCount
 
-                @if (Model.HasPreviousPage)
-                {
-                    @Html.ActionLink("<<", "TopicList", new { Page = 1 })
-                    @Html.Raw(" ")
-                    @Html.ActionLink("<Prve", "TopicList", new { Page = Model.PageNumber - 1 })
-                }
-                else
-                {
-                    @:<<
-                    @Html.Raw(" ")
-                    @:< Prev
-                }
+                    if (Model.HasPreviousPage)
+                    {
+                                @Html.ActionLink("<<", "TopicList", new { Page = 1 })
+                                @Html.Raw(" ")
+                                @Html.ActionLink("<Prve", "TopicList", new { Page = Model.PageNumber - 1 })
+                    }
+                    else
+                    {
+                                @:<<
+                                @Html.Raw(" ")
+                                @:< Prev
+                    }
 
-                @Html.Raw(" ")
-                @if (Model.HasNextPage)
-                {
-                    @Html.ActionLink("Next >", "TopicList", new { Page = Model.PageNumber + 1 })
                     @Html.Raw(" ")
-                    @Html.ActionLink(">>", "TopicList", new { Page = Model.PageCount })
-                }
-                else
-                {
-                    @:Next>
-                    @Html.Raw(" ")
-                    @:>>
+                    
+                    if (Model.HasNextPage)
+                    {
+                                @Html.ActionLink("Next >", "TopicList", new { Page = Model.PageNumber + 1 })
+                                @Html.Raw(" ")
+                                @Html.ActionLink(">>", "TopicList", new { Page = Model.PageCount })
+                    }
+                    else
+                    {
+                                @:Next>
+                                @Html.Raw(" ")
+                                @:>>
+                    }                
                 }
             </div>
 
