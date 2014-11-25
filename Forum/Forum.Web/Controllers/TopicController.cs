@@ -103,5 +103,5 @@ namespace Forum.Web.Controllers
             var queryResult = client.Execute<List<TopicViewModel>>(request).Data;
             return RedirectToAction("Index");
         }
-	}
+    }
 }

@@ -69,6 +69,8 @@ namespace WebApi.App_Start
             kernel.Bind<IRepository<Topic>>().To<TopicRepository>().WhenInjectedInto<TopicController>();
             kernel.Bind<IRepository<Post>>().To<PostRepository>().WhenInjectedInto<PostController>();
             kernel.Bind<IRepository<Author>>().To<AuthorRepository>().WhenInjectedInto<AuthorController>();
+            kernel.Bind<IRepository<Subscription>>().To<SubscriptionRepository>().WhenInjectedInto<SubscriptionController>();
+            kernel.Bind<IRepository<Notification>>().To<NotificationRepository>().WhenInjectedInto<NotificationRepository>();
 
         }        
     }
