@@ -8,9 +8,9 @@ using Forum.Persistence.Domain;
 
 namespace Forum.Persistence.DataAccess
 {
-    public class AuthorRepository : Repository<Author>
+    public class SubscriptionRepository : Repository<Subscription>
     {
-        public AuthorRepository(DbContext context)
+        public SubscriptionRepository(DbContext context)
         {
             this._db = (ForumContext)context;
         }
