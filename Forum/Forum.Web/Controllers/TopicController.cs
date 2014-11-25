@@ -59,8 +59,6 @@ namespace Forum.Web.Controllers
             int pageNumber = page ?? 1;
             int pageSize = 2;
 
-            var topicDetailModel = new TopicDetailViewModel();
-
             var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault().Topic : responseTopic.Data);
             var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
 

@@ -8,12 +8,6 @@
     ViewBag.Title = "TopicDetail";
 }
 
-
-@*@Scripts.Render("~/bundles/externalscripts")
-@Scripts.Render("~/bundles/customscripts")
-@Scripts.Render("~/bundles/jqueryval")*@
-
-
 <div>
     <br/>
     <div class="panel panel-primary" style="width: 815px">
@@ -24,8 +18,7 @@
 
             </tr>
             <tr>
-                <td style="width: 35px"></td>
-                @*<td style="padding-bottom:10px;">@Html.TextArea(name: "contentTextArea", value: Model.Topic.Content, htmlAttributes: new { })</td>*@
+                <td style="width: 35px"></td>                
                 <td style="padding-bottom:10px;">@Html.Raw(Model.Topic.Content)</td>
             </tr>
             <tr>
@@ -56,8 +49,7 @@
                         <img src="~/Content/Images/@(item.AvatarFileName)" class="img-responsive" alt="Responsive image" style="width: 100px">
                     }
                     </td>
-                    <td>
-                        @*@Html.DisplayFor(modelItem => item.Content)*@
+                    <td>                        
                         @Html.Raw(item.Content)
                     </td>
                 </tr>
@@ -101,7 +93,7 @@
             @:<<
             @Html.Raw(" ")
             @:< Prev
-                }
+        }
 
         @Html.Raw(" ")
         

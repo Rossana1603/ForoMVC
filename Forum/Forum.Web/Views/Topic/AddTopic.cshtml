@@ -19,30 +19,29 @@
     
     @Scripts.Render("~/bundles/jqueryval")    
 <body>
-    <div>
-        <hr />
+    <div>        
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Title@*, new { @class = "control-label col-md-2" }*@)
+            @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-1" })
             <div>
-                @Html.TextBoxFor(model => model.Title, new { @class = "form-control col-md-10" })
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control col-md-3" })
                 @Html.ValidationMessageFor(model => model.Title)
             </div>
         </div>
     </div>
     <hr />
-        <div @*class="form-group"*@>
-            @Html.LabelFor(model => model.Content@*, new { @class = "control-label col-md-2" }*@)
+        <div class="form-group-2">
+            @Html.LabelFor(model => model.Content, new { @class = "control-label col-md-1" })            
             <div>
                 <!-- This will automatically post to your Index method (that is decorated with a HttpPost attribute) -->
                 @using (Html.BeginForm())
                 {
-                    
                     <div>
                         <!-- This will contain your HtmlContent and use the TinyMCE editor-->
-                        @Html.TextAreaFor(model => model.Content)
-
+                        <div class="form-control col-md-2-2">
+                            @Html.TextAreaFor(model => model.Content@*, new { @class = "form-control col-md-2" }*@)
+                        </div>
                         <hr />
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-13">
