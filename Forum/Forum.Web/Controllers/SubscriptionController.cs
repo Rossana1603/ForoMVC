@@ -33,5 +33,5 @@ namespace Forum.Web.Controllers
 
             return RedirectToAction("TopicList", "Topic", new { Page = page });
         }
-	}
+    }
 }

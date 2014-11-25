@@ -58,7 +58,7 @@ namespace IdentitySample.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
-                AvatarFileName = base.GetAvatarFileName(User.Identity.GetUserName())
+                AvatarFileName = base.GetAvatarFileName(GetIdByUserName(User.Identity.GetUserName()))
             };
             return View(model);
         }

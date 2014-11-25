@@ -27,9 +27,8 @@ namespace Forum.Web.Controllers
             return response.Data.Id;
         }
 
-        protected string GetAvatarFileName(string userName)
+        protected string GetAvatarFileName(int id)
         {
-            var id = GetIdByUserName(userName);
             var filePaths = Directory.GetFiles(Server.MapPath("~/Content/Images")).ToList();                            
             var onePath = filePaths.FirstOrDefault(x => Path.GetFileNameWithoutExtension(x) == id.ToString());
             return Path.GetFileName(onePath) ?? string.Empty;

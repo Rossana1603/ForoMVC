@@ -41,7 +41,13 @@ namespace Forum.Web.Controllers
             }
 
             var topics = Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data);
-            topics.ForEach(x => x.AvatarFileName = base.GetAvatarFileName(User.Identity.GetUserName()));
+            var currentAuthorId = GetIdByUserName(User.Identity.GetUserName());
+            topics.ForEach( (x) =>
+                            {
+                                x.AvatarFileName = base.GetAvatarFileName(currentAuthorId);
+                                x.IsCurrentUserIsSubcribed = GetSuscriptionByUserId(currentAuthorId, x.Id);
+                            }                               
+            );
 
             return View(topics.ToPagedList(pageNumber, pageSize));
         }
@@ -64,7 +70,7 @@ namespace Forum.Web.Controllers
             var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
 
             posts.ToList().ForEach((x) => { x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName();
-                                            x.AvatarFileName = base.GetAvatarFileName(x.Author.UserName);
+                                            x.AvatarFileName = base.GetAvatarFileName(x.Author.Id);
                                           });
 
 
@@ -102,6 +108,18 @@ namespace Forum.Web.Controllers
             request.AddParameter("id", id);
             var queryResult = client.Execute<List<TopicViewModel>>(request).Data;
             return RedirectToAction("Index");
+        }
+
+        private bool GetSuscriptionByUserId(int authorId, int topicId)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("/api/Subscription/GetSuscriptionByUserId/{authorId}/{topicId}", Method.GET);
+            request.AddParameter("authorId",authorId);
+            request.AddParameter("topicId",topicId);
+            
+            var response = client.Execute<Subscription>(request);
+
+            return response.Data!=null;
         }
     }
 }
