@@ -33,5 +33,21 @@ namespace Forum.Web.Controllers
 
             return RedirectToAction("TopicList", "Topic", new { Page = page });
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult DeleteSubscription(int topicId, int page, int subscriptionId)
+        {
+            var model = new TopicViewModel();
+
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/Subscription/{id}");
+            var request = new RestRequest(Method.DELETE);
+
+            request.AddParameter("id", subscriptionId);
+
+            var response = client.Execute<Subscription>(request);
+
+            return RedirectToAction("TopicList", "Topic", new { Page = page });
+        }
     }
 }

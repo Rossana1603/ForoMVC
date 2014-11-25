@@ -17,5 +17,6 @@ namespace Forum.Web.Models
         public string UserName { get; set; }
         public IList<PostViewModel> Posts { get; set; }
         public bool IsCurrentUserIsSubcribed { get; set; }
+        public Subscription Subscription { get; set; }
     }
 }

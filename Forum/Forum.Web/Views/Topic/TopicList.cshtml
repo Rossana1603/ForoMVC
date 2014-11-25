@@ -68,13 +68,13 @@
                             <tr>
                                 <td></td>
                                 <td style="text-align: right">
-                                    @if(!item.IsCurrentUserIsSubcribed)
+                                    @if(item.Subscription==null)
                                     {
                                         @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
                                     }
                                     else
                                     {
-                                        @Html.ActionLink("Unsubscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
+                                        @Html.ActionLink("Unsubscribe", "DeleteSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber, subscriptionId = item.Subscription.Id }, null);
                                     }
                                     |
                                     @Html.ActionLink("Comments", "Post", new {}) |

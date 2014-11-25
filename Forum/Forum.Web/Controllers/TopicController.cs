@@ -44,10 +44,10 @@ namespace Forum.Web.Controllers
             var currentAuthorId = GetIdByUserName(User.Identity.GetUserName());
             topics.ForEach( (x) =>
                             {
+                                
                                 x.AvatarFileName = base.GetAvatarFileName(currentAuthorId);
-                                x.IsCurrentUserIsSubcribed = GetSuscriptionByUserId(currentAuthorId, x.Id);
-                            }                               
-            );
+                                x.Subscription = GetSuscriptionByUserId(currentAuthorId, x.Id);
+                            });
 
             return View(topics.ToPagedList(pageNumber, pageSize));
         }
@@ -110,7 +110,7 @@ namespace Forum.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool GetSuscriptionByUserId(int authorId, int topicId)
+        private Subscription GetSuscriptionByUserId(int authorId, int topicId)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("/api/Subscription/GetSuscriptionByUserId/{authorId}/{topicId}", Method.GET);
@@ -119,7 +119,7 @@ namespace Forum.Web.Controllers
             
             var response = client.Execute<Subscription>(request);
 
-            return response.Data!=null;
+            return response.Data;
         }
     }
 }
