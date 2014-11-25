@@ -9,14 +9,11 @@
 @using (Html.BeginForm("AddTopic", "Topic", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-<html>
-<head>
     <meta name="viewport" content="width=device-width" />
-    <title>AddTopic</title>
+
     @Scripts.Render("~/bundles/externalscripts")
     @Scripts.Render("~/bundles/customscripts")
     @Scripts.Render("~/bundles/jqueryval")
-</head>
 <body>
     <div>
         <hr />
@@ -58,5 +55,5 @@
         </div>
 
 </body>
-</html>
+
 }

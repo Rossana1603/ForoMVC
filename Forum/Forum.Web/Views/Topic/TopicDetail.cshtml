@@ -8,6 +8,10 @@
 }
 
 
+@*@Scripts.Render("~/bundles/externalscripts")
+@Scripts.Render("~/bundles/customscripts")
+@Scripts.Render("~/bundles/jqueryval")*@
+
 
 <div>
     <br/>
@@ -20,7 +24,8 @@
             </tr>
             <tr>
                 <td style="width: 35px"></td>
-                <td style="padding-bottom:10px;">@Model.Topic.Content</td>
+                @*<td style="padding-bottom:10px;">@Html.TextArea(name: "contentTextArea", value: Model.Topic.Content, htmlAttributes: new { })</td>*@
+                <td style="padding-bottom:10px;">@Html.Raw(Model.Topic.Content)</td>
             </tr>
             <tr>
                 <td></td>
