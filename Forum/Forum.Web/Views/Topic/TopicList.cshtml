@@ -72,8 +72,7 @@
                                     {
                                         if (item.Subscription == null)
                                          {
-                                             @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null)
-                                             ;
+                                             @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, new { @name = "subscriptionLink" });
                                          }
                                          else
                                          {
