@@ -72,7 +72,7 @@
                                     {
                                         if (item.Subscription == null)
                                          {
-                                             @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, new { @name = "subscriptionLink" });
+                                             @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
                                          }
                                          else
                                          {
@@ -129,55 +129,4 @@
             </div>
 
         }
-@section scripts
-{
-    <script type="text/javascript" src="~/Scripts/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
-    <script type="text/javascript" src="~/signalr/hubs"></script>
-    <script type="text/javascript">
-        $(function() {
-            var chat = $.connection.forumHub;
-            $.connection.hub.start().done(function() {
-
-                $("a[name*='subscriptionLink']").each(function(index) {
-                    $(this).on("click", function () {
-                        var subscriptors = getSubscriptors();
-                        chat.server.notify(subscriptors);
-                    });
-                });
-
-                chat.client.notifyMessageCount = function(name, message) {
-                    //Add logic to notify message
-                };
-
-                chat.client.warningMessage = function(messageCount) {
-
-                    alert(messageCount);
-
-                };
-
-            });
-
-
-            function getSubscriptors() {
-                var topicId = $("#topicId").val();
-
-                var request = $.ajax({
-                    url: "/Subscription/GetSuscriptionsByTopicId",
-                    type: "GET",
-                    data: { topicId: topicId },
-                    dataType: "json",
-                    contentType: "text/plain"
-                });
-                request.done(function (msg) {
-                    alert(msg);
-                });
-                request.fail(function (jqXHR, textStatus) {
-                    alert("Request failed: " + textStatus);
-                });
-            }
-        });
-
-    </script>
 }
