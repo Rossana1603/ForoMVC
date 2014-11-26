@@ -1,4 +1,4 @@
-﻿  @model PagedList.PagedList<Forum.Web.Models.TopicViewModel>
+﻿  @using Microsoft.AspNet.Identity  @model PagedList.PagedList<Forum.Web.Models.TopicViewModel>
         @{
             ViewBag.Title = "TopicList";
         }
@@ -68,13 +68,18 @@
                             <tr>
                                 <td></td>
                                 <td style="text-align: right">
-                                    @if(item.Subscription==null)
+                                    @if (User.Identity.GetUserName() != item.Author.UserName)
                                     {
-                                        @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
-                                    }
-                                    else
-                                    {
-                                        @Html.ActionLink("Unsubscribe", "DeleteSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber, subscriptionId = item.Subscription.Id }, null);
+                                        if (item.Subscription == null)
+                                         {
+                                             @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null)
+                                             ;
+                                         }
+                                         else
+                                         {
+                                             @Html.ActionLink("Unsubscribe", "DeleteSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber, subscriptionId = item.Subscription.Id}, null)
+                                             ;
+                                         }                             
                                     }
                                     |
                                     @Html.ActionLink("Comments", "Post", new {}) |
