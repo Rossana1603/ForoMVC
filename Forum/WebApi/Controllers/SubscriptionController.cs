@@ -18,8 +18,8 @@ namespace WebApi.Controllers
         }
 
 
-        [Route("api/Subscription/GetSuscriptionByUserId/{authorId}/{topicId}")]
-        public Subscription GetSuscriptionByUserId([FromUri]int authorId, [FromUri]int topicId)
+        [Route("api/Subscription/GetSuscriptionByAuthorId/{authorId}/{topicId}")]
+        public Subscription GetSuscriptionByAuthorId([FromUri]int authorId, [FromUri]int topicId)
         {
             List<Subscription> list = base.Get().Cast<Subscription>().ToList();
 
