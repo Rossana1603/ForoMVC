@@ -9,10 +9,10 @@ using Microsoft.AspNet.Identity;
 
 namespace Forum.Web.Hubs
 {
-    public class ForumHub : Hub
+    public class TopicHub : Hub
     {
         /// <summary>
-        /// Information about users to be notifiy
+        /// Information about users to be notified
         /// </summary>
         /// <param name="userName"></param>
         public void NotifyNewPost(string userName)
