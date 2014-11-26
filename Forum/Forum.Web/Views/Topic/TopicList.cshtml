@@ -136,26 +136,48 @@
     <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
     <script type="text/javascript" src="~/signalr/hubs"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             var chat = $.connection.forumHub;
-            $.connection.hub.start().done(function () {
+            $.connection.hub.start().done(function() {
 
-            $("a[name*='subscriptionLink']").each(function (index) {
-                $(this).on("click", function () {
-                    chat.server.notify(userName);
+                $("a[name*='subscriptionLink']").each(function(index) {
+                    $(this).on("click", function () {
+                        var subscriptors = GetSubscriptors();
+                        chat.server.notify(subscriptors);
+                    });
                 });
+
+                chat.client.notifyMessageCount = function(name, message) {
+                    //Add logic to notify message
+                };
+
+                chat.client.warningMessage = function(messageCount) {
+
+                    alert(messageCount);
+
+                };
+
             });
 
-            chat.client.notifyMessageCount = function (name, message) {
-                //Add logic to notify message
-            };
 
-            chat.client.warningMessage = function (messageCount) {
-                
-                alert(messageCount);
-                
-            };
+            function GetSubscriptors() {
+                var topicId = $("#topicId").val();
 
+                var request = $.ajax({
+                    url: "/Subscription/GetSuscriptionsByTopicId",
+                    type: "GET",
+                    data: { topicId: topicId },
+                    dataType: "json",
+                    contentType: "text/plain"
+                });
+                request.done(function (msg) {
+                    alert(msg);
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                });
+            }
         });
+
     </script>
 }
