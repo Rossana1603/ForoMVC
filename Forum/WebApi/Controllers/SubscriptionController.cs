@@ -26,8 +26,8 @@ namespace WebApi.Controllers
             return list.FirstOrDefault(x => x.AuthorId == authorId && x.TopicId == topicId);
         }
 
-        [Route("api/Subscription/GetSuscriptionsByTopicId/{topicId}")]
-        public List<Subscription> GetSuscriptionsByTopicId([FromUri]int topicId)
+        [Route("api/Subscription/GetSubscriptorsByTopicId/{topicId}")]
+        public List<Subscription> GetSubscriptorsByTopicId([FromUri]int topicId)
         {
             List<Subscription> list = base.Get().Cast<Subscription>().ToList();
 

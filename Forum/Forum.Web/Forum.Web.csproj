@@ -471,6 +471,7 @@
     <Compile Include="Controllers\CustomControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
@@ -480,8 +481,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\PostHub.cs" />
-    <Compile Include="Hubs\TopicHub.cs" />
+    <Compile Include="Hubs\ForumHub.cs" />
     <Compile Include="Migrations\201411071731378_InitialCreate.cs" />
     <Compile Include="Migrations\201411071731378_InitialCreate.Designer.cs">
       <DependentUpon>201411071731378_InitialCreate.cs</DependentUpon>
@@ -518,6 +518,7 @@
   <ItemGroup>
     <Folder Include="Content\Images\" />
     <Folder Include="Mapper\" />
+    <Folder Include="Views\Notification\" />
     <Folder Include="Views\Subscription\" />
   </ItemGroup>
   <PropertyGroup>
