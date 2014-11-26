@@ -41,11 +41,10 @@ namespace Forum.Web.Controllers
             }
 
             var topics = Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data);
-            var currentAuthorId = GetIdByUserName(User.Identity.GetUserName());
+            var currentAuthorId = GetIdByUserName(User.Identity.GetUserName());            
             topics.ForEach( (x) =>
                             {
-                                
-                                x.AvatarFileName = base.GetAvatarFileName(currentAuthorId);
+                                x.AvatarFileName = base.GetAvatarFileName(GetIdByUserName(x.Author.UserName));
                                 x.Subscription = GetSuscriptionByUserId(currentAuthorId, x.Id);
                             });
 
