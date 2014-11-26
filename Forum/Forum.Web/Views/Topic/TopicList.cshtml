@@ -142,7 +142,7 @@
 
                 $("a[name*='subscriptionLink']").each(function(index) {
                     $(this).on("click", function () {
-                        var subscriptors = GetSubscriptors();
+                        var subscriptors = getSubscriptors();
                         chat.server.notify(subscriptors);
                     });
                 });
@@ -160,7 +160,7 @@
             });
 
 
-            function GetSubscriptors() {
+            function getSubscriptors() {
                 var topicId = $("#topicId").val();
 
                 var request = $.ajax({
