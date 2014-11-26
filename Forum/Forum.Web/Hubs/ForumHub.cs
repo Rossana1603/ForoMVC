@@ -11,6 +11,10 @@ namespace Forum.Web.Hubs
 {
     public class ForumHub : Hub
     {
+        /// <summary>
+        /// Information about users to be notifiy
+        /// </summary>
+        /// <param name="userName"></param>
         public void Notify(string userName)
         {           
             var messageCount = 0; // GetMessageCount(userName);

@@ -70,7 +70,7 @@
                                 <td style="text-align: right">
                                     @if(item.Subscription==null)
                                     {
-                                        @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
+                                        @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, new { @name = "subscriptionLink" });
                                     }
                                     else
                                     {
@@ -123,7 +123,6 @@
                     }                
                 }
             </div>
-
         }
 @section scripts
 {
@@ -133,22 +132,23 @@
     <script type="text/javascript" src="~/signalr/hubs"></script>
     <script type="text/javascript">
         $(function () {
+
+
             var chat = $.connection.forumHub;
             $.connection.hub.start().done(function () {
-                var userName = 'someUserName'; //getUserName    
-                chat.server.notify(userName);
+                var userName = 'someUserName';
+                $("a[name*='subscriptionLink']").each(function (index) {
+                    $(this).on("click", function () {
+                        //alert(userName);
+                        //chat.server.notify(userName);
+                    });
+                });
             });
 
-            chat.client.notifyMessageCount = function (name, message) {
+            chat.client.notifyMessageCount = function (messageCount) {
                 //Add logic to notify message
+                //alert(messageCount);
             };
-
-            chat.client.warningMessage = function (messageCount) {
-                
-                alert(messageCount);
-                
-            };
-
         });
     </script>
 }
