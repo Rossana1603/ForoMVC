@@ -11,7 +11,9 @@
 @using (Html.BeginForm("AddPost", "Post", FormMethod.Post)) 
 {
     @Html.HiddenFor(m => m.TopicId)
-    
+    @Html.HiddenFor(m => m.Id);
+    @Html.HiddenFor(m => User.Identity.Name)
+
     @Html.AntiForgeryToken()
 
     @Scripts.Render("~/bundles/externalscripts")
@@ -34,7 +36,7 @@
 
        <div class="form-group">
             <div class="col-md-offset-2 col-md-13">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" name="submit"/>
             </div>
         </div>
     </div>
@@ -46,4 +48,33 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+    $(function () {
+
+        var chat = $.connection.forumHub;
+        $.connection.hub.start().done(function () {
+            var userName = 'someUserName';
+            $("input[name*='submit']").on("click", function () {               
+                var content = $('#Content_ifr').contents().find('body').html();
+                var userName = $("input[name*='User.Identity.Name']").val();
+                var topícId = parseInt($("input[name*='TopicId']").val());
+                var postId = parseInt($("input[name*='Id']").val());
+                   //chat.server.notify(userName);
+                });
+        });
+
+        chat.client.notifyMessageCount = function (messageCount) {
+            //Add logic to notify message
+            alert(messageCount);
+        };
+    });
+    </script>
+
 }
+
+

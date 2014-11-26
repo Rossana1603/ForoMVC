@@ -173,6 +173,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Author\" />
+    <Folder Include="Views\Notification\" />
     <Folder Include="Views\Post\" />
     <Folder Include="Views\Subscription\" />
   </ItemGroup>
@@ -212,6 +213,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
