@@ -139,8 +139,11 @@
         $(function () {
             var chat = $.connection.forumHub;
             $.connection.hub.start().done(function () {
-                var userName = 'someUserName'; //getUserName    
-                chat.server.notify(userName);
+
+            $("a[name*='subscriptionLink']").each(function (index) {
+                $(this).on("click", function () {
+                    chat.server.notify(userName);
+                });
             });
 
             chat.client.notifyMessageCount = function (name, message) {
