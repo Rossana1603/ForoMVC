@@ -15,12 +15,11 @@ namespace Forum.Web.Hubs
         /// Information about users to be notifiy
         /// </summary>
         /// <param name="userName"></param>
-        public void Notify(string userName)
+        public void NotifyNewPost(string userName)
         {           
-            var messageCount = 0; // GetMessageCount(userName);
+            var messageCount = 10; // GetMessageCount(userName);
 
-            Clients.All.notifyMessageCount(messageCount);
+            Clients.All.notifyNewPostMessageCount(messageCount);
         }
-
     }
 }
