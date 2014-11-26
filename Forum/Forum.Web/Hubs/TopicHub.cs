@@ -9,18 +9,17 @@ using Microsoft.AspNet.Identity;
 
 namespace Forum.Web.Hubs
 {
-    public class ForumHub : Hub
+    public class TopicHub : Hub
     {
         /// <summary>
-        /// Information about users to be notifiy
+        /// Information about users to be notified
         /// </summary>
         /// <param name="userName"></param>
-        public void Notify(string userName)
+        public void NotifyNewPost(string userName)
         {           
-            var messageCount = 0; // GetMessageCount(userName);
+            var messageCount = 10; // GetMessageCount(userName);
 
-            Clients.All.notifyMessageCount(messageCount);
+            Clients.All.notifyNewPostMessageCount(messageCount);
         }
-
     }
 }

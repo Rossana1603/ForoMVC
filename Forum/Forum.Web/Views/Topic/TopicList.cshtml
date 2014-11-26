@@ -72,7 +72,7 @@
                                     {
                                         if (item.Subscription == null)
                                          {
-                                             @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, null);
+                                             @Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber}, new { @name = "subscriptionLink" });
                                          }
                                          else
                                          {
@@ -129,4 +129,24 @@
             </div>
 
         }
+@section scripts
+{
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.forumHub;
+            $.connection.hub.start().done(function () {
+                var userName = 'someUserName'; //getUserName    
+                chat.server.notifyNewPost(userName);
+            });
+
+            chat.client.notifyNewPostMessageCount = function (messageCount) {
+                //Add logic to notify message
+
+                alert(messageCount);
+            };
+        });
+    </script>
 }
