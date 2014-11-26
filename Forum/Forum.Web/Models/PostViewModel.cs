@@ -15,5 +15,6 @@ namespace Forum.Web.Models
         public virtual Author Author { get; set; }
         public int Id { get; set; }
         public bool IsTopicCreator { get; set; }
+        public string FromApiUrl { get; set; }
     }
 }

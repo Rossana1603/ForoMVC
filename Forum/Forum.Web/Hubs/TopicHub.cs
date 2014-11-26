@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Forum.Web.Hubs
 {
-    public class ForumHub : Hub
+    public class TopicHub : Hub
     {
         /// <summary>
         /// Information about users to be notified

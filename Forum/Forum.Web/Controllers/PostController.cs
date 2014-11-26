@@ -25,7 +25,8 @@ namespace Forum.Web.Controllers
         {            
             var model = new PostViewModel();
             model.TopicId = id;
-                
+            model.FromApiUrl = Settings.Default.ForumApiUrl;
+            model.Author = new Author { Id = base.GetIdByUserName(User.Identity.GetUserName()) };    
             return View(model);
         }
 
@@ -52,18 +53,18 @@ namespace Forum.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddPost(PostViewModel post)
         {
-            var client = new RestClient(Settings.Default.ForumApiUrl + "api/post/");
-            var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
+            //var client = new RestClient(Settings.Default.ForumApiUrl + "api/post/");
+            //var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
 
-            request.AddJsonBody(new Post()
-            {
-                TopicId = post.TopicId,
-                Content = post.Content,
-                Author = post.Author,
-                Tags =  post.Tags,
-                AuthorId = base.GetIdByUserName(User.Identity.GetUserName())
-            });
-            var response = client.Execute<Post>(request);
+            //request.AddJsonBody(new Post()
+            //{
+            //    TopicId = post.TopicId,
+            //    Content = post.Content,
+            //    Author = post.Author,
+            //    Tags =  post.Tags,
+            //    AuthorId = base.GetIdByUserName(User.Identity.GetUserName())
+            //});
+            //var response = client.Execute<Post>(request);
             
             return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }
