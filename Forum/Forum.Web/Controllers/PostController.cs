@@ -55,7 +55,6 @@ namespace Forum.Web.Controllers
         public ActionResult AddPost(PostViewModel post)
         {
             var notificationController = new NotificationController();
-            var subscriptionController = new SubscriptionController();
 
             var client = new RestClient(Settings.Default.ForumApiUrl + "api/post/");
             var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
@@ -64,22 +63,13 @@ namespace Forum.Web.Controllers
             {
                 TopicId = post.TopicId,
                 Content = post.Content,
-                Author = post.Author,
                 Tags = post.Tags,
-                AuthorId = base.GetIdByUserName(User.Identity.GetUserName())
+                AuthorId = base.GetIdByUserName(User.Identity.GetUserName()),
+                UserName =  User.Identity.GetUserName()
             });
-            var response = client.Execute<Post>(request);
+            var responsePost = client.Execute<Post>(request).Data;
 
-            Task.Run(() =>
-                         {
-                             var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
-                             if (subscribers!=null)
-                             {
-                                 notificationController.AddNotifications(subscribers, post.Id, post.Content);
-                                 notificationController.SendNotifications(subscribers, post.TopicId);
-                             }
-                         }
-                    );
+            Task.Run(() => notificationController.ProcessNotifications(responsePost));
 
             return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }

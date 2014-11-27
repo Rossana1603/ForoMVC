@@ -7,11 +7,11 @@ namespace Forum.Web.Resolver
 {
     public static class StringResolver
     {
-        public static string ToContentPreview(this string content)
+        public static string ToContentPreview(this string content, string userName)
         {
             var limit = 30;
             var substring = content.Length <= limit ? content : content.Substring(0, limit);
-            return substring + "...";
+            return userName + " " + "posted this: " + substring + "...";
         }
     }
 }

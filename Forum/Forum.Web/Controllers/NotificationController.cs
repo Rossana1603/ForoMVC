@@ -18,14 +18,45 @@ namespace Forum.Web.Controllers
 {
     public class NotificationController : CustomControllerBase
     {
-        public void SendNotifications(List<Subscription> subscribers, int topicId)
+
+        public void ProcessNotifications(Post post)
+        {
+            var subscriptionController = new SubscriptionController();
+
+            var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
+
+            var message = post.Content.ToContentPreview(post.UserName);
+
+            foreach (var subscriber in subscribers)
+            {
+                AddNotification(subscriber.Id, post.Id, message);
+                SendNotifications(subscribers, message);
+            }
+        }
+
+        private void AddNotification(int subscriptionId, int postId, string message)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/notification/");
+            var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
+            request.AddJsonBody(new Notification()
+            {
+                SubscriptionId = subscriptionId,
+                NotificationDate = DateTime.Now,
+                PostId = postId,
+                State = State.Pending,
+                Message = message
+            });
+            var response = client.Execute<Notification>(request);
+        }
+
+        private void SendNotifications(List<Subscription> subscribers, string message)
         {
             var notifyUsers = GetNotifyUsers(subscribers);
 
             var forumHub = new ForumHub();
 
             foreach (var subscriber in notifyUsers)
-                forumHub.Send(subscriber.Author.UserName, subscriber.Message);
+                forumHub.Send(subscriber.Author.UserName, message);
 
         }
 
@@ -44,26 +75,6 @@ namespace Forum.Web.Controllers
             }
 
             return notifyUsers;
-        }
-
-        public void AddNotifications(List<Subscription> subscribers, int postId, string content)
-        {
-            foreach (var subscriber in subscribers)
-                AddNotification(subscriber.Id, postId, content.ToContentPreview());
-        }
-
-        private void AddNotification(int subscriptionId, int postId, string message)
-        {
-            var client = new RestClient(Settings.Default.ForumApiUrl + "api/notification/");
-            var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
-            request.AddJsonBody(new Notification()
-            {
-                SubscriptionId = subscriptionId,
-                PostId = postId,
-                State = State.Pending,
-                Message = message
-            });
-            var response = client.Execute<Post>(request);
         }
     }
 }
