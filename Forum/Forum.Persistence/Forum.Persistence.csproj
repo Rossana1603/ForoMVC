@@ -75,6 +75,10 @@
     <Compile Include="Migrations\201411270339089_NullableNotificationDate.Designer.cs">
       <DependentUpon>201411270339089_NullableNotificationDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411271401360_orlandp.cs" />
+    <Compile Include="Migrations\201411271401360_orlandp.Designer.cs">
+      <DependentUpon>201411271401360_orlandp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\Repository.cs" />
@@ -97,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411270339089_NullableNotificationDate.resx">
       <DependentUpon>201411270339089_NullableNotificationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411271401360_orlandp.resx">
+      <DependentUpon>201411271401360_orlandp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

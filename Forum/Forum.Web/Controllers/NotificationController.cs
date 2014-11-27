@@ -18,13 +18,13 @@ namespace Forum.Web.Controllers
 {
     public class NotificationController : CustomControllerBase
     {
-        public void Notify(List<Subscription> subscribers, int topicId)
+        public void SendNotifications(List<Subscription> subscribers, int topicId)
         {
             var notifyUsers = GetNotifyUsers(subscribers);
 
             var forumHub = new ForumHub();
 
-            foreach (var subscriber in subscribers)
+            foreach (var subscriber in notifyUsers)
                 forumHub.Send(subscriber.Author.UserName, subscriber.Message);
 
         }
@@ -46,25 +46,22 @@ namespace Forum.Web.Controllers
             return notifyUsers;
         }
 
-        public void AddNotification(List<Subscription> subscribers, int postId, string content)
+        public void AddNotifications(List<Subscription> subscribers, int postId, string content)
         {
             foreach (var subscriber in subscribers)
                 AddNotification(subscriber.Id, postId, content.ToContentPreview());
         }
 
-        private void AddNotification(int subscriptionId, int postId, string contentPreview)
+        private void AddNotification(int subscriptionId, int postId, string message)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl + "api/notification/");
             var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
             request.AddJsonBody(new Notification()
             {
                 SubscriptionId = subscriptionId,
-                Subscription = null,
                 PostId = postId,
-                Post = null,
-                NotificationDate = null,
                 State = State.Pending,
-                Message = contentPreview
+                Message = message
             });
             var response = client.Execute<Post>(request);
         }

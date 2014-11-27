@@ -73,9 +73,11 @@ namespace Forum.Web.Controllers
             Task.Run(() =>
                          {
                              var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
-
-                             notificationController.AddNotification(subscribers, post.Id, post.Content);
-                             notificationController.Notify(subscribers, post.TopicId);
+                             if (subscribers!=null)
+                             {
+                                 notificationController.AddNotifications(subscribers, post.Id, post.Content);
+                                 notificationController.SendNotifications(subscribers, post.TopicId);
+                             }
                          }
                     );
 
