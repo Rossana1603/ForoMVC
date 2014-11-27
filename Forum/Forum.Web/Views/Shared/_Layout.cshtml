@@ -7,6 +7,22 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+    $(function () {
+        var chat = $.connection.forumHub;
+        $.connection.hub.start().done(function () {
+            //chat.server.send();
+        });
+
+        chat.client.notifyOnlineUser = function (message) {
+            //Add logic to notify message
+            alert(message);
+        };
+    });
+    </script>
 </head>
 <body>       
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -31,23 +47,5 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")    
     @RenderSection("scripts", required: false)
-    @section Scripts {
-        <script type="text/javascript" src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
-        <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
-        <script type="text/javascript" src="~/signalr/hubs"></script>
-        <script type="text/javascript">
-    $(function () {
-        var chat = $.connection.forumHub;
-        $.connection.hub.start().done(function () {
-            //chat.server.send();
-        });
-
-        chat.client.notifyOnlineUser = function (message) {
-            //Add logic to notify message
-            alert(message);
-        };
-    });
-        </script>
-    }
 </body>
 </html>
