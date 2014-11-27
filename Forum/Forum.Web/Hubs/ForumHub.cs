@@ -11,6 +11,14 @@ using Domain = Forum.Persistence.Domain;
 
 namespace Forum.Web.Hubs
 {
+    public class CustomUserIdProvider : IUserIdProvider
+    {
+        public string GetUserId(IRequest request)
+        {
+            return request.User.Identity.Name;
+        }
+    }
+
     public class ForumHub : Hub
     {
         public static Dictionary<string,string> connectionByUsersDictionary = new Dictionary<string, string>();

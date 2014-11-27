@@ -1,4 +1,6 @@
-﻿using Owin;
+﻿using Forum.Web.Hubs;
+using Microsoft.AspNet.SignalR;
+using Owin;
 
 namespace IdentitySample
 {
@@ -7,6 +9,8 @@ namespace IdentitySample
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
+            GlobalHost.DependencyResolver.Register(typeof(IUserIdProvider), () => new CustomUserIdProvider());
 
             app.MapSignalR();
         }
