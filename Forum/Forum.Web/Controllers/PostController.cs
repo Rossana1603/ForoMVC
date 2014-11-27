@@ -9,6 +9,7 @@ using Forum.Web.Models;
 using Forum.Web.Properties;
 using RestSharp;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace Forum.Web.Controllers
 {
@@ -53,19 +54,31 @@ namespace Forum.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddPost(PostViewModel post)
         {
-            //var client = new RestClient(Settings.Default.ForumApiUrl + "api/post/");
-            //var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
+            var notificationController = new NotificationController();
+            var subscriptionController = new SubscriptionController();
 
-            //request.AddJsonBody(new Post()
-            //{
-            //    TopicId = post.TopicId,
-            //    Content = post.Content,
-            //    Author = post.Author,
-            //    Tags =  post.Tags,
-            //    AuthorId = base.GetIdByUserName(User.Identity.GetUserName())
-            //});
-            //var response = client.Execute<Post>(request);
-            
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/post/");
+            var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
+
+            request.AddJsonBody(new Post()
+            {
+                TopicId = post.TopicId,
+                Content = post.Content,
+                Author = post.Author,
+                Tags = post.Tags,
+                AuthorId = base.GetIdByUserName(User.Identity.GetUserName())
+            });
+            var response = client.Execute<Post>(request);
+
+            Task.Run(() =>
+                         {
+                             var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
+
+                             notificationController.AddNotification(subscribers, post.Id, post.Content);
+                             notificationController.Notify(subscribers, post.TopicId);
+                         }
+                    );
+
             return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }
 

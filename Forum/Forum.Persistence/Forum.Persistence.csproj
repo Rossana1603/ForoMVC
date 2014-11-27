@@ -67,12 +67,22 @@
     <Compile Include="Migrations\201411251930484_Initial.Designer.cs">
       <DependentUpon>201411251930484_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411262139256_SubcsriptionMessage.cs" />
+    <Compile Include="Migrations\201411262139256_SubcsriptionMessage.Designer.cs">
+      <DependentUpon>201411262139256_SubcsriptionMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411270339089_NullableNotificationDate.cs" />
+    <Compile Include="Migrations\201411270339089_NullableNotificationDate.Designer.cs">
+      <DependentUpon>201411270339089_NullableNotificationDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\Repository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -81,6 +91,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201411251930484_Initial.resx">
       <DependentUpon>201411251930484_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411262139256_SubcsriptionMessage.resx">
+      <DependentUpon>201411262139256_SubcsriptionMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411270339089_NullableNotificationDate.resx">
+      <DependentUpon>201411270339089_NullableNotificationDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,5 +12,7 @@ namespace Forum.Persistence.Domain
         public virtual Topic Topic { get; set; }
         public int AuthorId { get; set; }
         public virtual Author Author { get; set; }
+        public string Message { get; set; }
+
     }
 }

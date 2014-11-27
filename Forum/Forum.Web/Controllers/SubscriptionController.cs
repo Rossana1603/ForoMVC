@@ -47,5 +47,14 @@ namespace Forum.Web.Controllers
 
             return RedirectToAction("TopicList", "Topic", new { Page = page });
         }
+
+        public List<Subscription> GetSubcriptionsByTopicId(int topicId)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("api/Subscription/GetSubscriptorsByTopicId/{topicId}", Method.GET);
+            request.AddParameter("topicId", topicId);
+
+            return client.Execute<List<Subscription>>(request).Data;
+        }
     }
 }

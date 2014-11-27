@@ -205,7 +205,9 @@
     <Content Include="Content\css\zocial-regular-webfont.eot" />
     <Content Include="Content\css\zocial-regular-webfont.ttf" />
     <Content Include="Content\css\zocial-regular-webfont.woff" />
-    <Content Include="Mvc.sitemap" />
+    <Content Include="Mvc.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -502,6 +504,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Resolver\HttpHelperResolver.cs" />
+    <Compile Include="Resolver\StringResolver.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -519,6 +522,7 @@
     <Folder Include="Content\Images\" />
     <Folder Include="Mapper\" />
     <Folder Include="Views\Notification\" />
+    <Folder Include="Views\Subcription\" />
     <Folder Include="Views\Subscription\" />
   </ItemGroup>
   <PropertyGroup>

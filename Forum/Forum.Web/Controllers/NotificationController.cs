@@ -10,46 +10,63 @@ using Microsoft.Ajax.Utilities;
 using RestSharp;
 using Forum.Web.Properties;
 using AutoMapper;
+using Microsoft.AspNet.SignalR;
+using System.Threading.Tasks;
+using Forum.Web.Resolver;
 
 namespace Forum.Web.Controllers
 {
     public class NotificationController : CustomControllerBase
     {
-        public ActionResult Notify(int topicId)
+        public void Notify(List<Subscription> subscribers, int topicId)
         {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/Subscription/GetSubscriptorsByTopicId/{topicId}", Method.GET);
-            request.AddParameter("topicId", topicId);
-            var lstSubscribers = client.Execute<List<Subscription>>(request).Data;
-
-            var lstNotifyUsers = GetNotifyUsers(lstSubscribers);
-
-            var lstExceptNotifyUsers = lstSubscribers.Except(lstNotifyUsers).ToList();
+            var notifyUsers = GetNotifyUsers(subscribers);
 
             var forumHub = new ForumHub();
 
-            forumHub.Send(lstNotifyUsers);
-
-            return View();
+            foreach (var subscriber in subscribers)
+                forumHub.Send(subscriber.Author.UserName, subscriber.Message);
 
         }
 
-
-        private List<Subscription> GetNotifyUsers(List<Subscription> lstSubscribers )
+        private List<Subscription> GetNotifyUsers(List<Subscription> subscribers)
         {
             var onlineUsers = ForumHub.connectionByUsersDictionary.Values.ToList();
-            var lstNotifyUsers = new List<Subscription>();
+            var notifyUsers = new List<Subscription>();
 
             foreach (var userName in onlineUsers)
             {
-                var subscriberConnected = lstSubscribers.FirstOrDefault(x => x.Author.UserName == userName);
+                var subscriberConnected = subscribers.FirstOrDefault(x => x.Author.UserName == userName);
                 if (subscriberConnected != null)
                 {
-                    lstNotifyUsers.Add(subscriberConnected);
+                    notifyUsers.Add(subscriberConnected);
                 }
             }
 
-            return lstNotifyUsers;
+            return notifyUsers;
         }
-	}
+
+        public void AddNotification(List<Subscription> subscribers, int postId, string content)
+        {
+            foreach (var subscriber in subscribers)
+                AddNotification(subscriber.Id, postId, content.ToContentPreview());
+        }
+
+        private void AddNotification(int subscriptionId, int postId, string contentPreview)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/notification/");
+            var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
+            request.AddJsonBody(new Notification()
+            {
+                SubscriptionId = subscriptionId,
+                Subscription = null,
+                PostId = postId,
+                Post = null,
+                NotificationDate = null,
+                State = State.Pending,
+                Message = contentPreview
+            });
+            var response = client.Execute<Post>(request);
+        }
+    }
 }

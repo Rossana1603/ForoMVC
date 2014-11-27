@@ -15,28 +15,12 @@ namespace Forum.Web.Hubs
     {
         public static Dictionary<string,string> connectionByUsersDictionary = new Dictionary<string, string>();
 
-        public void Send()
+
+        public bool Send(string userName, string message)
         {
-            string message = "";
-            // Call the recalculateOnlineUsers method to update clients
-            if (connectionByUsersDictionary.Count < 2)
-                message = string.Format("Currently {0} user is online.", connectionByUsersDictionary.Count);
-            else
-                message = string.Format("Currently {0} users are online.", connectionByUsersDictionary.Count);
+            Clients.User(userName).notifyOnlineUser(message);
 
-            Clients.All.recalculateOnlineUsers(message);
-
-        }
-
-        public void Send(List<Domain.Subscription> NotifyUsers)
-        {
-            string message = "";
-
-            Clients.All.notifyOnlineUsers(message);
-            foreach (var client in NotifyUsers)
-            {
-                //TODO: will be researched 
-            }
+            return true;
         }
 
         ///
@@ -49,7 +33,7 @@ namespace Forum.Web.Hubs
 
             connectionByUsersDictionary.Add(Context.ConnectionId, userName);          
 
-            return base.OnConnected();
+            return base.OnConnected();   
         }
 
         ///
@@ -58,7 +42,8 @@ namespace Forum.Web.Hubs
         ///
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
-            connectionByUsersDictionary.Remove(Context.ConnectionId);          
+            connectionByUsersDictionary.Remove(Context.ConnectionId); 
+         
             return base.OnDisconnected(stopCalled);
         }
     }
