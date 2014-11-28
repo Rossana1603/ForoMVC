@@ -18,20 +18,39 @@ namespace Forum.Web.Controllers
 {
     public class NotificationController : CustomControllerBase
     {
-
-        public void ProcessNotifications(Post post)
+        /// <summary>
+        /// This method will run asynchrounusly. an awaited task is needed to 
+        /// place the notification in a background process
+        /// </summary>
+        /// <param name="post"></param>
+        public async void ProcessNotifications(Post post)
         {
-            var subscriptionController = new SubscriptionController();
-
-            var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
-
-            var message = post.Content.ToContentPreview(post.UserName);
-
-            foreach (var subscriber in subscribers)
+            await Task.Run(() =>
             {
-                AddNotification(subscriber.Id, post.Id, message);
-                SendNotifications(subscribers, message);
-            }
+                var subscriptionController = new SubscriptionController();
+
+                var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
+
+                var message = post.Content.ToContentPreview(post.UserName);
+
+                #region delay emulates
+                    ////////TODO: erase
+                    ////////only for testing purposes:begin
+                    ////////this is actually emulatting a delay
+                    var n = 1.00;
+                    while (n < 9.95)
+                    {
+                        n = new Random().NextDouble() * 10;
+                    }
+                    ////////only for testing purposes:end
+                #endregion
+
+                foreach (var subscriber in subscribers)
+                {
+                    AddNotification(subscriber.Id, post.Id, message);
+                    SendNotifications(subscribers, message);
+                }
+            });
         }
 
         private void AddNotification(int subscriptionId, int postId, string message)
@@ -56,13 +75,15 @@ namespace Forum.Web.Controllers
             var forumHub = new ForumHub();
 
             foreach (var subscriber in notifyUsers)
-                forumHub.Send(subscriber.Author.UserName, message);
+            {
+                forumHub.Send(subscriber.Author.UserName, message);                
+            }
 
         }
 
         private List<Subscription> GetNotifyUsers(List<Subscription> subscribers)
         {
-            var onlineUsers = ForumHub.connectionByUsersDictionary.Values.ToList();
+            var onlineUsers = ForumHub.ConnectionByUsersDictionary.Values.ToList();
             var notifyUsers = new List<Subscription>();
 
             foreach (var userName in onlineUsers)

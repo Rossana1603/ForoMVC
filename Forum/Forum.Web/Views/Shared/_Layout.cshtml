@@ -7,7 +7,8 @@
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
-    <body>       
+    <body>     
+        @Html.HiddenFor(m => User.Identity.Name);  
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="row">
@@ -26,7 +27,8 @@
                 <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
             </footer>
         </div>
-
+        @*<input type="button" title="press me" value="123" name="pressme"/>*@
+            
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")    
         @RenderSection("scripts", required: false)
@@ -42,9 +44,13 @@
             //chat.server.send();
         });
 
-        chat.client.notifyOnlineUser = function (message) {
-            //Add logic to notify message
-            alert(message);
+        chat.client.notifyOnlineUser = function (message) {            
+           alert(message);            
         };
+
+        //$("input[name*='pressme']").click(function () {
+        //    chat.server.send('orlando1409@gmail.com', 'user has posted something!!!!');
+        //});
+
     });
 </script>
