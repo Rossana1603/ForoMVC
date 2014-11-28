@@ -50,12 +50,16 @@ namespace Forum.Web.Hubs
 
         public bool Send(string userName, string message)
         {
-            var connections = ConnectionByUsersDictionary.FirstOrDefault(x => x.Value == userName);
+            var connections = ConnectionByUsersDictionary.Where(x => x.Value == userName).ToList();
 
-            if (ConnectionManager.Clients.Client(connections.Key) != null)
-            {
-                ConnectionManager.Clients.Client(connections.Key).notifyOnlineUser(message);
-            }
+            connections.ForEach(x =>
+                { 
+                       if (ConnectionManager.Clients.Client(x.Key) != null)
+                       {
+                           ConnectionManager.Clients.Client(x.Key).notifyOnlineUser(message);
+                       }
+                }
+            );
 
             return true;
         }

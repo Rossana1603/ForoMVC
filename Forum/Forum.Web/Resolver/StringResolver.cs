@@ -11,7 +11,7 @@ namespace Forum.Web.Resolver
         {
             var limit = 30;
             var substring = content.Length <= limit ? content : content.Substring(0, limit);
-            return userName + " " + "posted this: " + substring + "...";
+            return userName + " " + "has posted on you topic: " + substring;
         }
     }
 }

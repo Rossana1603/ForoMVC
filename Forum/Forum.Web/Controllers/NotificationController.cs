@@ -33,15 +33,15 @@ namespace Forum.Web.Controllers
 
             	var message = post.Content.ToContentPreview(post.UserName);
                 #region delay emulation
-                    ////////TODO: erase
-                    ////////only for testing purposes:begin
-                    ////////this is actually emulatting a delay
-                    var n = 1.00;
-                    while (n < 9.95)
-                    {
-                        n = new Random().NextDouble() * 10;
-                    }
-                    ////////only for testing purposes:end
+                    //////////TODO: erase
+                    //////////only for testing purposes:begin
+                    //////////this is actually emulatting a delay
+                    //var n = 1.00;
+                    //while (n < 9.95)
+                    //{
+                    //    n = new Random().NextDouble() * 10;
+                    //}
+                    //////////only for testing purposes:end
                 #endregion
 
                 foreach (var subscriber in subscribers)
