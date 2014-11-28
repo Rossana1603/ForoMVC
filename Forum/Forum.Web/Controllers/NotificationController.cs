@@ -29,11 +29,10 @@ namespace Forum.Web.Controllers
             {
                 var subscriptionController = new SubscriptionController();
 
-                var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
+            	var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
 
-                var message = post.Content.ToContentPreview(post.UserName);
-
-                #region delay emulates
+            	var message = post.Content.ToContentPreview(post.UserName);
+                #region delay emulation
                     ////////TODO: erase
                     ////////only for testing purposes:begin
                     ////////this is actually emulatting a delay

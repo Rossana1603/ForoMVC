@@ -7,6 +7,7 @@ using Microsoft.AspNet.SignalR;
 using System.Web.Mvc.Ajax;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR.Messaging;
+using Microsoft.AspNet.SignalR.Owin;
 using Domain = Forum.Persistence.Domain;
 using System.Security.Principal;
 using Microsoft.AspNet.SignalR.Infrastructure;
@@ -32,6 +33,7 @@ namespace Forum.Web.Hubs
         private static volatile IHubContext _connectionManager;
         private static readonly Object LockerInstance = new Object();
         private static Dictionary<string, string> _connectionByUsersDictionary = new Dictionary<string, string>();
+        public static Dictionary<string, ConnectionUser> connectionByUsersIdDictionary = new Dictionary<string, ConnectionUser>();
 
         /// <summary>
         /// Singleton pattern property. It returns an instance of the IHubContext interface.
@@ -56,7 +58,7 @@ namespace Forum.Web.Hubs
         public static Dictionary<string, string> ConnectionByUsersDictionary
         {
             get {
-                return _connectionByUsersDictionary;
+                    return _connectionByUsersDictionary;
                 }
         }
 
@@ -88,9 +90,9 @@ namespace Forum.Web.Hubs
             if (!string.IsNullOrEmpty(userName))
             {
                 ConnectionByUsersDictionary.Add(connectionId, userName);
-            }            
+            }
 
-            return base.OnConnected();   
+            return base.OnConnected();
         }
 
         ///
@@ -102,12 +104,12 @@ namespace Forum.Web.Hubs
             var connectionId = Context.ConnectionId;
             var userName = Context.User.Identity.GetUserName();
 
-            if (!string.IsNullOrEmpty(userName))
+            if (stopCalled && !string.IsNullOrEmpty(userName))
             {
                 ConnectionByUsersDictionary.Remove(connectionId);
             }
 
-            return base.OnConnected();
+            return base.OnDisconnected(stopCalled);
         }
     }
 }
