@@ -10,6 +10,8 @@ using Forum.Web.Properties;
 using Microsoft.AspNet.Identity;
 using RestSharp;
 using PagedList;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace Forum.Web.Controllers
 {
@@ -53,27 +55,28 @@ namespace Forum.Web.Controllers
 
         public ActionResult TopicDetail(int id, int? page)
         {
+            int pageNumber = page ?? 1;
+            int pageSize = 2;
+
             var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/Post/GetPostByTopicId/{topicId}", Method.GET);
+            var request = new RestRequest("/api/Post/GetPostByTopicId/{topicId}", Method.GET) { RequestFormat = DataFormat.Json};
             request.AddParameter("topicId", id);
+            request.AddParameter("pageNumber", pageNumber);
+            request.AddParameter("pageSize", pageSize);
             var response = client.Execute<List<Post>>(request);
 
             var requestTopic = new RestRequest("/api/topic/{id}", Method.GET);
             requestTopic.AddParameter("id", id);
             var responseTopic = client.Execute<Topic>(requestTopic);
 
-            int pageNumber = page ?? 1;
-            int pageSize = 2;
-
-            var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault().Topic : responseTopic.Data);
+            var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault(x=>x.Topic!=null).Topic : responseTopic.Data);
             var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
 
             posts.ToList().ForEach((x) => { x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName();
                                             x.AvatarFileName = base.GetAvatarFileName(x.Author.Id);
                                           });
 
-
-            return View(new TopicDetailViewModel { Topic = topic, Posts = posts.ToPagedList(pageNumber,pageSize)});
+            return View(new TopicDetailViewModel { Topic = topic, Posts = posts.ToPagedList(pageNumber, pageSize) });
         }
 
         public ActionResult AddTopic()
