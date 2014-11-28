@@ -8,7 +8,8 @@
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>     
-        @Html.HiddenFor(m => User.Identity.Name);  
+        @Html.HiddenFor(m => User.Identity.Name); 
+        <input type="hidden" name="lastmessage" value="" /> 
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="row">
@@ -44,7 +45,7 @@
         $.connection.hub.start().done(function () {
             //chat.server.send();
         });
-        var lastmessage = null;
+        
         chat.client.notifyOnlineUser = function (message) {            
             toastr.options = {
                 "closeButton": true,
@@ -60,11 +61,12 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             };
-            //if (lastmessage!=null)
-            //{
-                toastr.error(message); 
-            //}           
-            //lastmessage = message;
+            if ($("input[name*='lastmessage']").val() == "")
+            {
+                $("input[name*='lastmessage']").val(message);
+                toastr.error(message);
+                $("input[name*='lastmessage']").val("");
+            }                       
         };
     });
 </script>
