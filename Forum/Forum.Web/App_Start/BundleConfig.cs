@@ -35,6 +35,7 @@ namespace IdentitySample
                       "~/Content/bootstrap.css",
                       "~/Content/forum.css",
                       "~/Content/site.css",
+                      "~/Content/toastr.min.css",
                        "~/Content/css/zocial.css"));
 
         }

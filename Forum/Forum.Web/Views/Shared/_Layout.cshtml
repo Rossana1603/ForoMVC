@@ -34,6 +34,7 @@
         @RenderSection("scripts", required: false)
     </body>
 </html>
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
 <script type="text/javascript" src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
 <script type="text/javascript" src="~/Scripts/toastr.min.js"></script>
 <script type="text/javascript" src="~/signalr/hubs"></script>
@@ -43,14 +44,27 @@
         $.connection.hub.start().done(function () {
             //chat.server.send();
         });
-
+        var lastmessage = null;
         chat.client.notifyOnlineUser = function (message) {            
-           alert(message);            
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-bottom-full-width",
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+            //if (lastmessage!=null)
+            //{
+                toastr.error(message); 
+            //}           
+            //lastmessage = message;
         };
-
-        //$("input[name*='pressme']").click(function () {
-        //    chat.server.send('orlando1409@gmail.com', 'user has posted something!!!!');
-        //});
-
     });
 </script>

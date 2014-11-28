@@ -10,8 +10,6 @@ namespace IdentitySample
         {
             ConfigureAuth(app);
 
-            GlobalHost.DependencyResolver.Register(typeof(IUserIdProvider), () => new CustomUserIdProvider());
-
             app.MapSignalR();
         }
     }

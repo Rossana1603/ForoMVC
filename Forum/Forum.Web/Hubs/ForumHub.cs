@@ -14,26 +14,11 @@ using Microsoft.AspNet.SignalR.Infrastructure;
 
 namespace Forum.Web.Hubs
 {
-    public class CustomUserIdProvider : IUserIdProvider
-    {
-        public string GetUserId(IRequest request)
-        {
-            return request.User.Identity.GetUserId();
-        }
-    }
-
-    public class ConnectionUser
-    {
-        public string UserName { get; set; }
-        public string UserId { get; set; }
-    }
-
     public class ForumHub : Hub
     {
         private static volatile IHubContext _connectionManager;
         private static readonly Object LockerInstance = new Object();
         private static Dictionary<string, string> _connectionByUsersDictionary = new Dictionary<string, string>();
-        public static Dictionary<string, ConnectionUser> connectionByUsersIdDictionary = new Dictionary<string, ConnectionUser>();
 
         /// <summary>
         /// Singleton pattern property. It returns an instance of the IHubContext interface.
@@ -65,9 +50,10 @@ namespace Forum.Web.Hubs
 
         public bool Send(string userName, string message)
         {
-            var connectionIds = ConnectionByUsersDictionary.Where(x => x.Value == userName);
+            var connections = ConnectionByUsersDictionary.Where(x => x.Value == userName);
+            //var connectionId = connections.FirstOrDefault();
 
-            foreach (var connectionId in connectionIds)
+            foreach (var connectionId in connections)
             {
                 if (ConnectionManager.Clients.Client(connectionId.Key) != null)
                 {
@@ -95,20 +81,26 @@ namespace Forum.Web.Hubs
             return base.OnConnected();
         }
 
-        ///
+        /// <summary>
         /// unregister disconected user
-        ///
-        ///
+        /// </summary>
+        /// <param name="stopCalled">
+        /// true; if the connection is closed by the client sucessfully
+        /// false: if the connection is closed by a timeout
+        /// </param>
+        /// <returns></returns>
         public override Task OnDisconnected(bool stopCalled)
         {
             var connectionId = Context.ConnectionId;
             var userName = Context.User.Identity.GetUserName();
 
-            if (stopCalled && !string.IsNullOrEmpty(userName))
-            {
-                ConnectionByUsersDictionary.Remove(connectionId);
-            }
-
+            //if (stopCalled)
+            //{
+                if (string.IsNullOrEmpty(userName))
+                {
+                    ConnectionByUsersDictionary.Remove(connectionId);
+                }
+            //}
             return base.OnDisconnected(stopCalled);
         }
     }

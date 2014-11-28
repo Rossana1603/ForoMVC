@@ -194,6 +194,8 @@
     <Content Include="Content\db\scriptDBForumWeb.sql" />
     <Content Include="Content\forum.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\default-avatar.dmbNkD5D-u45r44go_cf0g.png" />
     <Content Include="packages.config" />
@@ -208,6 +210,8 @@
     <Content Include="Mvc.sitemap">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -378,6 +382,8 @@
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Views\Topic\TopicList.cshtml" />
     <Content Include="Views\Topic\TopicDetail.cshtml" />
     <Content Include="Views\Post\AddPost.cshtml" />
