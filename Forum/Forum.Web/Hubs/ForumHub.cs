@@ -7,6 +7,7 @@ using Microsoft.AspNet.SignalR;
 using System.Web.Mvc.Ajax;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR.Messaging;
+using Microsoft.AspNet.SignalR.Owin;
 using Domain = Forum.Persistence.Domain;
 using System.Security.Principal;
 
@@ -38,8 +39,13 @@ namespace Forum.Web.Hubs
         //                        .ToList()
         //                        .ToArray();
 
-        //    //Clients.User(user.UserId).notifyOnlineUser(message);
+        public bool Send(string userName, string message)
+        {
+            var connectionId = connectionByUsersDictionary.FirstOrDefault(x => x.Value == userName);
+            Clients.User(connectionId.Key).notifyOnlineUser(message);
 
+            return true;
+        }
         //    foreach (var connectionId in connectionIds)
         //    {
         //        if (Clients.Client(connectionId)!=null)
