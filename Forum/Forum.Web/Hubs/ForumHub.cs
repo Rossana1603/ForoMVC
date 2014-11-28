@@ -50,15 +50,11 @@ namespace Forum.Web.Hubs
 
         public bool Send(string userName, string message)
         {
-            var connections = ConnectionByUsersDictionary.Where(x => x.Value == userName);
-            //var connectionId = connections.FirstOrDefault();
+            var connections = ConnectionByUsersDictionary.FirstOrDefault(x => x.Value == userName);
 
-            foreach (var connectionId in connections)
+            if (ConnectionManager.Clients.Client(connections.Key) != null)
             {
-                if (ConnectionManager.Clients.Client(connectionId.Key) != null)
-                {
-                    ConnectionManager.Clients.Client(connectionId.Key).notifyOnlineUser(message);
-                }
+                ConnectionManager.Clients.Client(connections.Key).notifyOnlineUser(message);
             }
 
             return true;
@@ -94,13 +90,8 @@ namespace Forum.Web.Hubs
             var connectionId = Context.ConnectionId;
             var userName = Context.User.Identity.GetUserName();
 
-            //if (stopCalled)
-            //{
-                if (string.IsNullOrEmpty(userName))
-                {
-                    ConnectionByUsersDictionary.Remove(connectionId);
-                }
-            //}
+                ConnectionByUsersDictionary.Remove(connectionId);
+ 
             return base.OnDisconnected(stopCalled);
         }
     }
