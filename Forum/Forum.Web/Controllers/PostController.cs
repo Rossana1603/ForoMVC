@@ -69,7 +69,7 @@ namespace Forum.Web.Controllers
             });
             var responsePost = client.Execute<Post>(request).Data;
 
-            Task.Run(() => notificationController.ProcessNotifications(responsePost));
+            Task.Factory.StartNew(()=>notificationController.ProcessNotifications(responsePost));         
 
             return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }

@@ -18,20 +18,36 @@ namespace Forum.Web.Controllers
 {
     public class NotificationController : CustomControllerBase
     {
-
-        public void ProcessNotifications(Post post)
+        /// <summary>
+        /// This method will run asynchrounusly. A task.Run is needed to 
+        /// put the notification in background process
+        /// </summary>
+        /// <param name="post"></param>
+        public async void ProcessNotifications(Post post)
         {
-            var subscriptionController = new SubscriptionController();
-
-            var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
-
-            var message = post.Content.ToContentPreview(post.UserName);
-
-            foreach (var subscriber in subscribers)
+            await Task.Run(() =>
             {
-                AddNotification(subscriber.Id, post.Id, message);
-                SendNotifications(subscribers, message);
-            }
+                var subscriptionController = new SubscriptionController();
+
+               var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
+
+               var message = post.Content.ToContentPreview(post.UserName);
+
+
+               ///only for testing purposes
+               var n = 1.00;
+               while (n < 9.95)
+               {
+                   n = new Random().NextDouble() * 10;
+               }
+               //this is actually simulating a delay
+
+               foreach (var subscriber in subscribers)
+               {
+                   AddNotification(subscriber.Id, post.Id, message);
+                   SendNotifications(subscribers, message);
+               }
+            });
         }
 
         private void AddNotification(int subscriptionId, int postId, string message)
@@ -56,7 +72,22 @@ namespace Forum.Web.Controllers
             var forumHub = new ForumHub();
 
             foreach (var subscriber in notifyUsers)
-                forumHub.Send(subscriber.Author.UserName, message);
+            {
+                //forumHub.Send(subscriber.Author.UserName, message);                
+                var connectionManager = GlobalHost.ConnectionManager.GetHubContext<ForumHub>();
+                var connectionIds = ForumHub.connectionByUsersIdDictionary.Keys
+                                            .Where(key => ForumHub.connectionByUsersIdDictionary[key].UserName == subscriber.Author.UserName)
+                                            .ToList()
+                                            .ToArray();
+
+                foreach (var connectionId in connectionIds)
+                {
+                    if (connectionManager.Clients.Client(connectionId) != null)
+                    {
+                        connectionManager.Clients.Client(connectionId).notifyOnlineUser(message);
+                    }
+                }                
+            }
 
         }
 

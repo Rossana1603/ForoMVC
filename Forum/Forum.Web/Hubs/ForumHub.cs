@@ -8,6 +8,7 @@ using System.Web.Mvc.Ajax;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR.Messaging;
 using Domain = Forum.Persistence.Domain;
+using System.Security.Principal;
 
 namespace Forum.Web.Hubs
 {
@@ -15,21 +16,41 @@ namespace Forum.Web.Hubs
     {
         public string GetUserId(IRequest request)
         {
-            return request.User.Identity.Name;
+            return request.User.Identity.GetUserId();
         }
+    }
+
+    public class ConnectionUser
+    {
+        public string UserName { get; set; }
+        public string UserId { get; set; }
     }
 
     public class ForumHub : Hub
     {
         public static Dictionary<string,string> connectionByUsersDictionary = new Dictionary<string, string>();
+        public static Dictionary<string, ConnectionUser> connectionByUsersIdDictionary = new Dictionary<string, ConnectionUser>();
 
+        //public bool Send(string userName, string message)
+        //{
+        //    var user = connectionByUsersIdDictionary.Values.Where(x => x.UserName == userName).FirstOrDefault();
+        //    var connectionIds = connectionByUsersIdDictionary.Keys.Where(key => connectionByUsersIdDictionary[key].UserName == userName)
+        //                        .ToList()
+        //                        .ToArray();
 
-        public bool Send(string userName, string message)
-        {
-            Clients.User(userName).notifyOnlineUser(message);
+        //    //Clients.User(user.UserId).notifyOnlineUser(message);
 
-            return true;
-        }
+        //    foreach (var connectionId in connectionIds)
+        //    {
+        //        if (Clients.Client(connectionId)!=null)
+        //        {
+        //            Clients.Client(connectionId).notifyOnlineUser(message);
+        //        }                
+        //    }
+                
+
+        //    return true;
+        //}
 
         ///
         /// register online user
@@ -37,9 +58,14 @@ namespace Forum.Web.Hubs
         ///
         public override System.Threading.Tasks.Task OnConnected()
         {
-            var userName = Context.User.Identity.Name;
+            var user = Context.User.Identity;
 
-            connectionByUsersDictionary.Add(Context.ConnectionId, userName);          
+            if (!string.IsNullOrEmpty(user.GetUserName()))
+            {
+                connectionByUsersDictionary.Add(Context.ConnectionId, user.GetUserName());
+
+                connectionByUsersIdDictionary.Add(Context.ConnectionId, new ConnectionUser { UserId = user.GetUserId(), UserName = user.GetUserName() });
+            }            
 
             return base.OnConnected();   
         }
@@ -50,9 +76,15 @@ namespace Forum.Web.Hubs
         ///
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
-            connectionByUsersDictionary.Remove(Context.ConnectionId); 
-         
-            return base.OnDisconnected(stopCalled);
+            if (!string.IsNullOrEmpty(Context.User.Identity.GetUserName()))
+            {
+                connectionByUsersDictionary.Remove(Context.ConnectionId);
+
+                connectionByUsersIdDictionary.Remove(Context.ConnectionId);
+            }
+
+            return base.OnConnected();
+
         }
     }
 }
