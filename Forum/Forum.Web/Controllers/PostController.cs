@@ -116,13 +116,15 @@ namespace Forum.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeletePost(PostViewModel post)
         {
+            var notificationController = new NotificationController();
+
             var client = new RestClient(Settings.Default.ForumApiUrl + "api/Post/{id}");
             var request = new RestRequest(Method.DELETE);
             var postId = int.Parse(Request["PostId"]);
-
             request.AddParameter("id", postId);
-
             var response = client.Execute<Post>(request);
+
+            notificationController.DeleteNotification(postId);
 
             return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }

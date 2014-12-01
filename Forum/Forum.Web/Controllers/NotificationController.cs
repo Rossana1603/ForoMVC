@@ -110,5 +110,14 @@ namespace Forum.Web.Controllers
 
             return notifyUsers;
         }
+
+        public void DeleteNotification(int postId)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/Notification/{postId}");
+            var request = new RestRequest(Method.DELETE);
+            request.AddParameter("postId", postId);
+
+            var response = client.Execute<Notification>(request);
+        }
     }
 }

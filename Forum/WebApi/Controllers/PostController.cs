@@ -38,7 +38,8 @@ namespace WebApi.Controllers
         public HttpResponseMessage GetPostsByTopicId([FromUri]int topicId, [FromUri]int pageNumber, [FromUri]int pageSize)
         {
             HttpResponseMessage response = null;
-
+            var totalItemCount = 0;
+            var posts = new List<Post>();
             var query = Query.Where(x => x.TopicId == topicId);
 
             var page = query
@@ -50,8 +51,11 @@ namespace WebApi.Controllers
                 .GroupBy(x => new { TotalItemCount = query.Count() })
                 .FirstOrDefault();
 
-            var totalItemCount = page.Key.TotalItemCount;
-            var posts = page.Select(x => x).ToList();
+            if (page!=null)
+            {            
+                totalItemCount = page.Key.TotalItemCount;
+                posts = page.Select(x => x).ToList();            
+            }
 
             if (posts.Any())
             {
@@ -61,7 +65,7 @@ namespace WebApi.Controllers
             else
             {
                 response = Request.CreateResponse(HttpStatusCode.NotFound);
-            }            
+            }
 
             return response;
         }
