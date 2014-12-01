@@ -16,6 +16,7 @@ using PagedList;
 
 namespace Forum.Web.Controllers
 {
+    [Authorize]
     public class SubscriptionController : CustomControllerBase
     {
 

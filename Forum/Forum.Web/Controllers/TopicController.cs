@@ -102,6 +102,7 @@ namespace Forum.Web.Controllers
                 Title = topic.Title,
                 Content = topic.Content,
                 CreateDate = DateTime.Now,
+                UserName = User.Identity.GetUserName(),
                 AuthorId = GetIdByUserName(User.Identity.GetUserName())
             });
             var response = client.Execute<Topic>(request);

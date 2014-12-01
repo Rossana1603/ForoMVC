@@ -476,6 +476,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\CustomControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -527,6 +528,7 @@
   <ItemGroup>
     <Folder Include="Content\Images\" />
     <Folder Include="Mapper\" />
+    <Folder Include="Views\Author\" />
     <Folder Include="Views\Notification\" />
     <Folder Include="Views\Subcription\" />
     <Folder Include="Views\Subscription\" />
