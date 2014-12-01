@@ -85,10 +85,6 @@
     <Compile Include="Migrations\201411271401360_orlandp.Designer.cs">
       <DependentUpon>201411271401360_orlandp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201411281858109_nullable postId.cs" />
-    <Compile Include="Migrations\201411281858109_nullable postId.Designer.cs">
-      <DependentUpon>201411281858109_nullable postId.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataAccess\Repository.cs" />
@@ -114,9 +110,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411271401360_orlandp.resx">
       <DependentUpon>201411271401360_orlandp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411281858109_nullable postId.resx">
-      <DependentUpon>201411281858109_nullable postId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
