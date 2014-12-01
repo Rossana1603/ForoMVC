@@ -53,6 +53,7 @@ namespace Forum.Web.Controllers
             return View(topics.ToPagedList(pageNumber, pageSize));
         }
 
+        //public ActionResult TopicDetail(int id, int? page, string jsonTopic)
         public ActionResult TopicDetail(int id, int? page)
         {
             int pageNumber = page ?? 1;
@@ -69,14 +70,18 @@ namespace Forum.Web.Controllers
             requestTopic.AddParameter("id", id);
             var responseTopic = client.Execute<Topic>(requestTopic);
 
-            var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault(x=>x.Topic!=null).Topic : responseTopic.Data);
-            var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
+            var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault(x=>x.Topic!=null).Topic : responseTopic.Data);            
+            //var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
 
-            posts.ToList().ForEach((x) => { x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName();
-                                            x.AvatarFileName = base.GetAvatarFileName(x.Author.Id);
-                                          });
+            var totalItemCount = Convert.ToInt32(response.Headers.FirstOrDefault(x => x.Name == "X-TotalItemCount").Value);            
 
-            return View(new TopicDetailViewModel { Topic = topic, Posts = posts.ToPagedList(pageNumber, pageSize) });
+            posts.ToList().ForEach((x) =>
+            {
+                x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName();
+                x.AvatarFileName = base.GetAvatarFileName(x.Author.Id);
+            });
+            
+            return View(new TopicDetailViewModel { Topic = topic, Posts = new StaticPagedList<PostViewModel>(posts.ToList(),pageNumber, pageSize, totalItemCount) });
         }
 
         public ActionResult AddTopic()
