@@ -16,6 +16,8 @@ namespace WebApi.Controllers
 
     public class PostController : EntityControllerBase<Post>
     {
+        private List<Post> responsePosts;
+
         public PostController(IRepository<Post> repository) : base(repository)
         {
 
@@ -32,18 +34,24 @@ namespace WebApi.Controllers
         /// - Headers: --using naming convention as stated in RFC 2047--
         ///     X-TotalItemCount: Total amount of items 
         /// </returns>
-        [Route("api/Post/GetPostByTopicId/{topicId}")]
-        public HttpResponseMessage GetPostByTopicId([FromUri]int topicId, [FromUri]int pageNumber, [FromUri]int pageSize)
+        [Route("api/Post/GetPostsByTopicId/{topicId}/{pageNumber}/{pageSize}")]
+        public HttpResponseMessage GetPostsByTopicId([FromUri]int topicId, [FromUri]int pageNumber, [FromUri]int pageSize)
         {
             HttpResponseMessage response = null;
 
-            var posts = Get()
-                        .Where(x => x.TopicId == topicId)
-                        .Skip(pageSize * pageNumber)
-                        .Take(pageSize)
-                        .ToList();
+            var query = Query.Where(x => x.TopicId == topicId);
 
-            var totalItemCount = Get().Count();
+            var page = query
+                .OrderBy(x=>x.Id)
+                .Select(x => x)
+                .Where(x => x.TopicId == topicId)
+                .Skip(pageSize * pageNumber)
+                .Take(pageSize)
+                .GroupBy(x => new { TotalItemCount = query.Count() })
+                .FirstOrDefault();
+
+            var totalItemCount = page.Key.TotalItemCount;
+            var posts = page.Select(x => x).ToList();
 
             if (posts.Any())
             {
@@ -53,8 +61,7 @@ namespace WebApi.Controllers
             else
             {
                 response = Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-            
+            }            
 
             return response;
         }

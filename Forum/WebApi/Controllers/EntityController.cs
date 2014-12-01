@@ -15,6 +15,14 @@ namespace WebApi.Controllers
     {
         private readonly IRepository<TEntity> _entityRepository;
 
+        public IQueryable<TEntity> Query
+        {
+            get
+            {
+                return _entityRepository.Query();
+            }
+        }
+
         public EntityControllerBase(IRepository<TEntity> repository)
         {
             _entityRepository = repository;
