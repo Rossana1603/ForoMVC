@@ -54,9 +54,13 @@ namespace IdentitySample
                consumerKey: "HHYdndZKFBkISqZHHycNoC7fz",
                consumerSecret: "2SuEBgGYUw8TBm0wJbOGVUUUwHGu2rNVIHrTzLeZUl27QBEIXw");
 
+            //app.UseFacebookAuthentication(
+            //   appId: "796820797036265",
+            //   appSecret: "9d52c7c3cadcc6922bd720df546cda0a");
+
             app.UseFacebookAuthentication(
-               appId: "796820797036265",
-               appSecret: "9d52c7c3cadcc6922bd720df546cda0a");
+               appId: "399726786842614",
+               appSecret: "d0ae6132e58976cf1da8f50e2ef6b861");
 
             app.UseGoogleAuthentication(
                 clientId: "767934338503-kbt4bqt6h36l4paismsk1m9u47cthols.apps.googleusercontent.com",
