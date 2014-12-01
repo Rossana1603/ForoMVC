@@ -12,7 +12,7 @@ namespace Forum.Persistence.Domain
         public virtual Subscription Subscription { get; set; }
         public DateTime? NotificationDate { get; set; }
         public State State { get; set; }
-        public int PostId { get; set; }
+        public int? PostId { get; set; }
         public virtual Post Post { get; set; }
         public string Message { get; set; }
     }

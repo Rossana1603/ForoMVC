@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using AutoMapper;
 using Forum.Persistence.Domain;
 using Forum.Web.Models;
 using Forum.Web.Properties;
+using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using RestSharp;
 using PagedList;
@@ -19,7 +21,7 @@ namespace Forum.Web.Controllers
 
         public ActionResult AddSubscription(int topicId, int page)
         {
-            var model = new TopicViewModel();
+            var notificationController = new NotificationController();
 
             var client = new RestClient(Settings.Default.ForumApiUrl + "api/subscription/");
             var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
@@ -29,7 +31,10 @@ namespace Forum.Web.Controllers
                 AuthorId = GetIdByUserName(User.Identity.GetUserName()),
                 TopicId  = topicId,                
             });
-            var response = client.Execute<Topic>(request);
+            var response = client.Execute<Subscription>(request);
+
+            Task.Factory.StartNew(() => notificationController.ProcessNotifications(response.Data));         
+
 
             return RedirectToAction("TopicList", "Topic", new { Page = page });
         }

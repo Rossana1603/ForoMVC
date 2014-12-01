@@ -52,7 +52,21 @@ namespace Forum.Web.Controllers
             });
         }
 
-        private void AddNotification(int subscriptionId, int postId, string message)
+        public async void ProcessNotifications(Subscription subscription)
+        {
+            var forumHub = new ForumHub();
+
+            await Task.Run(() =>
+            {
+                var topicController = new TopicController();
+                var topic = topicController.GetTopic(subscription.TopicId);
+                var message = string.Format("Se ah subscrito al siguiente topic: {0} ", topic.Title);
+                AddNotification(subscription.Id, null, message);
+                forumHub.Send(subscription.Author.UserName, message);  
+            });
+        }
+
+        public void AddNotification(int subscriptionId, int? postId, string message)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl + "api/notification/");
             var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
