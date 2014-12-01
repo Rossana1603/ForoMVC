@@ -39,16 +39,10 @@ namespace Forum.Persistence.DataAccess
                 .HasForeignKey(e => e.AuthorId)
                 .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<Notification>()
-            //    .HasRequired(e => e.Post)
-            //    .WithMany()
-            //    .HasForeignKey(e => e.PostId)
-            //    .WillCascadeOnDelete(false);
-
-        modelBuilder.Entity<Notification>()
-        .HasOptional(e => e.Post)
-        .WithOptionalDependent()
-        .WillCascadeOnDelete(true);
+            modelBuilder.Entity<Notification>()
+            .HasOptional(e => e.Post)
+            .WithOptionalDependent()
+            .WillCascadeOnDelete(true);
         }
 
         public DbSet<Post> Post { get; set; }

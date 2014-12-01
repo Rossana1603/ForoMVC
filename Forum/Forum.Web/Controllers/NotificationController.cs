@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
-using Forum.Persistence.DataAccess;
-using Forum.Persistence.Domain;
-using Forum.Web.Hubs;
-using Microsoft.Ajax.Utilities;
-using RestSharp;
-using Forum.Web.Properties;
 using AutoMapper;
-using Microsoft.AspNet.SignalR;
+using Forum.Persistence.Domain;
+using Forum.Web.Models;
+using Forum.Web.Properties;
+using Microsoft.AspNet.Identity;
+using RestSharp;
+using PagedList;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Forum.Web.Hubs;
 using Forum.Web.Resolver;
 
 namespace Forum.Web.Controllers
 {
+    [Authorize]
     public class NotificationController : CustomControllerBase
     {
         /// <summary>
@@ -60,9 +63,13 @@ namespace Forum.Web.Controllers
             {
                 var topicController = new TopicController();
                 var topic = topicController.GetTopic(subscription.TopicId);
+
+                var authorController = new AuthorController();
+                var author = authorController.GetAuthor(subscription.AuthorId);
+
                 var message = string.Format("Se ah subscrito al siguiente topic: {0} ", topic.Title);
                 AddNotification(subscription.Id, null, message);
-                forumHub.Send(subscription.Author.UserName, message);  
+                forumHub.Send(author.UserName, message);  
             });
         }
 
