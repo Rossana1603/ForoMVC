@@ -1,4 +1,6 @@
-﻿  @using Microsoft.AspNet.Identity  @model PagedList.PagedList<Forum.Web.Models.TopicViewModel>
+﻿@using Microsoft.AspNet.Identity  
+@using System.Web.Script.Serialization
+@model PagedList.PagedList<Forum.Web.Models.TopicViewModel>
         @{
             ViewBag.Title = "TopicList";
         }
@@ -36,7 +38,7 @@
                                 <td></td>
                                 <td>
                                     <h3>
-                                        @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1 }, null)
+                                        @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1}, null)
                                     </h3>
                                 </td>
 
