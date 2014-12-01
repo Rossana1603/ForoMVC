@@ -71,7 +71,7 @@ namespace Forum.Web.Controllers
             var responseTopic = client.Execute<Topic>(requestTopic);
 
             var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault(x=>x.Topic!=null).Topic : responseTopic.Data);            
-            //var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
+            var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
 
             var totalItemCount = Convert.ToInt32(response.Headers.FirstOrDefault(x => x.Name == "X-TotalItemCount").Value);            
 
