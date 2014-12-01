@@ -128,5 +128,14 @@ namespace Forum.Web.Controllers
 
             return response.Data;
         }
+
+        public Topic GetTopic(int id)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("api/topic/{id}", Method.GET) { RequestFormat = DataFormat.Json };
+            request.AddParameter("id", id);
+            return client.Execute<Topic>(request).Data;
+        }
+
     }
 }

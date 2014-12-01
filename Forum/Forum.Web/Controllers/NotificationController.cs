@@ -59,10 +59,10 @@ namespace Forum.Web.Controllers
             await Task.Run(() =>
             {
                 var topicController = new TopicController();
-                //var topic = topicController.GetTopic(subscription.TopicId);
-                //var message = string.Format("Se ah subscrito al siguiente topic: {0} ", topic.Title);
-            //    AddNotification(subscription.Id, null, message);
-            //    forumHub.Send(subscription.Author.UserName, message);  
+                var topic = topicController.GetTopic(subscription.TopicId);
+                var message = string.Format("Se ah subscrito al siguiente topic: {0} ", topic.Title);
+                AddNotification(subscription.Id, null, message);
+                forumHub.Send(subscription.Author.UserName, message);  
             });
         }
 
