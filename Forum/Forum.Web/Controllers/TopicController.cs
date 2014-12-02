@@ -53,8 +53,7 @@ namespace Forum.Web.Controllers
             return View(topics.ToPagedList(pageNumber, pageSize));
         }
 
-        //public ActionResult TopicDetail(int id, int? page, string jsonTopic)
-        public ActionResult TopicDetail(int id, int? page)
+        public ActionResult TopicDetail(int id, int? page, string topicJson)
         {
             int pageNumber = page ?? 1;
             int pageSize = 2;
@@ -66,11 +65,7 @@ namespace Forum.Web.Controllers
             request.AddParameter("pageSize", pageSize);
             var response = client.Execute<List<Post>>(request);
 
-            var requestTopic = new RestRequest("/api/topic/{id}", Method.GET);
-            requestTopic.AddParameter("id", id);
-            var responseTopic = client.Execute<Topic>(requestTopic);
-
-            var topic = Mapper.Map<Topic, TopicViewModel>(response.Data != null && response.Data.Count>0 ? response.Data.FirstOrDefault(x=>x.Topic!=null).Topic : responseTopic.Data);            
+            var topic = JsonConvert.DeserializeObject<TopicViewModel>(topicJson);
             var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
 
             var totalItemCount = Convert.ToInt32(response.Data != null ? response.Headers.First(x => x.Name == "X-TotalItemCount").Value : "0");            

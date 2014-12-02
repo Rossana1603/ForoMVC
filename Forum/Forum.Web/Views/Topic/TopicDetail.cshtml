@@ -1,6 +1,7 @@
 ﻿
 @using System.Activities.Statements
 @using System.Web.UI.WebControls
+@using System.Web.Script.Serialization;
 
 @model Forum.Web.Models.TopicDetailViewModel
 
@@ -66,7 +67,7 @@
                         {
                             @Html.ActionLink("Edit", "EditPost", "Post", new { id = item.TopicId, postId = item.Id }, null)
                             <span> | </span>
-                            @Html.ActionLink("Delete", "DeletePost", "Post", new { id = item.TopicId, postId = item.Id }, null)
+                            @Html.ActionLink("Delete", "DeletePost", "Post", new { id = item.TopicId, postId = item.Id}, null)
                         } 
                         | @Html.ActionLink("Like", "like", new { })
                     </td>
@@ -84,9 +85,9 @@
 
         if (Model.Posts.HasPreviousPage)
         {
-            @Html.ActionLink("<<", "TopicDetail", new { Page = 1 })
+            @Html.ActionLink("<<", "TopicDetail", new { Page = 1, topicJson = new JavaScriptSerializer().Serialize(Model.Topic) })
             @Html.Raw(" ")
-            @Html.ActionLink("<Prve", "TopicDetail", new { Page = Model.Posts.PageNumber - 1 })
+            @Html.ActionLink("<Prve", "TopicDetail", new { Page = Model.Posts.PageNumber - 1, topicJson = new JavaScriptSerializer().Serialize(Model.Topic) })
         }
         else
         {
@@ -99,9 +100,9 @@
         
         if (Model.Posts.HasNextPage)
         {
-            @Html.ActionLink("Next >", "TopicDetail", new { Page = Model.Posts.PageNumber + 1 })
+            @Html.ActionLink("Next >", "TopicDetail", new { Page = Model.Posts.PageNumber + 1, topicJson = new JavaScriptSerializer().Serialize(Model.Topic) })
             @Html.Raw(" ")
-            @Html.ActionLink(">>", "TopicDetail", new { Page = Model.Posts.PageCount })
+            @Html.ActionLink(">>", "TopicDetail", new { Page = Model.Posts.PageCount, topicJson = new JavaScriptSerializer().Serialize(Model.Topic) })
         }
         else
         {
