@@ -528,10 +528,6 @@
   <ItemGroup>
     <Folder Include="Content\Images\" />
     <Folder Include="Mapper\" />
-    <Folder Include="Views\Author\" />
-    <Folder Include="Views\Notification\" />
-    <Folder Include="Views\Subcription\" />
-    <Folder Include="Views\Subscription\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

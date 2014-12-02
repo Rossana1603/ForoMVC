@@ -57,14 +57,8 @@ namespace Forum.Web.Controllers
 
         public void SubscriptionNotification(Subscription subscription)
         {
-                var forumHub = new ForumHub();
-
                 var topicController = new TopicController();
                 var topic = topicController.GetTopic(subscription.TopicId);
-
-                var authorController = new AuthorController();
-                var author = authorController.GetAuthor(subscription.AuthorId);
-
                 var message = string.Format("Se ah subscrito al siguiente topic: {0} ", topic.Title);
                 AddNotification(subscription.Id, null, message);
         }
