@@ -58,18 +58,10 @@ namespace Forum.Web.Controllers
         {
             int pageNumber = page ?? 1;
             int pageSize = 2;
-
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/Post/GetPostsByTopicId/{topicId}/{pageNumber}/{pageSize}", Method.GET);
-            request.AddParameter("topicId", id);
-            request.AddParameter("pageNumber", pageNumber);
-            request.AddParameter("pageSize", pageSize);
-            var response = client.Execute<List<Post>>(request);
+            var totalItemCount = 0;
 
             var topic = JsonConvert.DeserializeObject<TopicViewModel>(topicJson);
-            var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
-
-            var totalItemCount = Convert.ToInt32(response.Data != null ? response.Headers.First(x => x.Name == "X-TotalItemCount").Value : "0");            
+            var posts = new PostController().GetPostsByTopicId(id, pageNumber, pageSize, out totalItemCount);                   
 
             posts.ToList().ForEach((x) =>
             {

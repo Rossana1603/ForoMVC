@@ -65,9 +65,9 @@
                     <td style="text-align: right">
                         @if(item.IsTopicCreator)
                         {
-                            @Html.ActionLink("Edit", "EditPost", "Post", new { id = item.TopicId, postId = item.Id }, null)
+                            @Html.ActionLink("Edit", "EditPost", "Post", new { postId = item.Id, page = Model.Posts.PageNumber }, null)
                             <span> | </span>
-                            @Html.ActionLink("Delete", "DeletePost", "Post", new { id = item.TopicId, postId = item.Id}, null)
+                            @Html.ActionLink("Delete", "DeletePost", "Post", new { postId = item.Id, page = Model.Posts.PageNumber, topicJson = new JavaScriptSerializer().Serialize(Model.Topic) }, null)
                         } 
                         | @Html.ActionLink("Like", "like", new { })
                     </td>

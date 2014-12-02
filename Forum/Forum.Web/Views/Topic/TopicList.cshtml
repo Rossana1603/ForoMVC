@@ -79,8 +79,7 @@
                                          }
                                          else
                                          {
-                                             @Html.ActionLink("Unsubscribe", "DeleteSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber, subscriptionId = item.Subscription.Id}, null)
-                                             ;
+                                             @Html.ActionLink("Unsubscribe", "DeleteSubscription", "Subscription", new {topicId = item.Id, page = Model.PageNumber, subscriptionId = item.Subscription.Id}, null);
                                          }                             
                                     }
                                     |
