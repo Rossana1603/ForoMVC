@@ -25,5 +25,14 @@ namespace WebApi.Controllers
             var response = base.Delete(entity.Id).IsSuccessStatusCode;
             return (!response) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse(HttpStatusCode.NoContent);
         }
+
+        [Route("api/Notification/DeleteBySubscriptionId/{subscriptionId}")]
+        public HttpResponseMessage DeleteBySubscriptionId([FromUri]int subscriptionId)
+        {
+            List<Notification> list = base.Get().Cast<Notification>().ToList();
+            var entity = list.FirstOrDefault(x => x.SubscriptionId == subscriptionId);
+            var response = base.Delete(entity.Id).IsSuccessStatusCode;
+            return (!response) ? Request.CreateResponse(HttpStatusCode.NotFound) : Request.CreateResponse(HttpStatusCode.NoContent);
+        }
     }
 }

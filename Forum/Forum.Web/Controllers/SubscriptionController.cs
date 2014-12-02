@@ -34,15 +34,15 @@ namespace Forum.Web.Controllers
             });
             var response = client.Execute<Subscription>(request);
 
-            Task.Factory.StartNew(() => notificationController.ProcessNotifications(response.Data));         
-
+            notificationController.SubscriptionNotification(response.Data);
 
             return RedirectToAction("TopicList", "Topic", new { Page = page });
         }
 
         public ActionResult DeleteSubscription(int topicId, int page, int subscriptionId)
         {
-            var model = new TopicViewModel();
+            var notificationController = new NotificationController();
+            notificationController.DeleteSubscriptionNotification(subscriptionId);
 
             var client = new RestClient(Settings.Default.ForumApiUrl + "api/Subscription/{id}");
             var request = new RestRequest(Method.DELETE);
@@ -61,6 +61,18 @@ namespace Forum.Web.Controllers
             request.AddParameter("topicId", topicId);
 
             return client.Execute<List<Subscription>>(request).Data;
+        }
+
+        public Subscription GetSuscriptionByAuthorId(int authorId, int topicId)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("/api/Subscription/GetSuscriptionByAuthorId/{authorId}/{topicId}", Method.GET);
+            request.AddParameter("authorId", authorId);
+            request.AddParameter("topicId", topicId);
+
+            var response = client.Execute<Subscription>(request);
+
+            return response.Data;
         }
     }
 }

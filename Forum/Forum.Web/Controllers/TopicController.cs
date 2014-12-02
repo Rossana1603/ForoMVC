@@ -35,6 +35,7 @@ namespace Forum.Web.Controllers
             var client = new RestClient(Settings.Default.ForumApiUrl);
             var request = new RestRequest("api/topic/", Method.GET);
             var response = client.Execute<List<Topic>>(request);
+            var subscriptionController = new SubscriptionController();
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -47,7 +48,7 @@ namespace Forum.Web.Controllers
             topics.ForEach( (x) =>
                             {
                                 x.AvatarFileName = base.GetAvatarFileName(GetIdByUserName(x.Author.UserName));
-                                x.Subscription = GetSuscriptionByAuthorId(currentAuthorId, x.Id);
+                                x.Subscription = subscriptionController.GetSuscriptionByAuthorId(currentAuthorId, x.Id);
                             });
 
             return View(topics.ToPagedList(pageNumber, pageSize));
@@ -111,18 +112,6 @@ namespace Forum.Web.Controllers
             request.AddParameter("id", id);
             var queryResult = client.Execute<List<TopicViewModel>>(request).Data;
             return RedirectToAction("Index");
-        }
-
-        private Subscription GetSuscriptionByAuthorId(int authorId, int topicId)
-        {
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/Subscription/GetSuscriptionByAuthorId/{authorId}/{topicId}", Method.GET);
-            request.AddParameter("authorId",authorId);
-            request.AddParameter("topicId",topicId);
-            
-            var response = client.Execute<Subscription>(request);
-
-            return response.Data;
         }
 
         public Topic GetTopic(int id)

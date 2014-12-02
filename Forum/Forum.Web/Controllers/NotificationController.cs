@@ -55,12 +55,10 @@ namespace Forum.Web.Controllers
             });
         }
 
-        public async void ProcessNotifications(Subscription subscription)
+        public void SubscriptionNotification(Subscription subscription)
         {
-            var forumHub = new ForumHub();
+                var forumHub = new ForumHub();
 
-            await Task.Run(() =>
-            {
                 var topicController = new TopicController();
                 var topic = topicController.GetTopic(subscription.TopicId);
 
@@ -69,8 +67,6 @@ namespace Forum.Web.Controllers
 
                 var message = string.Format("Se ah subscrito al siguiente topic: {0} ", topic.Title);
                 AddNotification(subscription.Id, null, message);
-                forumHub.Send(author.UserName, message);  
-            });
         }
 
         public void AddNotification(int subscriptionId, int? postId, string message)
@@ -118,11 +114,20 @@ namespace Forum.Web.Controllers
             return notifyUsers;
         }
 
-        public void DeleteNotification(int postId)
+        public void DeletePostNotification(int postId)
         {
-            var client = new RestClient(Settings.Default.ForumApiUrl + "api/Notification/{postId}");
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/Notification/DeleteByPostId/{postId}");
             var request = new RestRequest(Method.DELETE);
             request.AddParameter("postId", postId);
+
+            var response = client.Execute<Notification>(request);
+        }
+
+        public void DeleteSubscriptionNotification(int subscriptionId)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/Notification/DeleteBySubscriptionId/{subscriptionId}");
+            var request = new RestRequest(Method.DELETE);
+            request.AddParameter("subscriptionId", subscriptionId);
 
             var response = client.Execute<Notification>(request);
         }

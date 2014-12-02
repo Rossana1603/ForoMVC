@@ -124,7 +124,7 @@ namespace Forum.Web.Controllers
             request.AddParameter("id", postId);
             var response = client.Execute<Post>(request);
 
-            notificationController.DeleteNotification(postId);
+            notificationController.DeletePostNotification(postId);
 
             return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }
