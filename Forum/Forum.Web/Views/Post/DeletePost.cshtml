@@ -1,5 +1,5 @@
 ﻿@model Forum.Web.Models.PostViewModel
-
+@using System.Web.Script.Serialization
 @{
     ViewBag.Title = "DeletePost";
 }
@@ -17,13 +17,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Content)
+            @Html.Raw(Model.Content)
         </dd>
 
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.HiddenFor(m => m.TopicId)
+        @Html.Hidden("PageNumber", (int)ViewBag.PageNumber)
+        @Html.Hidden("TopicJson", (string)ViewBag.TopicJson)
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color" style="width:500px;">  
@@ -34,10 +36,8 @@
     }
 </div>
 <div class="form-actions no-color">
-    <br />
-    
-        @Html.ActionLink("Back to List", "TopicDetail", "Topic", new { id = @Model.TopicId }, null)
-    
+<br />    
+@Html.ActionLink("Back to List", "TopicDetail", "Topic", new { id = @Model.TopicId, Page = (int)ViewBag.PageNumber, topicJson = new JavaScriptSerializer().Serialize(@Model.Topic) }, null)
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

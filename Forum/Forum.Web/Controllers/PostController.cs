@@ -10,6 +10,9 @@ using Forum.Web.Properties;
 using RestSharp;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
+using Microsoft.AspNet.SignalR.Hosting;
+using Newtonsoft.Json;
 
 namespace Forum.Web.Controllers
 {
@@ -31,22 +34,44 @@ namespace Forum.Web.Controllers
             return View(model);
         }
 
-        private List<PostViewModel> GetPostsByTopicId(int topicId)
+        public List<PostViewModel> GetPostsByTopicId(int topicId, int pageNumber, int pageSize, out int totalItemCount)
         {
             var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("/api/Post/GetPostByTopicId/{topicId}", Method.GET);
+            var request = new RestRequest("/api/Post/GetPostsByTopicId/{topicId}/{pageNumber}/{pageSize}", Method.GET);
             request.AddParameter("topicId", topicId);
+            request.AddParameter("pageNumber", pageNumber);
+            request.AddParameter("pageSize", pageSize);
             var response = client.Execute<List<Post>>(request);
 
-            return Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
+            var posts = Mapper.Map<List<Post>, List<PostViewModel>>(response.Data);
+            totalItemCount = Convert.ToInt32(response.Data != null ? response.Headers.First(x => x.Name == "X-TotalItemCount").Value : "0");               
+
+            return posts;
         }
 
 
-        public ActionResult EditPost(int id, int postId)
+        public PostViewModel GetPostById(int postId)
+        {
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("/api/Post/{id}", Method.GET);
+            request.AddParameter("id", postId);
+            var response = client.Execute<Post>(request);
+
+            return Mapper.Map<Post, PostViewModel>(response.Data);
+        }
+
+        public List<PostViewModel> GetPostsByTopicId(int topicId, int pageNumber, int pageSize)
+        {
+            var totalItemCount = 0;
+            return GetPostsByTopicId(topicId, pageNumber, pageSize, out totalItemCount);
+        }
+
+        public ActionResult EditPost(int postId, int page)
         {
             var model = new PostViewModel();
-            model = GetPostsByTopicId(id).FirstOrDefault(x => x.Id == postId);
+            model = GetPostById(postId);
             ViewBag.PostId = postId;
+            ViewBag.PageNumber = page;
             return View(model);
         }
 
@@ -83,8 +108,8 @@ namespace Forum.Web.Controllers
             var content = post.Content;
             var request = new RestRequest(Method.PATCH) { RequestFormat = DataFormat.Json };
 
-            post = GetPostsByTopicId(post.TopicId).FirstOrDefault(x => x.Id == int.Parse(Request["PostId"]));
-
+            post = GetPostById(int.Parse(Request["PostId"]));
+            
             request.AddParameter("id", post.Id,ParameterType.UrlSegment);
             request.AddJsonBody(new Post()
             {
@@ -101,14 +126,16 @@ namespace Forum.Web.Controllers
             });
             var response = client.Execute<Post>(request);
 
-            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
+            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId, page = int.Parse(Request["PageNumber"]), topicJson = new JavaScriptSerializer().Serialize(post.Topic) });
         }
 
-        public ActionResult DeletePost(int id, int postId)
+        public ActionResult DeletePost(int postId, int page, string topicJson)
         {
             var model = new PostViewModel();
-            model = GetPostsByTopicId(id).FirstOrDefault(x => x.Id == postId);
+            model = GetPostById(postId);
             ViewBag.PostId = postId;
+            ViewBag.PageNumber = page;
+            ViewBag.TopicJson = topicJson;
             return View(model);
         }
 
@@ -117,7 +144,6 @@ namespace Forum.Web.Controllers
         public ActionResult DeletePost(PostViewModel post)
         {
             var notificationController = new NotificationController();
-
             var client = new RestClient(Settings.Default.ForumApiUrl + "api/Post/{id}");
             var request = new RestRequest(Method.DELETE);
             var postId = int.Parse(Request["PostId"]);
@@ -126,7 +152,7 @@ namespace Forum.Web.Controllers
 
             notificationController.DeletePostNotification(postId);
 
-            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
+            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId, page = int.Parse(Request["PageNumber"]), topicJson = Request["TopicJson"] });
         }
 	}
 }

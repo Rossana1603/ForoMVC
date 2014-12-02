@@ -1,6 +1,7 @@
 ﻿@using Forum.Persistence.Domain
 @using Forum.Web.Properties
 @model Forum.Web.Models.PostViewModel
+@using System.Web.Script.Serialization
 
 @{
     ViewBag.Title = "AddPost";    
@@ -44,7 +45,7 @@
 }
 
 <div>    
-   @Html.ActionLink("Back to List", "TopicDetail", "Topic", new { id = @Model.TopicId }, null)
+   @Html.ActionLink("Back to List", "TopicDetail", "Topic", new { id = @Model.TopicId, topicJson = new JavaScriptSerializer().Serialize(Model.Topic) }, null)
 </div>
 
 
