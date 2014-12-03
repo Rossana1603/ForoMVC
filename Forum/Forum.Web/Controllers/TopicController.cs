@@ -68,7 +68,7 @@ namespace Forum.Web.Controllers
                 x.AvatarFileName = base.GetAvatarFileName(x.Author.Id);
             });
 
-            var topic = Mapper.Map<Topic, TopicViewModel>(posts != null ? posts.First().Topic : new TopicController().GetTopic(id));            
+            var topic = Mapper.Map<Topic, TopicViewModel>(posts.Any() ? posts.First().Topic : new TopicController().GetTopic(id));            
             var postsPage = new StaticPagedList<PostViewModel>(posts.ToList(), pageNumber, pageSize, totalItemCount);
 
             return View(new TopicDetailViewModel {
