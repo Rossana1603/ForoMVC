@@ -19,25 +19,25 @@ namespace Forum.Web.Controllers
     [Authorize]
     public class SubscriptionController : CustomControllerBase
     {
+        [HttpPost]
+        public ActionResult AddSubscription(int topicId, int page)
+        {
+            var notificationController = new NotificationController();
 
-        //public ActionResult AddSubscription(int topicId, int page)
-        //{
-        //    var notificationController = new NotificationController();
+            var client = new RestClient(Settings.Default.ForumApiUrl + "api/subscription/");
+            var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
 
-        //    var client = new RestClient(Settings.Default.ForumApiUrl + "api/subscription/");
-        //    var request = new RestRequest(Method.POST) { RequestFormat = DataFormat.Json };
+            request.AddJsonBody(new Subscription()
+            {
+                AuthorId = GetIdByUserName(User.Identity.GetUserName()),
+                TopicId = topicId,
+            });
+            var response = client.Execute<Subscription>(request);
 
-        //    request.AddJsonBody(new Subscription()
-        //    {
-        //        AuthorId = GetIdByUserName(User.Identity.GetUserName()),
-        //        TopicId  = topicId,                
-        //    });
-        //    var response = client.Execute<Subscription>(request);
+            notificationController.SubscriptionNotification(response.Data);
 
-        //    notificationController.SubscriptionNotification(response.Data);
-
-        //    return RedirectToAction("TopicList", "Topic", new { Page = page });
-        //}
+            return Json(Url.Action("TopicList", "Topic", new { Page = page }));
+        }
 
         public ActionResult DeleteSubscription(int topicId, int page, int subscriptionId)
         {
