@@ -31,6 +31,11 @@ namespace IdentitySample
                         "~/Scripts/forum.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/bundles/topics").Include(
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/forum/topic.js"
+            ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/forum.css",

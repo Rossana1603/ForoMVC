@@ -5,6 +5,8 @@
         ViewBag.Title = "TopicList";
     }
 
+@Scripts.Render("~/bundles/topics")
+
     <h2>TopicList</h2>
 
     @if (ViewBag.Error)
@@ -74,9 +76,9 @@
                                 @if (User.Identity.GetUserName() != item.Author.UserName)
                                 {
                                     if (item.Subscription == null)
-                                    {
-                                        @*@Html.ActionLink("Subscribe", "AddSubscription", "Subscription", new { topicId = item.Id, page = Model.PageNumber });*@                                        
-                                        @Html.ActionLink("Subscribe", "AddSubscription", null, new { href = "#", onclick = "AddSubscription("@(item.id)", " @(Model.PageNumber) ");" })
+                                    {                                        
+                                        //@Html.RouteLink("Subscribe", null, new { name = "lnkAddSubscription", topicId = item.Id, page = Model.PageNumber })
+                                        @Html.ActionLink("Subscribe", null, null, null, new { name = "lnkAddSubscription", topicId = item.Id, page = Model.PageNumber });
                                     }
                                     else
                                     {
@@ -133,27 +135,4 @@
 
     }
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            alert("hola");
-            $("a[name*='AddSubscription']").click(function () {
-                var me = $(this), data = me.data('params');
-                AddSubscription(me.topicId, me.page);
-            });
-
-            function AddSubscription(topicId, page) {
-                $.ajax({
-                    url: "/Subscription/AddSubscription",
-                    data: { topicId: topicId, page: page },
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json"
-                }).done(function () {
-                    toastr.success("Su subscripcion ha sido enviada!");
-                }).error(function (data) {
-                    toastr.error("No se ah podido subscribir");
-                });
-            }
-
-        });
-    </script>
+@Scripts.Render("~/bundles/jquery")
