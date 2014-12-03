@@ -126,16 +126,15 @@ namespace Forum.Web.Controllers
             });
             var response = client.Execute<Post>(request);
 
-            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId, page = int.Parse(Request["PageNumber"]), topicJson = new JavaScriptSerializer().Serialize(post.Topic) });
+            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }
 
-        public ActionResult DeletePost(int postId, int page, string topicJson)
+        public ActionResult DeletePost(int postId, int page)
         {
             var model = new PostViewModel();
             model = GetPostById(postId);
             ViewBag.PostId = postId;
             ViewBag.PageNumber = page;
-            ViewBag.TopicJson = topicJson;
             return View(model);
         }
 
@@ -152,7 +151,7 @@ namespace Forum.Web.Controllers
 
             notificationController.DeletePostNotification(postId);
 
-            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId, page = int.Parse(Request["PageNumber"]), topicJson = Request["TopicJson"] });
+            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
         }
 	}
 }
