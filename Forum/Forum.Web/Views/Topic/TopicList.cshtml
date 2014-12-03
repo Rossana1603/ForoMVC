@@ -5,8 +5,6 @@
         ViewBag.Title = "TopicList";
     }
 
-@Scripts.Render("~/bundles/topics")
-
     <h2>TopicList</h2>
 
     @if (ViewBag.Error)
@@ -76,7 +74,7 @@
                                 @if (User.Identity.GetUserName() != item.Author.UserName)
                                 {
                                     if (item.Subscription == null)
-                                    {                                        
+                                    {
                                         //@Html.RouteLink("Subscribe", null, new { name = "lnkAddSubscription", topicId = item.Id, page = Model.PageNumber })
                                         @Html.ActionLink("Subscribe", null, null, null, new { name = "lnkAddSubscription", topicId = item.Id, page = Model.PageNumber });
                                     }
@@ -135,4 +133,6 @@
 
     }
 
-@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery")
+
+    @Scripts.Render("~/bundles/topics")

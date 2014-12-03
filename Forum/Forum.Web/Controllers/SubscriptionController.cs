@@ -20,6 +20,7 @@ namespace Forum.Web.Controllers
     public class SubscriptionController : CustomControllerBase
     {
         [HttpPost]
+        //public ActionResult AddSubscription(int topicId, int page)
         public ActionResult AddSubscription(int topicId, int page)
         {
             var notificationController = new NotificationController();
@@ -36,7 +37,7 @@ namespace Forum.Web.Controllers
 
             notificationController.SubscriptionNotification(response.Data);
 
-            return Json(Url.Action("TopicList", "Topic", new { Page = page }));
+            return new HttpStatusCodeResult(HttpStatusCode.Accepted);
         }
 
         public ActionResult DeleteSubscription(int topicId, int page, int subscriptionId)
