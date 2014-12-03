@@ -39,7 +39,7 @@
                             <td>
                                 <h3>
                                     @*@Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1}, null)*@
-                                    @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1, topicJson = new JavaScriptSerializer().Serialize(item) }, null)
+                                    @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1 }, null)
                                 </h3>
                             </td>
 
@@ -80,8 +80,7 @@
                                     }
                                     else
                                     {
-                                        @Html.ActionLink("Unsubscribe", "DeleteSubscription", "Subscription", new { topicId = item.Id, page = Model.PageNumber, subscriptionId = item.Subscription.Id }, null)
-                                        ;
+                                        @Html.ActionLink("Unsubscribe", "DeleteSubscription", "Subscription", new { topicId = item.Id, page = Model.PageNumber, subscriptionId = item.Subscription.Id }, null);
                                     }
                                 }
                                 |

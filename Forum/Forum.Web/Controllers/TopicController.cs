@@ -54,13 +54,12 @@ namespace Forum.Web.Controllers
             return View(topics.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult TopicDetail(int id, int? page, string topicJson)
+        public ActionResult TopicDetail(int id, int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 2;
             var totalItemCount = 0;
 
-            var topic = JsonConvert.DeserializeObject<TopicViewModel>(topicJson);
             var posts = new PostController().GetPostsByTopicId(id, pageNumber, pageSize, out totalItemCount);                   
 
             posts.ToList().ForEach((x) =>
@@ -68,8 +67,14 @@ namespace Forum.Web.Controllers
                 x.IsTopicCreator = x.Author.UserName == User.Identity.GetUserName();
                 x.AvatarFileName = base.GetAvatarFileName(x.Author.Id);
             });
-            
-            return View(new TopicDetailViewModel { Topic = topic, Posts = new StaticPagedList<PostViewModel>(posts.ToList(),pageNumber, pageSize, totalItemCount) });
+
+            var topic = Mapper.Map<Topic, TopicViewModel>(posts.Any() ? posts.First().Topic : new TopicController().GetTopic(id));            
+            var postsPage = new StaticPagedList<PostViewModel>(posts.ToList(), pageNumber, pageSize, totalItemCount);
+
+            return View(new TopicDetailViewModel {
+                            Topic = topic,
+                            Posts = postsPage
+            });
         }
 
         public ActionResult AddTopic()

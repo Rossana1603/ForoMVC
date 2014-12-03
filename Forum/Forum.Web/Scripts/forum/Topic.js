@@ -52,7 +52,6 @@
         })();
 
         function AddSubscription(topicId, page) {
-
             var data = {
                 topicId: topicId,
                 page: page,
@@ -64,8 +63,4 @@
                 .fail(function () {
                     MessageModule.ShowMessage("No se ah podido subscribir");
                 });
-        };
-
-
-
-    });
+        };});
