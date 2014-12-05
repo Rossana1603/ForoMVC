@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net.Mail;
+using System.Net.Mime;
 
 namespace IdentitySample.Models
 {
@@ -87,6 +89,23 @@ namespace IdentitySample.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+
+            string text = message.Body;
+            string html = message.Body;
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress("orlando1409@gmail.com");
+            msg.To.Add(new MailAddress(message.Destination));
+            msg.Subject = message.Subject;
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));
+            msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Html));
+
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            //System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("uzi4test@gmail.com", "4T3st1ng");
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("uzi4test@gmail.com", "4T3st1ng");
+            smtpClient.Credentials = credentials;
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(msg);
+
             return Task.FromResult(0);
         }
     }

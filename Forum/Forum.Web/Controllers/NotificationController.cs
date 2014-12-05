@@ -15,6 +15,9 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Forum.Web.Hubs;
 using Forum.Web.Resolver;
+using IdentitySample.Controllers;
+using IdentitySample.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Forum.Web.Controllers
 {
@@ -31,10 +34,9 @@ namespace Forum.Web.Controllers
             await Task.Run(() =>
             {
                 var subscriptionController = new SubscriptionController();
-
-            	var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
-
-            	var message = post.Content.ToContentPreview(post.UserName);
+                var subscribers = subscriptionController.GetSubcriptionsByTopicId(post.TopicId);
+                var emailService = new EmailService();
+                var message = post.Content.ToContentPreview(post.UserName);
                 #region delay emulation
                     //////////TODO: erase
                     //////////only for testing purposes:begin
@@ -49,9 +51,25 @@ namespace Forum.Web.Controllers
 
                 foreach (var subscriber in subscribers)
                 {
-                    AddNotification(subscriber.Id, post.Id, message);
-                    SendNotifications(subscribers, message);
+                    AddNotification(subscriber.Id, post.Id, message);                  
                 }
+
+                var notifyUsers = GetNotifyUsers(subscribers);
+
+                SendNotifications(notifyUsers, message);
+
+                notifyUsers.ForEach((x) =>
+                {
+                    emailService.SendAsync(
+                    new IdentityMessage
+                    {
+                        Subject = "Forum Web - Somebody posted on your topic!",
+                        Destination = x.Author.Email,
+                        Body = post.Content
+                    });
+
+                });
+                                               
             });
         }
 
@@ -79,16 +97,13 @@ namespace Forum.Web.Controllers
         }
 
         private void SendNotifications(List<Subscription> subscribers, string message)
-        {
-            var notifyUsers = GetNotifyUsers(subscribers);
-
+        {          
             var forumHub = new ForumHub();
 
-            foreach (var subscriber in notifyUsers)
+            foreach (var subscriber in subscribers)
             {
                 forumHub.Send(subscriber.Author.UserName, message);                
             }
-
         }
 
         private List<Subscription> GetNotifyUsers(List<Subscription> subscribers)
