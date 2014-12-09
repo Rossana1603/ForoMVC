@@ -46,7 +46,7 @@ namespace WebApi.Controllers
                 .OrderBy(x=>x.Id)
                 .Select(x => x)
                 .Where(x => x.TopicId == topicId)
-                .Skip(pageSize * pageNumber)
+                .Skip(pageSize * (--pageNumber))
                 .Take(pageSize)
                 .GroupBy(x => new { TotalItemCount = query.Count() })
                 .FirstOrDefault();
