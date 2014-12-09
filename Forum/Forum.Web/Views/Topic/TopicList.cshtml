@@ -17,7 +17,7 @@
             @Html.ActionLink("New", "AddTopic")
         </p>
         using (Html.BeginForm("TopicList", "Topic", new { Page = 1, Keywords = string.Empty  }))
-        
+        {
                 <div>
                     <div class="col-md-8">
                         <input class="form-control" id="inputSearch" name="inputSearch" value="@ViewData["keywords"]" placeholder="Search" style="width: 100%; max-width: 100%">
