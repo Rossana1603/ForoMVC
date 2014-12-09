@@ -27,7 +27,7 @@ namespace WebApi.Controllers
         /// 
         /// </summary>
         /// <param name="topicId"></param>
-        /// <param name="pageNumber"></param>
+        /// <param name="pageNumber">Page number starting at 1</param>
         /// <param name="pageSize"></param>
         /// <returns>
         /// - A list of Topics
@@ -46,7 +46,7 @@ namespace WebApi.Controllers
                 .OrderBy(x=>x.Id)
                 .Select(x => x)
                 .Where(x => x.TopicId == topicId)
-                .Skip(pageSize * pageNumber)
+                .Skip(pageSize * (--pageNumber))
                 .Take(pageSize)
                 .GroupBy(x => new { TotalItemCount = query.Count() })
                 .FirstOrDefault();
