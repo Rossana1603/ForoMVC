@@ -47,19 +47,19 @@ namespace Forum.Web.Hubs
                 }
         }
 
-
         public bool Send(string userName, string message)
         {
             var connections = ConnectionByUsersDictionary.Where(x => x.Value == userName).ToList();
 
             connections.ForEach(x =>
-                { 
-                       if (ConnectionManager.Clients.Client(x.Key) != null)
+                {
+                       var client = ConnectionManager.Clients.Client(x.Key);
+
+                       if (client != null)
                        {
-                           ConnectionManager.Clients.Client(x.Key).notifyOnlineUser(message);
+                           client.notifyOnlineUser(message);
                        }
-                }
-            );
+                });
 
             return true;
         }

@@ -20,7 +20,6 @@ namespace Forum.Web.Controllers
     public class SubscriptionController : CustomControllerBase
     {
         [HttpPost]
-        //public ActionResult AddSubscription(int topicId, int page)
         public ActionResult AddSubscription(int topicId, int page)
         {
             var notificationController = new NotificationController();
