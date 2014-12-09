@@ -8,5 +8,6 @@ namespace Forum.Web.Models
     {
         public TopicViewModel Topic { get; set; }
         public StaticPagedList<PostViewModel> Posts { get; set; }
+        public PostViewModel Post { get; set; }
     }
 }

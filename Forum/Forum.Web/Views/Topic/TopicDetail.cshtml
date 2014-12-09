@@ -8,7 +8,26 @@
 @{
     ViewBag.Title = "TopicDetail";
 }
+<script src="~/Scripts/jquery-2.1.1.min.js"></script>
+@Scripts.Render("~/bundles/externalscripts")
+@Scripts.Render("~/bundles/customscripts")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#create-post").click(function (topicId) {
+            $("input[name*='hdTopicId']").val($("button[id*='create-post']").attr('topicId'));
+            $("#dialog-form").show();            
+        })
+    });
+
+</script>
+
+
+
 <div>
+    
     <br/>
     <div class="panel panel-primary" style="width: 815px">
         <table style="width: 800px">
@@ -113,7 +132,32 @@
     </div>
 
 </div>
-<p>        
+@*<p>        
     @Html.ActionLink("New post", "AddPost", "Post", new { id = Model.Topic.Id }, null)
+</p>*@
+<p>
+    <button id="create-post" topicId="@Model.Topic.Id">Create new post</button>
 </p>
+
+@using (Html.BeginForm("AddPost", "Post", FormMethod.Post, new { name = "formAddPost" }))
+{
+        @Html.AntiForgeryToken()
+    @Html.Hidden("hdTopicId");
+<div id="dialog-form" style="display:none">
+    @{ViewBag.TopicId = @Model.Topic.Id;}
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label> Content </label>
+            <div>
+                @Html.TextAreaFor(model => model.Post.Content)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-13">
+                <input type="submit" value="Create" class="btn btn-default" name="submit" />
+            </div>
+        </div>
+    </div>
+</div>
+}
 

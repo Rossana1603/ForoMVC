@@ -86,9 +86,8 @@ namespace Forum.Web.Controllers
 
             request.AddJsonBody(new Post()
             {
-                TopicId = post.TopicId,
+                TopicId = int.Parse(Request["hdTopicId"].ToString()),
                 Content = post.Content,
-                Tags = post.Tags,
                 AuthorId = base.GetIdByUserName(User.Identity.GetUserName()),
                 UserName =  User.Identity.GetUserName()
             });
@@ -96,7 +95,7 @@ namespace Forum.Web.Controllers
 
             Task.Factory.StartNew(()=>notificationController.ProcessNotifications(responsePost));         
 
-            return RedirectToAction("TopicDetail", "Topic", new { id = post.TopicId });
+            return RedirectToAction("TopicDetail", "Topic", new { id = responsePost.TopicId});
         }
 
 
