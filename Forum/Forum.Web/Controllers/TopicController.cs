@@ -26,33 +26,33 @@ namespace Forum.Web.Controllers
             Mapper.CreateMap<Post, PostViewModel>()
                 .ForMember(vwm => vwm.Tags, opt => opt.Ignore());
         }
-        public ActionResult TopicList(int? page)
-        {
-            ViewBag.Error = false;
-            int pageNumber = page ?? 1;
-            int pageSize = 2;
+        //public ActionResult TopicList(int? page)
+        //{
+        //    ViewBag.Error = false;
+        //    int pageNumber = page ?? 1;
+        //    int pageSize = 2;
 
-            var client = new RestClient(Settings.Default.ForumApiUrl);
-            var request = new RestRequest("api/topic/", Method.GET);
-            var response = client.Execute<List<Topic>>(request);
-            var subscriptionController = new SubscriptionController();
+        //    var client = new RestClient(Settings.Default.ForumApiUrl);
+        //    var request = new RestRequest("api/topic/", Method.GET);
+        //    var response = client.Execute<List<Topic>>(request);
+        //    var subscriptionController = new SubscriptionController();
 
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                ViewBag.Error = true;
-                return View();
-            }
+        //    if (response.StatusCode != HttpStatusCode.OK)
+        //    {
+        //        ViewBag.Error = true;
+        //        return View();
+        //    }
 
-            var topics = Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data);
-            var currentAuthorId = GetIdByUserName(User.Identity.GetUserName());            
-            topics.ForEach( (x) =>
-                            {
-                                x.AvatarFileName = base.GetAvatarFileName(GetIdByUserName(x.Author.UserName));
-                                x.Subscription = subscriptionController.GetSuscriptionByAuthorId(currentAuthorId, x.Id);
-                            });
+        //    var topics = Mapper.Map<List<Topic>,List<TopicViewModel>>(response.Data);
+        //    var currentAuthorId = GetIdByUserName(User.Identity.GetUserName());            
+        //    topics.ForEach( (x) =>
+        //                    {
+        //                        x.AvatarFileName = base.GetAvatarFileName(GetIdByUserName(x.Author.UserName));
+        //                        x.Subscription = subscriptionController.GetSuscriptionByAuthorId(currentAuthorId, x.Id);
+        //                    });
 
-            return View(topics.ToPagedList(pageNumber, pageSize));
-        }
+        //    return View(topics.ToPagedList(pageNumber, pageSize));
+        //}
 
         public ActionResult TopicDetail(int id, int? page)
         {
@@ -119,5 +119,36 @@ namespace Forum.Web.Controllers
             return client.Execute<Topic>(request).Data;
         }
 
+        public ActionResult TopicList(int? page, string keywords)
+        {
+
+            ViewBag.Error = false;
+            int pageNumber = page ?? 1;
+            int pageSize = 2;
+            ViewData["keywords"] = keywords?? Request.Form["inputSearch"];
+
+            var client = new RestClient(Settings.Default.ForumApiUrl);
+            var request = new RestRequest("api/topic/GetTopicsByKeywords/{keywords}", Method.GET);
+            request.AddParameter("keywords", (string)ViewBag.keywords);
+            var response = client.Execute<List<Topic>>(request);
+            var subscriptionController = new SubscriptionController();
+
+            if (response.StatusCode != HttpStatusCode.Found)
+            {
+                ViewBag.Error = true;
+                return View();
+            }
+
+            var topics = Mapper.Map<List<Topic>, List<TopicViewModel>>(response.Data);
+            var currentAuthorId = GetIdByUserName(User.Identity.GetUserName());
+
+            topics.ForEach((x) =>
+            {
+                x.AvatarFileName = base.GetAvatarFileName(GetIdByUserName(x.Author.UserName));
+                x.Subscription = subscriptionController.GetSuscriptionByAuthorId(currentAuthorId, x.Id);
+            });
+
+            return View(topics.ToPagedList(pageNumber, pageSize));
+        }
     }
 }

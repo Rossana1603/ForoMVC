@@ -16,46 +16,27 @@ namespace WebApi.Controllers
         {           
         }
 
-        //[Route("api/Topic/SearchTopics/{keywords}/{pageNumber}/{pageSize}")]
-        //public HttpResponseMessage SearchTopics([FromUri]string keywords)
-        //{
-        //    HttpResponseMessage response = null;
-        //    var totalItemCount = 0;
-        //    var posts = new List<Post>();
-        //    //var query = Query.Where(x => x.TopicId == topicId);
+        [Route("api/Topic/GetTopicsByKeywords/{keywords}")]
+        public HttpResponseMessage GetTopicsByKeywords(string keywords)
+        {
+            HttpResponseMessage response = null;
+            var splitKeyWords = keywords==null ? new string[]{null} : keywords.Split();
 
-        //    var result = Query.Where(x => x.Content.Any(i => keywords.Any(kw => kw == i.Name))
-        //            || x.Title.Any(d => keywords.Any(k => x.Name == k))
-        //            || keywords.Any(kew => x.Name.Contains(kew)));
+            var result = Query.Where( x =>
+                            splitKeyWords.Any(key => x.Title.Contains(key??x.Title))
+                         || splitKeyWords.Any(key => x.Content.Contains(key??x.Content))
+                         ).ToList();
 
-        //    return result;
+            if (result != null)
+            {
+                response = Request.CreateResponse<List<Topic>>(HttpStatusCode.Found, result);
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.NotFound);
+            }
 
-        //    var page = query
-        //        .OrderBy(x => x.Id)
-        //        .Select(x => x)
-        //        .Where(x => x.TopicId == topicId)
-        //        .Skip(pageSize * (--pageNumber))
-        //        .Take(pageSize)
-        //        .GroupBy(x => new { TotalItemCount = query.Count() })
-        //        .FirstOrDefault();
-
-        //    if (page != null)
-        //    {
-        //        totalItemCount = page.Key.TotalItemCount;
-        //        posts = page.Select(x => x).ToList();
-        //    }
-
-        //    if (posts.Any())
-        //    {
-        //        response = Request.CreateResponse<List<Post>>(HttpStatusCode.Found, posts);
-        //        response.Headers.Add("X-TotalItemCount", totalItemCount.ToString());
-        //    }
-        //    else
-        //    {
-        //        response = Request.CreateResponse(HttpStatusCode.NotFound);
-        //    }
-
-        //    return response;
-        //}
+            return response;
+        }
     }
 }

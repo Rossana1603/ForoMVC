@@ -12,12 +12,8 @@ using System.Net.Http.Formatting;
 
 namespace WebApi.Controllers
 {
-
-
     public class PostController : EntityControllerBase<Post>
     {
-        private List<Post> responsePosts;
-
         public PostController(IRepository<Post> repository) : base(repository)
         {
 

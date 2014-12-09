@@ -89,11 +89,10 @@ namespace IdentitySample.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-
             string text = message.Body;
             string html = message.Body;
             MailMessage msg = new MailMessage();
-            msg.From = new MailAddress("orlando1409@gmail.com");
+            msg.From = new MailAddress("uzi4test@gmail.com");
             msg.To.Add(new MailAddress(message.Destination));
             msg.Subject = message.Subject;
             msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain));

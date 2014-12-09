@@ -13,24 +13,24 @@
     }
     else
     {
-
         <p>
             @Html.ActionLink("New", "AddTopic")
         </p>
-        <form role="form">
-            <div>
-                <div class="col-md-8">
-                    <input class="form-control" id="inputSearch" placeholder="Search" style="width: 100%; max-width: 100%">
+        using (Html.BeginForm("TopicList", "Topic", new { Page = 1, Keywords = string.Empty  }))
+        
+                <div>
+                    <div class="col-md-8">
+                        <input class="form-control" id="inputSearch" name="inputSearch" value="@ViewData["keywords"]" placeholder="Search" style="width: 100%; max-width: 100%">
+                    </div>
+                    <button id = "btnSearch" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
                 </div>
-                <button id="btnSearch" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </button>
-            </div>
-        </form>
+            }        
         <br />
         <div>
             @foreach (var item in Model)
-            {
+                {
                 <div class="panel panel-primary" style="width: 815px">
 
                     <table style="width: 800px">
@@ -38,7 +38,6 @@
                             <td></td>
                             <td>
                                 <h3>
-                                    @*@Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1}, null)*@
                                     @Html.ActionLink(item.Title, "TopicDetail", "Topic", new { id = item.Id, page = 1 }, null)
                                 </h3>
                             </td>
@@ -102,9 +101,9 @@
 
                 if (Model.HasPreviousPage)
                 {
-                    @Html.ActionLink("<<", "TopicList", new { Page = 1 })
+                    @Html.ActionLink("<<", "TopicList", new { Page = 1, Keywords = ViewData["keywords"] })
                     @Html.Raw(" ")
-                    @Html.ActionLink("<Prve", "TopicList", new { Page = Model.PageNumber - 1 })
+                    @Html.ActionLink("<Prve", "TopicList", new { Page = Model.PageNumber - 1, Keywords = ViewData["keywords"] })
                 }
                 else
                 {
@@ -117,16 +116,16 @@
 
                 if (Model.HasNextPage)
                 {
-                    @Html.ActionLink("Next >", "TopicList", new { Page = Model.PageNumber + 1 })
+                    @Html.ActionLink("Next >", "TopicList", new { Page = Model.PageNumber + 1, Keywords = ViewData["keywords"] })
                     @Html.Raw(" ")
-                    @Html.ActionLink(">>", "TopicList", new { Page = Model.PageCount })
+                    @Html.ActionLink(">>", "TopicList", new { Page = Model.PageCount, Keywords = ViewData["keywords"] })
                 }
                 else
                 {
                     @:Next>
                     @Html.Raw(" ")
                     @:>>
-                    }
+                }
             }
         </div>
 
