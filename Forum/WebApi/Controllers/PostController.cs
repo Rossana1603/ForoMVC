@@ -27,7 +27,7 @@ namespace WebApi.Controllers
         /// 
         /// </summary>
         /// <param name="topicId"></param>
-        /// <param name="pageNumber"></param>
+        /// <param name="pageNumber">Page number starting at 1</param>
         /// <param name="pageSize"></param>
         /// <returns>
         /// - A list of Topics
