@@ -46,115 +46,126 @@
                     Creado en : @Model.Topic.CreateDate
                 </td>
             </tr>
-            <tr>
-                <td></td>
-            </tr>
         </table>
     </div>
     <br/>
-    @foreach (var item in Model.Posts)
-    {
-        <div class="panel panel-primary" style="width: 750px">
-            <table style="width: 600px">
-                <tr>
-                    <td></td>
-                    <td style="width: 115px">
-                    @if (item.AvatarFileName == string.Empty)
-                    {
-                        <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
-                    }
-                    else
-                    {
-                        <img src="~/Content/Images/@(item.AvatarFileName)" class="img-responsive" alt="Responsive image" style="width: 100px">
-                    }
-                    </td>
-                    <td>                        
-                        @Html.Raw(item.Content)
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Author.UserName)
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td style="text-align: right">
-                        @if(item.IsTopicCreator)
-                        {
-                            @Html.ActionLink("Edit", "EditPost", "Post", new { postId = item.Id, page = Model.Posts.PageNumber }, null)
-                            <span> | </span>
-                            @Html.ActionLink("Delete", "DeletePost", "Post", new { postId = item.Id, page = Model.Posts.PageNumber }, null)
-                        } 
-                        | @Html.ActionLink("Like", "like", new { })
-                    </td>
-                </tr>
-            </table>
-        </div>
-    }
-    <div>
-        @if (Model.Posts.PageCount>0)
-        {
-            @:Page 
-            @(Model.Posts.PageCount < Model.Posts.PageNumber ? 0 : Model.Posts.PageNumber)
-            @:of 
-            @Model.Posts.PageCount
+    <table >
+        <tr>
+            <td>
+                @foreach (var item in Model.Posts)
+                {
+                <div class="panel panel-primary" style="width: 750px">
+                    <table style="width: 600px">
+                        <tr>
+                            <td></td>
+                            <td style="width: 115px">
+                                @if (item.AvatarFileName == string.Empty)
+                                    {
+                                    <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">
+                                    }
+                                    else
+                                    {
+                                    <img src="~/Content/Images/@(item.AvatarFileName)" class="img-responsive" alt="Responsive image" style="width: 100px">
+                                    }
+                            </td>
+                            <td>
+                                @Html.Raw(item.Content)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Author.UserName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align: right">
+                                @if (item.IsTopicCreator)
+                                    {
+                                    @Html.ActionLink("Edit", "EditPost", "Post", new { postId = item.Id, page = Model.Posts.PageNumber }, null)
+                                    <span> | </span>
+                                    @Html.ActionLink("Delete", "DeletePost", "Post", new { postId = item.Id, page = Model.Posts.PageNumber }, null)
+                                    }
+                                | @Html.ActionLink("Like", "like", new { })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="width:700px">
+                    <tr>
+                        <td>
+                            <button id="create-post" topicid="@Model.Topic.Id" class="btn btn-primary">New post</button>
+                        </td>
+                        <td>
+                            <div align="right">
+                                @if (Model.Posts.PageCount > 0)
+                                {
+                                    @:Page
+                                    @(Model.Posts.PageCount < Model.Posts.PageNumber ? 0 : Model.Posts.PageNumber)
+                                    @:of
+                                    @Model.Posts.PageCount
 
-        if (Model.Posts.HasPreviousPage)
-        {
-            @Html.ActionLink("<<", "TopicDetail", new { Page = 1 })
-            @Html.Raw(" ")
-            @Html.ActionLink("<Prve", "TopicDetail", new { Page = Model.Posts.PageNumber - 1 })
-        }
-        else
-        {
-            @:<<
-            @Html.Raw(" ")
-            @:< Prev
-        }
+                                    if (Model.Posts.HasPreviousPage)
+                                    {
+                                        @Html.ActionLink("<<", "TopicDetail", new { Page = 1 })
+                                        @Html.Raw(" ")
+                                        @Html.ActionLink("<Prve", "TopicDetail", new { Page = Model.Posts.PageNumber - 1 })
+                                    }
+                                    else
+                                    {
+                                        @:<<
+                                        @Html.Raw(" ")
+                                        @:< Prev
+                                }
 
-        @Html.Raw(" ")
-        
-        if (Model.Posts.HasNextPage)
-        {
-            @Html.ActionLink("Next >", "TopicDetail", new { Page = Model.Posts.PageNumber + 1 })
-            @Html.Raw(" ")
-            @Html.ActionLink(">>", "TopicDetail", new { Page = Model.Posts.PageCount})
-        }
-        else
-        {
-            @:Next>
-            @Html.Raw(" ")
-            @:>>
-         }
-        }
-    </div>
+                                @Html.Raw(" ")
 
+                                    if (Model.Posts.HasNextPage)
+                                    {
+                                        @Html.ActionLink("Next >", "TopicDetail", new { Page = Model.Posts.PageNumber + 1 })
+                                        @Html.Raw(" ")
+                                        @Html.ActionLink(">>", "TopicDetail", new { Page = Model.Posts.PageCount })
+                                    }
+                                    else
+                                    {
+                                        @:Next>
+                                        @Html.Raw(" ")
+                                        @:>>
+                                }
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </div>
-@*<p>        
-    @Html.ActionLink("New post", "AddPost", "Post", new { id = Model.Topic.Id }, null)
-</p>*@
-<p>
-    <button id="create-post" topicId="@Model.Topic.Id">Create new post</button>
-</p>
+<br />
 
 @using (Html.BeginForm("AddPost", "Post", FormMethod.Post, new { name = "formAddPost" }))
 {
-        @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
     @Html.Hidden("hdTopicId");
 <div id="dialog-form" style="display:none">
     @{ViewBag.TopicId = @Model.Topic.Id;}
-    <div class="form-horizontal">
-        <div class="form-group">
-            <label> Content </label>
+    <div class="form-horizontal" style="width: 750px">
+        <div>
+            <label> New Post: </label>
             <div>
                 @Html.TextAreaFor(model => model.Post.Content)
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-13">
-                <input type="submit" value="Create" class="btn btn-default" name="submit" />
+        <br />
+        <div>
+            <div>
+                <input type="submit" value="Create" class="btn btn-primary" name="submit" />
             </div>
         </div>
     </div>
