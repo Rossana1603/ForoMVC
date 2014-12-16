@@ -19,24 +19,25 @@ namespace WebApi.Controllers
         [Route("api/Topic/GetTopicsByKeywords/{keywords}")]
         public HttpResponseMessage GetTopicsByKeywords(string keywords)
         {
-            HttpResponseMessage response = null;
             var splitKeyWords = keywords==null ? new string[]{null} : keywords.Split();
 
-            var result = Query.Where( x =>
-                            splitKeyWords.Any(key => x.Title.Contains(key??x.Title))
-                         || splitKeyWords.Any(key => x.Content.Contains(key??x.Content))
-                         ).ToList();
+            var result = Query;
 
-            if (result != null)
+            if (result == null)
             {
-                response = Request.CreateResponse<List<Topic>>(HttpStatusCode.Found, result);
-            }
-            else
-            {
-                response = Request.CreateResponse(HttpStatusCode.NotFound);
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             }
 
-            return response;
+            if (keywords!=null)
+            {
+                result = result
+                         .Where(x =>
+                           splitKeyWords.Any(key => x.Title.Contains(key))
+                        || splitKeyWords.Any(key => x.Content.Contains(key))
+                        );
+            }
+
+            return Request.CreateResponse<List<Topic>>(HttpStatusCode.Found, result.ToList());
         }
     }
 }

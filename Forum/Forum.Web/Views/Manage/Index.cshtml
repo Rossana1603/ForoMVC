@@ -72,7 +72,7 @@
             </form>
         }
         <form method="post" action="/Manage/UploadAvatar" enctype="multipart/form-data">  
-                @Html.AntiForgeryToken()          
+                @Html.AntiForgeryToken()
                 @if (Model.AvatarFileName == string.Empty)
                 {                    
                     <img src="~/Images/default-avatar.dmbNkD5D-u45r44go_cf0g.png" class="img-responsive" alt="Responsive image" style="width: 100px">

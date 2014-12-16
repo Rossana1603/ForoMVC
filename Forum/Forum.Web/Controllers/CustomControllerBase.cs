@@ -33,6 +33,12 @@ namespace Forum.Web.Controllers
             var onePath = filePaths.FirstOrDefault(x => Path.GetFileNameWithoutExtension(x) == id.ToString());
             return Path.GetFileName(onePath) ?? string.Empty;
         }
+        protected string GetAvatarTopicFileName(int id)
+        {
+            var filePaths = Directory.GetFiles(Server.MapPath("~/Content/Images")).ToList();
+            var onePath = filePaths.FirstOrDefault(x => Path.GetFileNameWithoutExtension(x) == id.ToString());
+            return Path.GetFileName(onePath) ?? "default-avatar.jpg";
+        }
 
         protected void RegisteredUserAuthor(string email)
         {

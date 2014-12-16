@@ -1,0 +1,28 @@
+﻿
+@model PingFederate.Models.User
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div>
+@using (Html.BeginForm("LoginUser", "User", FormMethod.Post))
+    {
+    <table>
+        <tr>
+            <td>User Name:</td>
+            <td>@Html.EditorFor(model => model.UserName)</td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td>@Html.PasswordFor(model => model.Password)</td>
+        </tr>
+    </table>
+    <br />
+
+        <input type="submit" name="btnLogin" value="login" />
+    }
+</div>
+
+

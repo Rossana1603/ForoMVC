@@ -144,7 +144,7 @@ namespace Forum.Web.Controllers
 
             topics.ForEach((x) =>
             {
-                x.AvatarFileName = base.GetAvatarFileName(GetIdByUserName(x.Author.UserName));
+                x.AvatarFileName = base.GetAvatarTopicFileName(GetIdByUserName(x.Author.UserName));
                 x.Subscription = subscriptionController.GetSuscriptionByAuthorId(currentAuthorId, x.Id);
             });
 
