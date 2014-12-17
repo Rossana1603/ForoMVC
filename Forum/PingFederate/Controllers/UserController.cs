@@ -21,7 +21,7 @@ namespace PingFederate.Controllers
         public ActionResult LoginUser(User user)
         {
             PrincipalContext pc = null;
-            var primaryServer = "mutare.com";
+            var primaryServer = "devmutare.com";
             var secondaryServer = "OCASTILLO";
             var userName = user.UserName;
             var password = user.Password;
