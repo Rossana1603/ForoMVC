@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADFSAndWIFCoded", "ADFSAndWIFCoded\ADFSAndWIFCoded.csproj", "{9853E298-AED7-4DA4-A2A5-DDAB46848208}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADFSAndWIF", "ADFSAndWIF\ADFSAndWIF.csproj", "{5766EB1E-7140-49F8-8AE9-CABD24B65729}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADFSCoded", "ADFSCoded\ADFSCoded.csproj", "{8599D963-A28A-480A-BE8E-2797B6EAAC62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADFS", "ADFS\ADFS.csproj", "{8C7D2E5D-D522-4B3A-B298-A04F02D26C38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{5766EB1E-7140-49F8-8AE9-CABD24B65729}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5766EB1E-7140-49F8-8AE9-CABD24B65729}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5766EB1E-7140-49F8-8AE9-CABD24B65729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8599D963-A28A-480A-BE8E-2797B6EAAC62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8599D963-A28A-480A-BE8E-2797B6EAAC62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8599D963-A28A-480A-BE8E-2797B6EAAC62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8599D963-A28A-480A-BE8E-2797B6EAAC62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C7D2E5D-D522-4B3A-B298-A04F02D26C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C7D2E5D-D522-4B3A-B298-A04F02D26C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C7D2E5D-D522-4B3A-B298-A04F02D26C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C7D2E5D-D522-4B3A-B298-A04F02D26C38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
