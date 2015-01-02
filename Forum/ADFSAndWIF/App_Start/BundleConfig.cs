@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace ADFSAndWIFCoded
+namespace ADFSAndWIF
 {
     public class BundleConfig
     {

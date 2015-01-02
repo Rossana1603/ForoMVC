@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ADFSAndWIFCoded.Controllers
+namespace ADFSAndWIF.Controllers
 {
     public class HomeController : Controller
     {

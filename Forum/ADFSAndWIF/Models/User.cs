@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using ADFSAndWIFCoded.Models;
+using ADFSAndWIF.Models;
 
-namespace ADFSAndWIFCoded.Models
+namespace ADFSAndWIF.Models
 {
     public class User
     {
